@@ -746,6 +746,16 @@ all_data$ANO <- as.factor(all_data$ANO)
 # Test I: Normality of errors test.
 aov_result <- aov(MEDIA_FINAL ~ ANO * PERIODO, data = all_data[all_data$NOME_ATIV_CURRIC == "DESENHO TECNICO I",])
 shapiro.test(residuals(aov_result))
+
+#	Shapiro-Wilk normality test
+#
+# data:  residuals(aov_result)
+# W = 0.93032, p-value < 2.2e-16
+
+# p-value < 0.05 : H0 Rejected, the evidence that residuals distribution do not follow a normal distribution is statistically significant.
+
+# Result: Residuals have a not normal distribution.
+
 hist(res, main = "Histogram of residuals", xlab = "Residuals")
 #plot(aov_result, 1)
 ```
@@ -753,9 +763,6 @@ hist(res, main = "Histogram of residuals", xlab = "Residuals")
 ![Alt text](images/statistic1.png?raw=true "image")
 
 ```R
-# p-value < 0.05 : H0 Rejected, the evidence that residuals distribution do not follow a normal distribution is statistically significant.
-# Result: Residuals have a not normal distribution.
-
 # Test II: Homogeneity of Variance between the groups.
 max(aggregate(MEDIA_FINAL ~ ANO + PERIODO, all_data[all_data$NOME_ATIV_CURRIC == "DESENHO TECNICO I",], var)$MEDIA_FINAL)/min(aggregate(MEDIA_FINAL ~ ANO + PERIODO, all_data[all_data$NOME_ATIV_CURRIC == "DESENHO TECNICO I",], var)$MEDIA_FINAL)
 
@@ -763,9 +770,30 @@ max(aggregate(MEDIA_FINAL ~ ANO + PERIODO, all_data[all_data$NOME_ATIV_CURRIC ==
 
 leveneTest(MEDIA_FINAL ~ ANO, all_data[all_data$NOME_ATIV_CURRIC == "DESENHO TECNICO I",], center = median)
 
+# Levene's Test for Homogeneity of Variance (center = median)
+#         Df F value    Pr(>F)    
+# group   12  4.6556 1.579e-07 ***
+#       2346                      
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
 leveneTest(MEDIA_FINAL ~ PERIODO, all_data[all_data$NOME_ATIV_CURRIC == "DESENHO TECNICO I",], center = median)
 
+# Levene's Test for Homogeneity of Variance (center = median)
+#        Df F value  Pr(>F)  
+# group    1  6.2454 0.01252 *
+#       2357                  
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
 leveneTest(MEDIA_FINAL ~ ANO * PERIODO, all_data[all_data$NOME_ATIV_CURRIC == "DESENHO TECNICO I",], center = median)
+
+# Levene's Test for Homogeneity of Variance (center = median)
+#         Df F value    Pr(>F)    
+# group   24  2.2232 0.0005779 ***
+#       2334                      
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 # p-value < 0.05 : H0 rejected in all tests above, the evidence that the variances between groups (years, semesters and both) are different is statistically significant.
 
@@ -776,9 +804,21 @@ leveneTest(MEDIA_FINAL ~ ANO * PERIODO, all_data[all_data$NOME_ATIV_CURRIC == "D
 
 kruskal.test(MEDIA_FINAL ~ ANO, all_data[all_data$NOME_ATIV_CURRIC == "DESENHO TECNICO I",])
 
+# Kruskal-Wallis rank sum test
+# data:  MEDIA_FINAL by ANO
+# Kruskal-Wallis chi-squared = 134.28, df = 12, p-value < 2.2e-16
+
 kruskal.test(MEDIA_FINAL ~ PERIODO, all_data[all_data$NOME_ATIV_CURRIC == "DESENHO TECNICO I",])
 
+# Kruskal-Wallis rank sum test
+# data:  MEDIA_FINAL by PERIODO
+# Kruskal-Wallis chi-squared = 4.8196, df = 1, p-value = 0.02814
+
 kruskal.test(MEDIA_FINAL ~ interaction(ANO, PERIODO), all_data[all_data$NOME_ATIV_CURRIC == "DESENHO TECNICO I",])
+
+#	Kruskal-Wallis rank sum test
+# data:  MEDIA_FINAL by interaction(ANO, PERIODO)
+# Kruskal-Wallis chi-squared = 172.89, df = 24, p-value < 2.2e-16
 
 # p-value < 0.05 : H0 rejected in all tests above, the difference of distributions between the years and semesters is statistically significant.
 
@@ -852,6 +892,11 @@ all_data_without_frequency_dropout$ANO <- as.factor(all_data_without_frequency_d
 # Test I: Normality of errors test.
 res = residuals(lm(MEDIA_FINAL ~ ANO * PERIODO, data = all_data_without_frequency_dropout[all_data_without_frequency_dropout$NOME_ATIV_CURRIC == "DESENHO TECNICO I",]))
 shapiro.test(res)
+
+# Shapiro-Wilk normality test
+# data:  res
+# W = 0.95118, p-value < 2.2e-16
+
 # p-value < 0.05 : H0 Rejected, the evidence that residuals distribution do not follow a normal distribution is statistically significant.
 # Result: Residuals have a not normal distribution.
 hist(res, main = "Histogram of residuals", xlab = "Residuals")
