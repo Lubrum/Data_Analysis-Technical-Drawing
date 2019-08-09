@@ -849,7 +849,7 @@ multiVDA(MEDIA_FINAL ~ ANO, data = all_data[all_data$NOME_ATIV_CURRIC == "DESENH
 
 Results: VDA ranges from 0 to 1, with 0.5 indicating stochastic equality, and 1 indicating that the first group dominates the second. CD ranges from -1 to 1, with 0 indicating stochastic equality, and 1 indicating that the first group dominates the second. r ranges from approximately, -0.86 to 0.86, depending on sample size, with 0 indicating no effect, and a positive result indicating that values in the first group are greater than in the second.
 
-# 2008-2014 has the greatest probability of the groups being statistically different.
+# 78.5% probability that the values from 2008 being greater than the 2014.
 
 multiVDA(MEDIA_FINAL ~ PERIODO, data = all_data[all_data$NOME_ATIV_CURRIC == "DESENHO TECNICO I",])
 
@@ -865,7 +865,7 @@ multiVDA(MEDIA_FINAL ~ COD_CURSO, data = all_data[all_data$NOME_ATIV_CURRIC == "
 
 # Which groups of years are different?
 
-options("scipen"=100, "digits"=4)
+options("scipen" = 100, "digits" = 4)
 PT = dunnTest(MEDIA_FINAL ~ ANO,
               data = all_data[all_data$NOME_ATIV_CURRIC == "DESENHO TECNICO I",],
               method = "bh") 
@@ -966,7 +966,7 @@ multiVDA(MEDIA_FINAL ~ COD_CURSO, data = all_data_without_frequency_dropout[all_
 
 # Which groups of years are different?
 
-options("scipen"=100, "digits"=4)
+options("scipen" = 100, "digits" = 4)
 PT = dunnTest(MEDIA_FINAL ~ ANO,
               data = all_data_without_frequency_dropout[all_data_without_frequency_dropout$NOME_ATIV_CURRIC == "DESENHO TECNICO I",],
               method = "bh") 
