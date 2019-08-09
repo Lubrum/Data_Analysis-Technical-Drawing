@@ -6,10 +6,12 @@ In this project, I will explore some data about Technical Drawing disciplines, f
 
 The data is about students from Technical Drawing disciplines from a Brazilian University. 
 
-# What data do we have?
+# What data do I have?
 
 Two different datasets were provided:
+
 1- Student data separated by undergraduating course, from all professors (without the information about who ministered the discipline).
+
 2- Student data from one specific professor from the discipline.
 
 We have the following variables/columns for the dataset 1 by student:
@@ -55,7 +57,7 @@ All sensible information from the datasets were removed first, like students nam
 
 # Second Part - Dataset 1 - Loading and Processing
 
-The first thing we do is to install/load the packages we will use.
+The first thing to do is to install/load the packages that will be used.
 
 ```R
 if (!require(xlsx)) {
@@ -140,7 +142,7 @@ if (!require(ggExtra)) {
 }
 ```
 
-Now we load the dataset 1, that is separated by each course. We have the following courses:
+Now the dataset 1 is loaded, it is separated by each course. There are the following courses:
 - BAEA: Food Engineering
 - BAEE: Renewable Energy Engineering
 - BAEC: Computer Engineering
@@ -148,7 +150,7 @@ Now we load the dataset 1, that is separated by each course. We have the followi
 - BAEQ: Chemical Engineering
 - BALF: Physics Degree
 
-We can call this step **data loading**.
+This step can be called **data loading**.
 
 ```R
 BAEA <- read.csv("csv/Technical_Drawing_I_II - BAEA.csv", sep=";", stringsAsFactors=FALSE, encoding = "Latin-1")
@@ -159,14 +161,14 @@ BAEQ <- read.csv("csv/Technical_Drawing_I_II - BAEQ.csv", sep=";", stringsAsFact
 BALF <- read.csv("csv/Technical_Drawing_I_II - BALF.csv", sep=";", stringsAsFactors=FALSE, encoding = "Latin-1")
 ```
 
-We could see that BAEA dataset has one extra column compared to the others, so we removed that column (column 11). We also changed the name of column 11 to the same name of the related column in other datasets.
+It is possible to see that BAEA dataset has one extra column compared to the others, so I removed that column (column 11). I also changed the name of column 11 to the same name of the related column in other datasets.
 
 ```R
 BAEA <- BAEA[,-10]
 colnames(BAEC)[10] <- "TOTAL_CARGA_HORARIA"
 ```
 
-We now join all data from each dataset/dataframe to just one variable (in dataframe format).
+All data from each dataset/dataframe is joined to just one variable (in dataframe format).
 
 ```R
 all_data <- rbind(BAEA, BAEE)
@@ -176,8 +178,8 @@ all_data <- rbind(all_data, BAEQ)
 all_data <- rbind(all_data, BALF)
 ```
 
-First, we removed the columns that have useless or redundant information about the students.
-Now we check all columns looking for errors, inconsistent values, missing values and so on. We can call this step **data cleaning**.
+I removed the columns that have useless or redundant information about the students.
+Now all columns are checked, looking for errors, inconsistent values, missing values and so on. This step is called **data cleaning**.
 
 ```R
 all_data$NOME_PESSOA[is.na(all_data$NOME_PESSOA)]
@@ -242,7 +244,7 @@ all_data$ANO_EVASAO[is.na(all_data$ANO_EVASAO)] <- 0
 unique(all_data$ANO_EVASAO)
 ```
 
-Now we need to keep only valid students data. For that, we analyse the field "Situation", keeping only Approved and Disapproved students. Registers in situations like "enrollment canceled" or "enrolled students" were removed. There are some exceptional Approval cases ("Aproveitamento") where we have a final grade and in some cases we do not have. We keep the cases where we have a final grade, because it is a case where a student did the discipline in an engineering course distinct of its own, so this information is valid.
+Now I need to keep only valid students data. For that, I analyse the field "Situation", keeping only Approved and Disapproved students. Registers in situations like "enrollment canceled" or "enrolled students" were removed. There are some exceptional Approval cases ("Aproveitamento") where a final grade is available and in some cases is not. I keep the cases where a final grade is available, because it is a case where a student did the discipline in an engineering course distinct of its own, so this information is valid.
 
 ```R
 all_data <- all_data[all_data$DESCR_SITUACAO != "Dispensado sem nota",]
@@ -252,7 +254,7 @@ all_data <- all_data[!(all_data$DESCR_SITUACAO == "Matrícula"),]
 all_data <- all_data[!(all_data$DESCR_SITUACAO == "Disciplina Não Concluída"),]
 ```
 
-We will also do a change in the dropout way column ("FORMA_EVASAO"), allowing us to visualize the information in the graphics next. 
+I will also do a change in the dropout way column ("FORMA_EVASAO"), allowing us to visualize the information in the graphics next. 
 
 ```R
 unique(all_data$FORMA_EVASAO)
@@ -262,9 +264,9 @@ all_data$FORMA_EVASAO[(all_data$FORMA_EVASAO == "Transferência Interna")] <- "T
 
 # Third Part - Dataset 1 - Descriptive Statistics
 
-Now we begin to use descriptive statistics to better know our dataset. Our analysis focus only the student final grade as a dependent variable, being affected by all other information available. 
-We will separate the analysis by discipline. We have the following cases: analysis by course; by year; by course and year; by course, year and semester.
-We calculated the following information for each case: mean, median, standart deviation, min and max value, number of samples, first and third quartil and interquartil range. For that, we created the function "statistics".
+Now I begin to use descriptive statistics to better know our dataset. Our analysis focus only the student final grade as a dependent variable, being affected by all other information available. 
+I will separate the analysis by discipline. There are the following cases: analysis by course; by year; by course and year; by course, year and semester.
+I calculated the following information for each case: mean, median, standart deviation, min and max value, number of samples, first and third quartil and interquartil range. For that, I created the function "statistics".
 
 ```R
 statistics <- function(dataframe, response, ...) {
@@ -295,6 +297,8 @@ by_year_course_drawing_I <- statistics(all_data[all_data$NOME_ATIV_CURRIC == "DE
 by_year_semester_course_drawing_I <- statistics(all_data[all_data$NOME_ATIV_CURRIC == "DESENHO TECNICO I",], "MEDIA_FINAL", ANO, COD_CURSO, PERIODO)
 ```
 
+How this last data table looks?
+
 ![Alt text](images/image1.png?raw=true "image")
 
 ```R
@@ -307,9 +311,11 @@ by_year_course_drawing_II <- statistics(all_data[all_data$NOME_ATIV_CURRIC == "D
 by_year_semester_course_drawing_II <- statistics(all_data[all_data$NOME_ATIV_CURRIC == "DESENHO TECNICO II",], "MEDIA_FINAL", ANO, COD_CURSO, PERIODO)
 ```
 
+How this last data table looks?
+
 ![Alt text](images/image2.png?raw=true "image")
 
-Now we perform the same analysis but without the students that dropout.
+Now I perform the same analysis but without the students that dropout.
 
 ```R
 all_data_without_frequency_dropout <- all_data[!(all_data$DESCR_SITUACAO == "Reprovado por Frequência"),]
@@ -323,6 +329,8 @@ by_year_course_drawing_I_2 <- statistics(all_data_without_frequency_dropout[all_
 by_year_semester_course_drawing_I_2 <- statistics(all_data_without_frequency_dropout[all_data_without_frequency_dropout$NOME_ATIV_CURRIC == "DESENHO TECNICO I",], "MEDIA_FINAL", ANO, COD_CURSO, PERIODO)
 ```
 
+How this last data table looks?
+
 ![Alt text](images/image3.png?raw=true "image")
 
 ```R
@@ -335,12 +343,14 @@ by_year_course_drawing_II_2 <- statistics(all_data_without_frequency_dropout[all
 by_year_semester_course_drawing_II_2 <- statistics(all_data_without_frequency_dropout[all_data_without_frequency_dropout$NOME_ATIV_CURRIC == "DESENHO TECNICO II",], "MEDIA_FINAL", ANO, COD_CURSO, PERIODO)
 ```
 
+How this last data table looks?
+
 ![Alt text](images/image4.png?raw=true "image")
 
 
 # Fourth Part - Dataset 1 - Data Visualization
 
-We will create separated boxplots and violin plots analysing students final grade for each discipline and for each possible dimension (years, semesters, courses and course dropout type), considering all samples and samples without the dropout students.
+I will create separated boxplots and violin plots analysing students final grade for each discipline and for each possible dimension (years, semesters, courses and course dropout type), considering all samples and samples without the dropout students.
 
 ```R
 # Is there a relation between final grade and way the student left university? (Technical Drawing I)
@@ -546,7 +556,7 @@ ggplot(all_data_without_frequency_dropout[all_data_without_frequency_dropout$NOM
 ![Alt text](images/image18.png?raw=true "image")
 
 
-Now we analyse specifically the dropout cases.
+Now I analyse specifically the dropout cases.
 
 ```R
 frequency_dropout_data <- all_data[(all_data$DESCR_SITUACAO == "Reprovado por Frequência"),]
@@ -729,9 +739,9 @@ ggplot(all_data_without_frequency_dropout,
 
 # Fifth Part - Dataset 1 - Advanced Statistics
 
-In this part we begin to test some hyphotesis about the independent variables and the students final grade. First we will separate our analysis by discipline, including all students. We start with Technical Drawing I.
+In this part I begin to test some hyphotesis about the independent variables and the students final grade. First I will separate our analysis, one including all students and other without dropout students. I will show how to do with Technical Drawing I.
 
-We first turn the data from period column to numbers, representing the first and second semesters. After, the period and the year are turned into factors.
+I first turn the data from period column to numbers, representing the first and second semesters. After, the period and the year are turned into factors.
 
 ```R
 all_data$PERIODO[all_data$PERIODO == "1. Semestre"] <- 1
@@ -916,7 +926,7 @@ leveneTest(MEDIA_FINAL ~ PERIODO, all_data_without_frequency_dropout[all_data_wi
 
 leveneTest(MEDIA_FINAL ~ ANO * PERIODO, all_data_without_frequency_dropout[all_data_without_frequency_dropout$NOME_ATIV_CURRIC == "DESENHO TECNICO I",])
 
-# Results: H0 rejected in tests for Year and interaction Year*Semester above, the evidence that the variances between groups (years and both) are different is statistically significant. We failed to reject HO for Semesters, there is no evidence that the variances between semesters are statistically different.
+# Results: H0 rejected in tests for Year and interaction Year*Semester above, the evidence that the variances between groups (years and both) are different is statistically significant. I failed to reject HO for Semesters, there is no evidence that the variances between semesters are statistically different.
 
 
 # Test III: Distributions between the groups of years and semesters.
@@ -925,7 +935,7 @@ kruskal.test(MEDIA_FINAL ~ ANO, all_data_without_frequency_dropout[all_data_with
 kruskal.test(MEDIA_FINAL ~ PERIODO, all_data_without_frequency_dropout[all_data_without_frequency_dropout$NOME_ATIV_CURRIC == "DESENHO TECNICO I",])
 kruskal.test(MEDIA_FINAL ~ interaction(ANO, PERIODO), all_data_without_frequency_dropout[all_data_without_frequency_dropout$NOME_ATIV_CURRIC == "DESENHO TECNICO I",])
 
-# Results: H0 rejected in tests for Year and interaction Year*Semester above, the evidence that the distributions between groups (years and both) are different is statistically significant. We failed to reject HO for Semesters, there is no evidence that the distributions between semesters are statistically different.
+# Results: H0 rejected in tests for Year and interaction Year*Semester above, the evidence that the distributions between groups (years and both) are different is statistically significant. I failed to reject HO for Semesters, there is no evidence that the distributions between semesters are statistically different.
 
 densityplot(~ MEDIA_FINAL | ANO, data = all_data_without_frequency_dropout[all_data_without_frequency_dropout$NOME_ATIV_CURRIC == "DESENHO TECNICO I",], xlab = "Média Final", ylab = "Densidade de Médias")
 ```
@@ -990,21 +1000,21 @@ All sensible information from the datasets were removed first, like students nam
 
 # Second Part - Dataset 1 - Loading and Processing
 
-Now we load the dataset 2 from the spreadsheet. We can call this step **data loading**.
+Now I load the dataset 2 from the spreadsheet. This step is called **data loading**.
 
 ```R
 all_data_II <- read.csv("csv/Professor_Specific_Data.csv", sep = ";", stringsAsFactors = FALSE, encoding = "utf8")
 ```
 
-Now we explore the data and the columns, beginning with the **data exploration and processing** step.
-We will only keep Approved and Disapproved students. Other situations will be removed. 
+Now I explore the data and the columns, beginning with the **data exploration and processing** step.
+I will only keep Approved and Disapproved students. Other situations will be removed. 
 
 ```R
 unique(all_data_II$situação)
 all_data_II <- all_data_II[(all_data_II$situação != "Trancamento parcial" & all_data_II$situação != "Dispensado sem  nota" & all_data_II$situação != "Disciplina Não Concluída"),]
 ```
 
-Our goal is to analyse the Technical Drawing I and II, so we removed other disciplines and related courses from this professor.
+Our goal is to analyse the Technical Drawing I and II, so I removed other disciplines and related courses from this professor.
 
 ```R
 unique(all_data_II$curso)
@@ -1017,8 +1027,8 @@ unique(all_data_II$turma)
 all_data_II[all_data_II$nota<0 | all_data_II$nota>10,]
 ```
 
-One student information not available in this dataset is the sex. We can get the sex data from the first dataset, using the student id as the key. We will show how we did it using student id, but this operation cannot be done anymore because of the way we encrypted student id before. We still have some sex information missing, showing to us that the second dataset has students not present in the first (data integration problem or data missing). This is a very difficult problem to check and address, but being aware of it is important for know what to do to correct the academic system.
-We save the information about student sex in a csv file. 
+One student information not available in this dataset is the sex. I can get the sex data from the first dataset, using the student id as the key. I will show how I did it using student id, but this operation cannot be done anymore because of the way I encrypted student id before. Some sex information is still missing, showing to us that the second dataset has students not present in the first (data integration problem or data missing). This is a very difficult problem to check and address, but being aware of it is important for know what to do to correct the academic system.
+I saved the information about student sex in a csv file. 
 
 ```R
 all_data <- rbind(BAEA, BAEE)
@@ -1033,19 +1043,19 @@ all_data_II <- all_data_II[,c(13,17)] #keep only names and sex, to correct missi
 write.table(all_data_II,'csv/sex_data.csv',row.names = TRUE, sep = ";")
 ```
 
-We now load the sex dataset and merge with our second dataset. 
+Now I loaded the sex dataset and merge with our second dataset. 
 
 ```R
 sex_data <- read.csv("csv/sex_data.csv", sep = ";", stringsAsFactors = FALSE, encoding = "utf8")
 ```
-We also remove information not usefull for our next analysis.
+I also removed information not usefull for our next analysis.
 
 ```R
 all_data_II <- cbind(all_data_II, sex_data)
 all_data_II <- all_data_II[,-c(1,5,6,7,8,9,15)]
 ```
 
-We also correct the names of Technical Drawing disciplines in cases that the code information was concatenated with it.
+I also corrected the names of Technical Drawing disciplines in cases that the code information was concatenated with it.
 
 ```R
 all_data_II$componente.curricular[all_data_II$componente.curricular == "010801-DESENHO TECNICO I"] <- "DESENHO TECNICO I"
@@ -1054,7 +1064,7 @@ all_data_II$componente.curricular[all_data_II$componente.curricular == "BA010801
 all_data_II$componente.curricular[all_data_II$componente.curricular == "BA010803-DESENHO TECNICO II"] <- "DESENHO TECNICO II"
 ```
 
-Finally, we separate the year and semester information from the column "ano.periodo". We also change the column name "nota" to "MEDIA_FINAL" (just to keep the independent variable standart).
+Finally, I separated the year and semester information from the column "ano.periodo". I also changed the column name "nota" to "MEDIA_FINAL" (just to keep the independent variable standart).
 
 ```R
 all_data_II$ano <- as.numeric(substr(all_data_II$ano.periodo, 1, 4))
@@ -1065,7 +1075,7 @@ colnames(all_data_II)[6] <- "MEDIA_FINAL"
 
 # Third Part - Dataset 2 - Descriptive Statistics
 
-we proceed the same way we did previously with the first dataset. First, we removed the samples from BALM course (mathematics), because we have just three samples, being almost impossible to infer any general information from the math students performance. We did the same for BALP and BALQ in case of Technical Drawing II.
+I proceed the same way I did previously with the first dataset. First, I removed the samples from BALM course (mathematics), because there are just three samples, being almost impossible to infer any general information from the math students performance. I did the same for BALP and BALQ in case of Technical Drawing II.
 
 ```R
 all_data_II <- all_data_II[!(all_data_II$curso == "BALM"),]
@@ -1121,7 +1131,7 @@ df2_by_year_semester_class_drawing_II_2 <- statistics(dfII_without_dropout[dfII_
 
 # Fourth Part - Dataset 1 - Data Visualization
 
-We will create separated boxplots and violin plots analysing students final grade for each discipline and for each possible dimension (years, semesters, courses and classes), considering all samples and samples without the dropout students.
+I will create separated boxplots and violin plots analysing students final grade for each discipline and for each possible dimension (years, semesters, courses and classes), considering all samples and samples without the dropout students.
 
 ```R
 # Are there relevant differences in the final grade between the graduation courses? (Technical Drawing I)
@@ -1487,9 +1497,9 @@ ggplot(all_data_II[all_data_II$situação!="Reprovado por Frequência" & all_dat
 ```  
 # Fifth Part - Dataset 1 - Advanced Statistics
 
-In this part we begin to test some hyphotesis about the independent variables and the students final grade. First we will separate our analysis by discipline, including all students (except dropout students). We start with Technical Drawing I.
+In this part I begin to test some hyphotesis about the independent variables and the students final grade. First I will separate our analysis by discipline, including all students (except dropout students). I started with Technical Drawing I.
 
-We first turn the data from period column to numbers, and them to factor. We did the same for the years.
+First, I turn the data from period column to numbers, and them to factor. I did the same for the years.
 
 ```R
 dfII_without_dropout$periodo[dfII_without_dropout$periodo == "1. Semestre"] <- 1
@@ -1622,7 +1632,7 @@ kruskal.test(MEDIA_FINAL ~ ano, dfII_without_dropout[dfII_without_dropout$compon
 kruskal.test(MEDIA_FINAL ~ periodo, dfII_without_dropout[dfII_without_dropout$componente.curricular == "DESENHO TECNICO II",])
 kruskal.test(MEDIA_FINAL ~ interaction(ano, periodo), dfII_without_dropout[dfII_without_dropout$componente.curricular == "DESENHO TECNICO II",])
 
-# Results: H0 rejected in tests for Years and interaction between years and semesters, the evidence that the distributions between these groups are different is statistically significant. We failed to reject H0 for semesters, the evidence that the distributions between semesters are different is not statistically significant.
+# Results: H0 rejected in tests for Years and interaction between years and semesters, the evidence that the distributions between these groups are different is statistically significant. I failed to reject H0 for semesters, the evidence that the distributions between semesters are different is not statistically significant.
 
 densityplot(~ MEDIA_FINAL | ano, data = dfII_without_dropout[dfII_without_dropout$componente.curricular == "DESENHO TECNICO II",], xlab = "Média Final", ylab = "Densidade de Médias")
 ```
