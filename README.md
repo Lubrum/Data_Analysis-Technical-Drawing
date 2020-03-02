@@ -60,86 +60,65 @@ All sensible information from the datasets were removed first, like students nam
 The first thing to do is to install/load the packages that will be used.
 
 ```R
-if (!require(xlsx)) {
-  install.packages("xlsx", repos = "http://cran.us.r-project.org")
-  require(xlsx)
-}
-if (!require(ggplot2)) {
-  install.packages("ggplot2", repos = "http://cran.us.r-project.org")
-  require(ggplot2)
-}
-if(!require(RColorBrewer)){
-  install.packages("RColorBrewer", repos = "http://cran.us.r-project.org")
-  library(RColorBrewer)
-}
-if(!require(viridis)){
-  install.packages("viridis", repos = "http://cran.us.r-project.org")
-  library(viridis)
-}
-if (!require(dplyr)) {
-  install.packages("dplyr", repos = "http://cran.us.r-project.org")
-  require(dplyr)
-}
-if (!require(matlab)) {
-  install.packages("matlab", repos = "http://cran.us.r-project.org")
-  require(matlab)
-}
-if (!require(car)) {
-  install.packages("car", repos = "http://cran.us.r-project.org")
-  require(car)
-}
-if (!require(lattice)) {
-  install.packages("lattice", repos = "http://cran.us.r-project.org")
-  require(lattice)
-}
-if (!require(FSA)) {
-  install.packages("FSA", repos = "http://cran.us.r-project.org")
-  require(FSA)
-}
-if (!require(rcompanion)) {
-  install.packages("rcompanion", repos = "http://cran.us.r-project.org")
-  require(rcompanion)
-}
-if (!require(coin)) {
-  install.packages("coin", repos = "http://cran.us.r-project.org")
-  require(coin)
-}
-if (!require(gridExtra)) {
-  install.packages("gridExtra", repos = "http://cran.us.r-project.org")
-  require(gridExtra)
-}
-if (!require(grid)) {
-  install.packages("grid", repos = "http://cran.us.r-project.org")
-  require(grid)
-}
-if (!require(reshape)) {
-  install.packages("reshape", repos = "http://cran.us.r-project.org")
-  require(reshape)
-}
-if (!require(extrafont)) {
-  install.packages("extrafont", repos = "http://cran.us.r-project.org")
-  require(extrafont)
-}
-if (!require(viridis)) {
-  install.packages("viridis", repos = "http://cran.us.r-project.org")
-  require(viridis)
-}
-if (!require(nortest)) {
-  install.packages("nortest", repos = "http://cran.us.r-project.org")
-  library(nortest)
-}
-if (!require(cowplot)) {
-  install.packages("cowplot", repos = "http://cran.us.r-project.org")
-  library(cowplot)
-}
-if (!require(ggpubr)) {
-  install.packages("ggpubr", repos = "http://cran.us.r-project.org")
-  library(ggpubr)
-}
-if (!require(ggExtra)) {
-  install.packages("ggExtra", repos = "http://cran.us.r-project.org")
-  library(ggExtra)
-}
+if (!require(xlsx)) install.packages("xlsx")
+library(xlsx)
+
+if (!require(ggplot2)) install.packages("ggplot2")
+library(ggplot2)
+
+if(!require(RColorBrewer)) install.packages("RColorBrewer")
+library(RColorBrewer)
+
+if(!require(viridis)) install.packages("viridis")
+library(viridis)
+
+if (!require(dplyr)) install.packages("dplyr")
+library(dplyr)
+
+if (!require(matlab)) install.packages("matlab")
+library(matlab)
+
+if (!require(car)) install.packages("car")
+library(car)
+
+if (!require(lattice)) install.packages("lattice")
+library(lattice)
+
+if (!require(FSA))install.packages("FSA")
+library(FSA)
+
+if (!require(rcompanion)) install.packages("rcompanion")
+library(rcompanion)
+
+if (!require(coin)) install.packages("coin")
+library(coin)
+
+if (!require(gridExtra)) install.packages("gridExtra")
+library(gridExtra)
+
+if (!require(grid)) install.packages("grid")
+library(grid)
+
+if (!require(reshape)) install.packages("reshape")
+library(reshape)
+
+if (!require(extrafont)) install.packages("extrafont")
+library(extrafont)
+
+if (!require(viridis)) install.packages("viridis")
+library(viridis)
+
+if (!require(nortest)) install.packages("nortest")
+library(nortest)
+
+if (!require(cowplot)) install.packages("cowplot")
+library(cowplot)
+
+if (!require(ggpubr)) install.packages("ggpubr")
+library(ggpubr)
+
+if (!require(ggExtra)) install.packages("ggExtra")
+library(ggExtra)
 ```
 
 Now the dataset 1 is loaded, it is separated by each course. There are the following courses:
