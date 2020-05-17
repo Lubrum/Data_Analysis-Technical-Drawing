@@ -1,3 +1,4 @@
+########################################################################
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 if (!require(dplyr)) install.packages("dplyr")
@@ -237,75 +238,34 @@ showtext_auto()
 # normal theme
 #normal_theme <- theme(plot.title = element_text(hjust = 0.5))
 
-
-
-
-
-
-
-
-
-
-
-
-
 #dark theme
 normal_theme <- theme(
-  axis.text = element_text(family = font_family, size = 22, color = "#cccccc"),
-  axis.title = element_text(family = font_family, size = 35, color = "#cccccc"),
+  axis.text = element_text(family = font_family, size = 16, color = "#cccccc"),
+  axis.title = element_text(family = font_family, size = 20, color = "#cccccc"),
   axis.ticks = element_line(colour = "#cccccc"),
   axis.ticks.length = unit(0.5, "cm"),
   plot.caption = element_text(family = font_family, size = 16, color = "#cccccc"),
-  plot.title = element_text(family = font_family,  size = 45, 
-                              hjust = 0.5, color = "#ffffff"),
+  plot.title = element_text(family = font_family, size = 30, hjust = 0.5, color = "#ffffff"),
+  plot.subtitle = element_text(hjust = 0.5),
   plot.background = element_rect(fill = "black"),
   panel.grid.minor.y = element_line(size =.1, color = "grey"),
   panel.grid.minor.x = element_blank(),
-  panel.grid.major.y = element_line(size =.1, color = "grey"),
+  panel.grid.major.y = element_line(size =.1,  color = "grey"),
   panel.grid.major.x = element_blank(),
   panel.background = element_rect(fill = 'black'),
   legend.background = element_rect(fill = "black", color = NA),
   legend.key = element_rect(fill = "black"),
-  legend.text = element_text(family = font_family,size = 20,color = "#cccccc"),
-  text = element_text(family = font_family, color = "#cccccc", size = 22)
-)
+  legend.text = element_text(family = font_family, size = 20, color = "#cccccc"),
+  text = element_text(family = font_family, color = "#cccccc", size = 22))
 
 # Manually open a graphics device if you run this code in RStudio
-x11(width = 13, height = 11.25)
+x11(width = 11, height = 11)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Tech. Drawing I - violin plot + boxplot - by undergraduate course  
-fig <- ggplot(DT1, 
-        aes(x = COD_CURSO, 
-            y = MEDIA_FINAL, 
-            fill = COD_CURSO)) +
+# Tech. Drawing I - violin plot+boxplot - by undergraduate course  
+fig <- ggplot(DT1, aes(x = COD_CURSO, y = MEDIA_FINAL, fill = COD_CURSO)) +
         geom_violin(trim = TRUE) + 
-        geom_boxplot(color = "black",
-                     width = 0.1, 
-                     outlier.shape = 21, 
-                     outlier.size = 2, 
-                     outlier.fill = "white", 
-                     show.legend = FALSE) + 
-        geom_segment(aes(x = 0, 
-                         y = 6, 
-                         xend = 7, 
-                         yend = 6), 
-                     linetype = "dotted", 
-                     colour = "red") +
+        geom_boxplot(color = "black",  width = 0.1, outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) + 
+        geom_segment(aes(x = 0, y = 6, xend = 7, yend = 6), linetype = "dotted", colour = "red") +
         scale_y_continuous(breaks = seq(0, 10, by = 1)) +
         xlab("\nCurso\n") + 
         ylab("\nMedia Final\n") + 
@@ -316,37 +276,13 @@ fig <- ggplot(DT1,
 ggbackground(fig, img)
 savePlot(filename = "../images/figure1.png", type = "png", device = dev.cur())
 
-
-
-
-
-
-
-
-
-
 # Tech. Drawing I - violin plot + boxplot - by year
-fig <- ggplot(DT1, 
-        aes(x = ANO, 
-            y = MEDIA_FINAL, 
-            fill = as.factor(ANO))) +
+fig <- ggplot(DT1,aes(x = ANO, y = MEDIA_FINAL, fill = as.factor(ANO))) +
         geom_violin(trim = TRUE)+ 
-        geom_boxplot(color = "black",
-                     width = 0.1,
-                     outlier.shape = 21, 
-                     outlier.size = 2, 
-                     outlier.fill = "white", 
-                     show.legend = FALSE) + 
-        geom_segment(aes(x = 2007, 
-                         y = 6, 
-                         xend = 2019, 
-                         yend = 6), 
-                     linetype = "dotted", 
-                     colour = "red") +
+        geom_boxplot(color = "black", width = 0.1, outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) + 
+        geom_segment(aes(x = 2007, y = 6, xend = 2019, yend = 6), linetype = "dotted", colour = "red") +
         scale_y_continuous(breaks = seq(0, 10, by = 1)) +
-        scale_x_continuous(breaks = seq(min(all_data$ANO), 
-                                        max(all_data$ANO), 
-                                        by = 1)) +
+        scale_x_continuous(breaks = seq(min(all_data$ANO), max(all_data$ANO), by = 1)) +
         xlab("\nAno\n") + 
         ylab("\nMedia Final\n") + 
         labs(fill = "Ano") + 
@@ -356,28 +292,10 @@ fig <- ggplot(DT1,
 ggbackground(fig, img)
 savePlot(filename = "../images/figure2.png", type = "png", device = dev.cur())
 
-
-
-
-
-
-
-
-
-
-
 # Tech. Drawing I - violin plot - by semester and year
-fig <- ggplot(DT1, 
-        aes(x = as.factor(ANO), 
-            y = MEDIA_FINAL, 
-            fill = as.factor(PERIODO))) +
+fig <- ggplot(DT1, aes(x = as.factor(ANO), y = MEDIA_FINAL, fill = as.factor(PERIODO))) +
         geom_violin(trim = TRUE) +
-        geom_segment(aes(x = 0, 
-                         y = 6, 
-                         xend = 13, 
-                         yend = 6), 
-                     linetype = "dotted", 
-                     colour = "red") +
+        geom_segment(aes(x = 0, y = 6, xend = 13, yend = 6), linetype = "dotted", colour = "red") +
         scale_y_continuous(breaks = seq(0, 10, by = 1)) +
         xlab("\nAno\n") + 
         ylab("\nMedia Final\n") + 
@@ -389,39 +307,11 @@ fig <- ggplot(DT1,
 ggbackground(fig, img)
 savePlot(filename = "../images/figure3.png", type = "png", device = dev.cur())
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Tech. Drawing II - violin plot + boxplot - by undergraduate course  
-fig <- ggplot(DT2, 
-        aes(x = COD_CURSO, 
-            y = MEDIA_FINAL, 
-            fill = COD_CURSO)) +
+# Tech. Drawing II - violin plot+boxplot-by undergraduate course  
+fig <- ggplot(DT2, aes(x = COD_CURSO, y = MEDIA_FINAL, fill = COD_CURSO)) +
         geom_violin(trim = TRUE) + 
-        geom_boxplot(color = "black", 
-                     width = 0.1, 
-                     outlier.shape = 21, 
-                     outlier.size = 2, 
-                     outlier.fill = "white", 
-                     show.legend = FALSE) + 
-        geom_segment(aes(x = 0, 
-                         y = 6, 
-                         xend = 7, 
-                         yend = 6), 
-                     linetype = "dotted", 
-                     colour = "red") +
+        geom_boxplot(color = "black", width = 0.1, outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) + 
+        geom_segment(aes(x = 0,  y = 6, xend = 7, yend = 6), linetype = "dotted", colour = "red") +
         scale_y_continuous(breaks = seq(0, 10, by = 1)) +
         xlab("\nCurso\n") + 
         ylab("\nMedia Final\n") + 
@@ -432,37 +322,11 @@ fig <- ggplot(DT2,
 ggbackground(fig, img)
 savePlot(filename = "../images/figure4.png", type = "png", device = dev.cur())
 
-
-
-
-
-
-
-
-
-
-
-
-
 # Tech. Drawing II - violin plot + boxplot - by year
-fig <- ggplot(DT2, 
-        aes(x = ANO, 
-            y = MEDIA_FINAL, 
-            fill = as.factor(ANO), 
-            group = ANO)) +
+fig <- ggplot(DT2, aes(x = ANO,  y = MEDIA_FINAL, fill = as.factor(ANO), group = ANO)) +
         geom_violin(trim = TRUE)+ 
-        geom_boxplot(color = "black", 
-                     width = 0.1, 
-                     outlier.shape = 21, 
-                     outlier.size = 2, 
-                     outlier.fill = "white", 
-                     show.legend = FALSE) + 
-        geom_segment(aes(x = 2007, 
-                         y = 6, 
-                         xend = 2019, 
-                         yend = 6), 
-                     linetype = "dotted", 
-                     colour = "red") +
+        geom_boxplot(color = "black",  width = 0.1, outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) + 
+        geom_segment(aes(x = 2007, y = 6, xend = 2019, yend = 6), linetype = "dotted", colour = "red") +
         scale_y_continuous(breaks = seq(0, 10, by = 1)) +
         scale_x_continuous(breaks = seq(2007, 2019, by = 1)) +
         xlab("\nAno\n") +
@@ -474,32 +338,10 @@ fig <- ggplot(DT2,
 ggbackground(fig, img)
 savePlot(filename = "../images/figure5.png", type = "png", device = dev.cur())
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Tech. Drawing II - violin plot - by semester and year
-fig <- ggplot(DT2, 
-        aes(x = as.factor(ANO), 
-            y = MEDIA_FINAL, 
-            fill = as.factor(PERIODO))) +
+fig <- ggplot(DT2, aes(x = as.factor(ANO), y = MEDIA_FINAL, fill = as.factor(PERIODO))) +
         geom_violin(trim = TRUE) +
-        geom_segment(aes(x = 0, 
-                         y = 6, 
-                         xend = 13, 
-                         yend = 6), 
-                     linetype = "dotted", 
-                     colour = "red") +
+        geom_segment(aes(x = 0, y = 6,  xend = 13, yend = 6), linetype = "dotted", colour = "red") +
         scale_y_continuous(breaks = seq(0, 10, by = 1)) +
         theme(legend.position = "bottom") +
         xlab("\nAno\n") + 
@@ -511,76 +353,26 @@ fig <- ggplot(DT2,
 ggbackground(fig, img)
 savePlot(filename = "../images/figure6.png", type = "png", device = dev.cur())
 
-
-
-
-
-
-
-
-
-
-
-
-
 # Tech. Drawing I - violin plot + boxplot - by course (without who failed by attendance)
-fig <- ggplot(DT1_partial, 
-        aes(x = COD_CURSO, 
-            y = MEDIA_FINAL, 
-            fill = COD_CURSO)) +
+fig <- ggplot(DT1_partial, aes(x = COD_CURSO, y = MEDIA_FINAL, fill = COD_CURSO)) +
         geom_violin(trim = TRUE) + 
-        geom_boxplot(color = "black", 
-                     width = 0.1, 
-                     outlier.shape = 21, 
-                     outlier.size = 2, 
-                     outlier.fill = "white", 
-                     show.legend = FALSE) + 
-        geom_segment(aes(x = 0, 
-                         y = 6, 
-                         xend = 7, 
-                         yend = 6), 
-                     linetype = "dotted", 
-                     colour = "red") +
+        geom_boxplot(color = "black", width = 0.1, outlier.shape = 21, outlier.size = 2, outlier.fill = "white",  show.legend = FALSE) + 
+        geom_segment(aes(x = 0, y = 6, xend = 7, yend = 6), linetype = "dotted", colour = "red") +
         scale_y_continuous(breaks = seq(0, 10, by = 1)) + 
         xlab("\nCurso\n") + 
         ylab("\nMedia Final\n") + 
         labs(fill = "Curso") + 
         ggtitle("\nMedias em Desenho Tecnico I", subtitle = "Sem reprovados por frequencia\n") +
-        normal_theme
+        normal_theme 
 
 ggbackground(fig, img)
 savePlot(filename = "../images/figure7.png", type = "png", device = dev.cur())
 
-
-
-
-
-
-
-
-
-
-
-
 # Tech. Drawing I - violin plot + boxplot - by year (without who failed by attendance)
-fig <- ggplot(DT1_partial, 
-        aes(x = ANO, 
-            y = MEDIA_FINAL, 
-            fill = as.factor(ANO), 
-            group = ANO)) +
+fig <- ggplot(DT1_partial, aes(x = ANO, y = MEDIA_FINAL, fill = as.factor(ANO), group = ANO)) +
         geom_violin(trim = TRUE)+ 
-        geom_boxplot(color = "black", 
-                     width = 0.1, 
-                     outlier.shape = 21, 
-                     outlier.size = 2, 
-                     outlier.fill = "white", 
-                     show.legend = FALSE) + 
-        geom_segment(aes(x = 2007, 
-                         y = 6, 
-                         xend = 2019, 
-                         yend = 6), 
-                     linetype = "dotted", 
-                     colour = "red") +
+        geom_boxplot(color = "black", width = 0.1, outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) + 
+        geom_segment(aes(x = 2007, y = 6, xend = 2019, yend = 6), linetype = "dotted", colour = "red") +
         scale_y_continuous(breaks = seq(0, 10, by = 1)) +
         scale_x_continuous(breaks = seq(2007, 2019, by = 1)) +
         xlab("\nAno\n") + 
@@ -592,73 +384,27 @@ fig <- ggplot(DT1_partial,
 ggbackground(fig, img)
 savePlot(filename = "../images/figure8.png", type = "png", device = dev.cur())
 
-
-
-
-
-
-
-
-
-
-
-
 # Tech. Drawing I - violin plot - by semester and year (without who failed by attendance)
-fig <- ggplot(DT1_partial, 
-        aes(x = as.factor(ANO), 
-            y = MEDIA_FINAL, 
-            fill = as.factor(PERIODO))) +
+fig <- ggplot(DT1_partial, aes(x = as.factor(ANO), y = MEDIA_FINAL, fill = as.factor(PERIODO))) +
         geom_violin(trim = TRUE) + 
-        geom_segment(aes(x = 0, 
-                         y = 6, 
-                         xend = 13,
-                         yend = 6), 
-                     linetype = "dotted", 
-                     colour = "red") +
+        geom_segment(aes(x = 0, y = 6, xend = 13, yend = 6), linetype = "dotted", colour = "red") +
         scale_y_continuous(breaks = seq(0, 10, by = 1)) +
         theme(legend.position = "bottom") +
         xlab("\nAno\n") + 
         ylab("\nMedia Final\n") + 
         labs(fill = "Periodo") + 
         ggtitle("\nMedias em Desenho Tecnico I", subtitle = "Sem reprovados por frequencia\n") +
-        normal_theme +
-        theme(plot.title = element_text(hjust = 0))
+        normal_theme 
 
 ggbackground(fig, img)
 savePlot(filename = "../images/figure9.png", type = "png", device = dev.cur())
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-# Tech. Drawing II - violin plot + boxplot- by undergraduate course 
-# (without who failed by attendance)
-fig <- ggplot(DT2_partial, 
-        aes(x = COD_CURSO, 
-            y = MEDIA_FINAL, 
-            fill = COD_CURSO)) +
+# Tech. Drawing II - violin plot+boxplot- by undergraduate course (without who failed by attendance)
+fig <- ggplot(DT2_partial, aes(x = COD_CURSO, y = MEDIA_FINAL, fill = COD_CURSO)) +
         geom_violin(trim = TRUE)+ 
-        geom_boxplot(color = "black",
-                     width = 0.1, 
-                     outlier.shape = 21, 
-                     outlier.size = 2, 
-                     outlier.fill = "white", 
-                     show.legend = FALSE) + 
-        geom_segment(aes(x = 0, 
-                         y = 6, 
-                         xend = 7, 
-                         yend = 6), 
-                     linetype = "dotted", 
-                     colour = "red") +
+        geom_boxplot(color = "black", width = 0.1, outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) + 
+        geom_segment(aes(x = 0, y = 6, xend = 7, yend = 6), linetype = "dotted", colour = "red") +
         scale_y_continuous(breaks = seq(0, 10, by = 1)) +
         xlab("\nCurso\n") + 
         ylab("\nMedia Final\n") + 
@@ -670,37 +416,11 @@ ggbackground(fig, img)
 savePlot(filename = "../images/figure10.png", type = "png", device = dev.cur())
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 # Tech. Drawing II - violin plot + boxplot - by year (without who failed by attendance)
-fig <- ggplot(DT2_partial, 
-        aes(x = ANO, 
-            y = MEDIA_FINAL, 
-            fill = as.factor(ANO), 
-            group = ANO)) +
+fig <- ggplot(DT2_partial, aes(x = ANO, y = MEDIA_FINAL, fill = as.factor(ANO), group = ANO)) +
         geom_violin(trim = TRUE)+ 
-        geom_boxplot(color = "black",
-                     width = 0.1, 
-                     outlier.shape = 21, 
-                     outlier.size = 2, 
-                     outlier.fill = "white", 
-                     show.legend = FALSE) + 
-        geom_segment(aes(x = 2007,
-                         y = 6, 
-                         xend = 2019, 
-                         yend = 6), 
-                     linetype = "dotted", 
-                     colour = "red") +
+        geom_boxplot(color = "black", width = 0.1, outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) + 
+        geom_segment(aes(x = 2007, y = 6, xend = 2019, yend = 6), linetype = "dotted", colour = "red") +
         scale_y_continuous(breaks = seq(0, 10, by = 1)) +
         scale_x_continuous(breaks = seq(2007, 2019, by = 1)) +
         xlab("\nAno\n") + 
@@ -712,48 +432,20 @@ fig <- ggplot(DT2_partial,
 ggbackground(fig, img)
 savePlot(filename = "../images/figure11.png", type = "png", device = dev.cur())
 
-
-
-
-
-
-
-
-
-
-
-
-
 # Tech. Drawing II - violin plot - by semester and year (without who failed by attendance)
-fig <- ggplot(DT2_partial, 
-        aes(x = as.factor(ANO), 
-            y = MEDIA_FINAL, 
-            fill = as.factor(PERIODO))) +
+fig <- ggplot(DT2_partial, aes(x = as.factor(ANO), y = MEDIA_FINAL, fill = as.factor(PERIODO))) +
         geom_violin(trim = TRUE) +
-        geom_segment(aes(x = 0, 
-                         y = 6, 
-                         xend = 13, 
-                         yend = 6), 
-                     linetype = "dotted", 
-                     colour = "red") +
+        geom_segment(aes(x = 0, y = 6, xend = 13, yend = 6), linetype = "dotted", colour = "red") +
         scale_y_continuous(breaks = seq(0, 10, by = 1)) +
         theme(legend.position = "bottom") +
         xlab("\nAno\n") + 
         ylab("\nMedia Final\n") + 
         labs(fill = "Periodo") + 
         ggtitle("\nMedias em Desenho Tecnico II", subtitle = "Sem reprovados por frequencia\n") +
-        normal_theme +
-        theme(plot.title = element_text(hjust = 0))
+        normal_theme 
 
 ggbackground(fig, img)
 savePlot(filename = "../images/figure12.png", type = "png", device = dev.cur())
-
-
-
-
-
-
-
 
 
 # Bar plot - who failed by attendance by sex (n and %)
@@ -768,41 +460,32 @@ by_sex$ndrop[by_sex$SEXO == "M"] <- round((by_sex_failed_by_attendance$n[by_sex_
 by_sex$ndrop[by_sex$SEXO == "F"] <- round((by_sex_failed_by_attendance$n[by_sex_failed_by_attendance$SEXO == "F"]), 2) 
 
 
-
-
-
-
 # Bar plot - who failed by attendance by sex (n and %)
 
 a <- ggplot(by_sex, aes(x = SEXO, y = ndrop, fill = SEXO)) + 
         geom_chicklet(radius = grid::unit(10, 'mm')) +
         scale_fill_manual(name = "Sexo", values = c("#bc7b87","#7b87bc")) + 
-        geom_text(data = by_sex, aes(label = ndrop), fontface = "bold", hjust = 0.5, 
-                  vjust = 1.5, color = "white", size = 5) +
+        geom_text(data = by_sex, aes(label = ndrop), fontface = "bold", hjust = 0.5, vjust = 1.5, color = "white", size = 5) +
         xlab("\nSexo\n") + 
         ylab("\nNumero de Reprovados\n") + 
         ggtitle("\nReprovados por Frequencia", subtitle = "Desenho Tecnico I e II\n") +
         normal_theme + 
-        theme(plot.title = element_text(size = 25)) 
+        theme(plot.title = element_text(size = 20)) 
 
 b <- ggplot(data = by_sex, aes(x = SEXO, y = per, fill = SEXO)) + 
         geom_chicklet(radius = grid::unit(10, 'mm')) +
         scale_fill_manual(name = "Sexo", values = c("#bc7b87","#7b87bc")) +
-        geom_text(data = by_sex, aes(label = paste(per, '%')), fontface = "bold", hjust = 0.5, 
-                  vjust = 1.5, color = "white", size = 5) +
+        geom_text(data = by_sex, aes(label = paste(per, '%')), fontface = "bold", hjust = 0.5, vjust = 1.5, color = "white", size = 5) +
         xlab("\nSexo\n") + 
         ylab("\nPercentual de Reprovados\n") +
         ggtitle("\nReprovados por Frequencia", subtitle = "Desenho Tecnico I e II\n") +
         normal_theme + 
-        theme(plot.title = element_text(size = 25))
+        theme(plot.title = element_text(size = 20))
         
 c <- ggarrange(a, b, ncol = 2)
 
 ggbackground(c, img)
 savePlot(filename = "../images/figure13.png", type = "png", device = dev.cur())
-
-
-
 
 
 # Bar plot - who failed by attendance - by sex and discipline (n and %)
@@ -819,27 +502,11 @@ b$per <- round((b$n[b$SEXO == a$SEXO && b$DISCIPLINA == a$DISCIPLINA] /
                 a$n[a$SEXO == b$SEXO && a$DISCIPLINA == b$DISCIPLINA]) * 100, 2) 
 
 
-
-
-
-
-
-
-
 # Bar plot - who failed by attendance - by sex and discipline (n and %)
-fig <- ggplot(b, aes(DISCIPLINA, 
-                     n, 
-                     group = SEXO, 
-                     color = SEXO)) + 
-        geom_bar(stat = "identity", 
-                 fill = "#101010", 
-                 position = position_dodge2()) +
-        geom_text(data = b, aes(label = paste(n,"(",per,"% )")), 
-                  hjust = 0.5, 
-                  vjust = 1.5, 
-                  color = "white", 
-                  size = 5, 
-                  position = position_dodge2(width = 0.9)) +
+
+fig <- ggplot(b, aes(DISCIPLINA, n, group = SEXO, color = SEXO)) + 
+        geom_bar(stat = "identity", fill = "#101010", position = position_dodge2()) +
+        geom_text(data = b, aes(label = paste(n,"(",per,"% )")), hjust = 0.5, vjust = 1.5, color = "white", size = 5, position = position_dodge2(width = 0.9)) +
         scale_fill_hue(c = 40) +
         scale_y_continuous(breaks = seq(0, 400, by = 50)) +
         xlab("\nDisciplina\n") + 
@@ -850,14 +517,6 @@ fig <- ggplot(b, aes(DISCIPLINA,
 
 ggbackground(fig, img)
 savePlot(filename = "../images/figure14.png", type = "png", device = dev.cur())
-
-
-
-
-
-
-
-
 
 # Bar plot - who failed by attendance - by sex, discipline and year (n and %)
 
@@ -870,23 +529,22 @@ b  <- statistics(all_data[(all_data$SITUACAO == "Reprovado por Frequência"),], 
 b$per <- round((b$n[b$SEXO == a$SEXO && b$DISCIPLINA == a$DISCIPLINA && b$ANO == a$ANO] / 
                 a$n[a$SEXO == b$SEXO && a$DISCIPLINA == b$DISCIPLINA && b$ANO == a$ANO]) * 100, 2) 
 
+# Bar plot - who failed by attendance  by sex, discipline and year (n and %)
 
-
-
-
-
-
-# Bar plot - who failed by attendance - by sex, discipline and year (n and %)
 fig1 <- ggplot(b, aes(ANO, n, color = SEXO)) + 
         geom_bar(stat = "identity", fill = "#101010", position = position_dodge2()) +
         scale_y_continuous(breaks = seq(0, 50, by = 5)) +
         scale_x_continuous(breaks = round(seq(min(b$ANO), max(b$ANO), by = 1), 1)) +
         scale_fill_hue(c = 40) +
-        ylab("\nNum. de alunos\n") + xlab("\nAno\n") + labs(fill = "Sexo") + 
+        ylab("\nNum. de alunos\n") + 
+        xlab("\nAno\n") + 
+        labs(fill = "Sexo") + 
         ggtitle("\nReprovados por frequencia\n") +
         normal_theme +
-        theme(plot.title = element_text(size = 25), axis.title = element_text(size = 18),
-              axis.text = element_text(size = 12), strip.background = element_rect(fill = "#111111"), 
+        theme(plot.title = element_text(size = 25), 
+              axis.title = element_text(size = 18),
+              axis.text = element_text(size = 10), 
+              strip.background = element_rect(fill = "#111111"), 
               strip.text = element_text(colour = 'white')) +
         facet_wrap(~DISCIPLINA) 
 
@@ -895,22 +553,20 @@ fig2 <- ggplot(b, aes(ANO, per, color = SEXO)) +
         scale_y_continuous(breaks = seq(0, 50, by = 5)) +
         scale_x_continuous(breaks = round(seq(min(b$ANO), max(b$ANO), by = 1), 1)) +
         scale_fill_hue(c = 40) +
-        ylab("\nPercentual (%)\n") + xlab("\nAno\n") + labs(fill = "Sexo") +
+        ylab("\nPercentual (%)\n") + 
+        xlab("\nAno\n") + 
+        labs(fill = "Sexo") +
         normal_theme +
-        theme(plot.title = element_text(size = 25), axis.title = element_text(size = 18),
-              axis.text = element_text(size = 12), strip.background = element_rect(fill = "#111111"), 
+        theme(plot.title = element_text(size = 25), 
+              axis.title = element_text(size = 18),
+              axis.text = element_text(size = 10), 
+              strip.background = element_rect(fill = "#111111"), 
               strip.text = element_text(colour = 'white')) +
         facet_wrap(~DISCIPLINA) 
 
 c <- ggarrange(fig1, fig2, nrow = 2)
-x11(width = 15, height = 11.25)
 ggbackground(c, img)
 savePlot(filename = "../images/figure15.png", type = "png", device = dev.cur())
-
-
-
-
-
 
 
 # Bar plot - who failed by attendance - by semester, year and discipline (n)
@@ -922,31 +578,19 @@ a <- statistics(all_data, "MEDIA_FINAL", PERIODO, DISCIPLINA, ANO)
 b  <- statistics(all_data[(all_data$SITUACAO == "Reprovado por Frequência"),], "MEDIA_FINAL", PERIODO, DISCIPLINA, ANO)
 
 b$per <- round((b$n[b$PERIODO == a$PERIODO && b$DISCIPLINA == a$DISCIPLINA && b$ANO == a$ANO] / 
-                  a$n[a$PERIODO == b$PERIODO && a$DISCIPLINA == b$DISCIPLINA && b$ANO == a$ANO]) * 100, 2) 
+                a$n[a$PERIODO == b$PERIODO && a$DISCIPLINA == b$DISCIPLINA && b$ANO == a$ANO]) * 100, 2) 
 
 b$DISCIPLINA[b$DISCIPLINA == "DESENHO TECNICO I"] <- "DESENHO I"
 b$DISCIPLINA[b$DISCIPLINA == "DESENHO TECNICO II"] <- "DESENHO II"
 
-
-
-
-
-
-
-
 # Bar plot - who failed by attendance - by semester, year and discipline (n)
-fig1 <- ggplot(b, aes(DISCIPLINA, 
-                      n, 
-                      fill = as.factor(PERIODO),
-                      color = as.factor(PERIODO))) + 
-        geom_bar(stat = "identity", 
-                 position = position_dodge(),
-                 alpha = 0.2) +
+
+fig1 <- ggplot(b, aes(DISCIPLINA, n, fill = as.factor(PERIODO), color = as.factor(PERIODO))) + 
+        geom_bar(stat = "identity", position = position_dodge(), alpha = 0.2) +
         scale_fill_hue(c = 50) +
         ylab("\nNum. de alunos\n") + 
         xlab("Disciplina\n") + 
-        labs(fill = "", 
-             color = "") + 
+        labs(fill = "", color = "") + 
         ggtitle("\nReprovados por frequencia\n") +
         normal_theme + 
         theme(plot.title = element_text(size = 35), 
@@ -959,26 +603,10 @@ fig1 <- ggplot(b, aes(DISCIPLINA,
 ggbackground(fig1, img)
 savePlot(filename = "../images/figure16.png", type = "png", device = dev.cur())
 
+# Bar plot - who failed by attendances by semester, year and discipline (%)
 
-
-
-
-
-
-
-
-
-
-
-# Bar plot - who failed by attendances - by semester, year and discipline (%)
-
-fig1 <- ggplot(b, aes(DISCIPLINA, 
-                      per, 
-                      fill = as.factor(PERIODO), 
-                      color = as.factor(PERIODO))) + 
-        geom_bar(stat = "identity", 
-                 position = position_dodge(),
-                 alpha = 0.2) +
+fig1 <- ggplot(b, aes(DISCIPLINA, per, fill = as.factor(PERIODO), color = as.factor(PERIODO))) + 
+        geom_bar(stat = "identity", position = position_dodge(), alpha = 0.2) +
         scale_fill_hue(c = 50) +
         ylab("\nPercentual\n") + 
         xlab("Disciplina") + 
@@ -995,21 +623,6 @@ fig1 <- ggplot(b, aes(DISCIPLINA,
 ggbackground(fig1, img)
 savePlot(filename = "../images/figure17.png", type = "png", device = dev.cur())
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Bar plot - who failed by attendance - by discipline and dropout mode (n)
 
 # who failed by attendance - by discipline + dropout mode
@@ -1019,41 +632,20 @@ b$FORMA_EVASAO[b$FORMA_EVASAO == "Reopção"] <- "Reopcao"
 b$FORMA_EVASAO[b$FORMA_EVASAO == "Transferência"] <- "Transferencia"
 
 
+# Bar plot - who failed by attendance -  by discipline and dropout mode (n)
 
-
-
-
-
-
-
-
-# Bar plot - who failed by attendance - by discipline and dropout mode (n)
-fig1 <- ggplot(b, aes(DISCIPLINA, 
-                      n, 
-                      color = as.factor(FORMA_EVASAO),
-                      fill = as.factor(FORMA_EVASAO))) + 
-        geom_bar(stat = "identity", 
-                 width = 0.5, 
-                 alpha = 0.2,
-                 position = position_dodge()) +
+fig1 <- ggplot(b, aes(DISCIPLINA, n, color = as.factor(FORMA_EVASAO), fill = as.factor(FORMA_EVASAO))) + 
+        geom_bar(stat = "identity", width = 0.5, alpha = 0.2, position = position_dodge()) +
         scale_fill_hue(c = 50) + 
         ylab("\nNum. de alunos\n") + 
-        labs(color = "Situacao atual",
-             fill = "Situacao atual")  + 
+        labs(color = "Situacao atual", fill = "Situacao atual")  + 
         xlab("\nDisciplina\n") + 
         ggtitle("\nReprovados por frequencia por situacao\n") +
         normal_theme +
-        theme(plot.title = element_text(size = 35)) 
+        theme(plot.title = element_text(size = 28)) 
        
 ggbackground(fig1, img)
 savePlot(filename = "../images/figure18.png", type = "png", device = dev.cur())
-
-
-
-
-
-
-
 
 # Bar plot - all students - by discipline, current situation and year (n)
 
@@ -1064,31 +656,21 @@ b$DISCIPLINA[b$DISCIPLINA == "DESENHO TECNICO I"] <- "DESENHO I"
 b$DISCIPLINA[b$DISCIPLINA == "DESENHO TECNICO II"] <- "DESENHO II"
 b$SITUACAO[b$SITUACAO == "Reprovado por Frequência"] <- "Reprovado por Frequencia"
 
-
-
-
-
-
 # Bar plot - all students - by discipline, current situation and year (n)
-fig1 <- ggplot(b, aes(DISCIPLINA, 
-                      n, 
-                      fill = as.factor(SITUACAO),
-                      color = as.factor(SITUACAO))) + 
-        geom_bar(stat = "identity", 
-                 width = 0.5, 
-                 alpha = 0.2,
-                 position = position_dodge()) +
+
+fig1 <- ggplot(b, aes(DISCIPLINA, n, fill = as.factor(SITUACAO), color = as.factor(SITUACAO))) + 
+        geom_bar(stat = "identity", width = 0.5, alpha = 0.2, position = position_dodge()) +
         scale_fill_hue(c = 50) + 
         ylab("\nNum. de alunos\n") + 
-        labs(color = "Situacao", 
-             fill = "Situacao") + 
+        labs(color = "Situacao", fill = "Situacao") + 
         xlab("\nDisciplina") + 
         ggtitle("\nAlunos por Ano, Disciplina e Situacao\n") +
         guides(fill = guide_legend(nrow = 3)) +
         normal_theme + 
         theme(plot.title = element_text(size = 30), 
-              axis.text = element_text(size = 10), 
+              axis.text = element_text(size = 8), 
               legend.position = "top",
+              legend.text = element_text(size = 14), 
               strip.background = element_rect(fill = "#111111"), 
               strip.text = element_text(colour = 'white')) +
         facet_wrap(~ANO, nrow = 3) 
@@ -1096,25 +678,13 @@ fig1 <- ggplot(b, aes(DISCIPLINA,
 ggbackground(fig1, img)
 savePlot(filename = "../images/figure19.png", type = "png", device = dev.cur())
 
+# Line plot - all students-by current situation, discipline and year (n)
 
-
-
-
-# Line plot - all students - by current situation, discipline and year (n)
-fig1 <- ggplot(b, aes(ANO, 
-                      n, 
-                      group = SITUACAO, 
-                      color = SITUACAO)) + 
+fig1 <- ggplot(b, aes(ANO, n,  group = SITUACAO, color = SITUACAO)) + 
         geom_line(size = 1.5) +
-        geom_point(size = 3, 
-                   shape = 21, 
-                   fill = "white") +
-        scale_x_continuous(breaks = round(seq(min(b$ANO),
-                                              max(b$ANO), 
-                                              by = 1), 1)) +
-        scale_y_continuous(breaks = round(seq(0, 
-                                              max(b$n), 
-                                              by = 10), 1)) +
+        geom_point(size = 3, shape = 21, fill = "white") +
+        scale_x_continuous(breaks = round(seq(min(b$ANO), max(b$ANO), by = 1), 1)) +
+        scale_y_continuous(breaks = round(seq(0, max(b$n), by = 10), 1)) +
         ylab("\nNum. de Alunos\n") + 
         xlab("\nAno") +
         labs(color = "Situacao do Aluno") + 
@@ -1124,6 +694,7 @@ fig1 <- ggplot(b, aes(ANO,
         theme(plot.title = element_text(size = 25), 
               axis.text = element_text(size = 12), 
               legend.position = "bottom",
+              legend.text = element_text(size = 14), 
               strip.background = element_rect(fill = "#111111"), 
               strip.text = element_text(colour = 'white')) +
         facet_wrap(~DISCIPLINA, nrow = 2) 
@@ -1131,32 +702,18 @@ fig1 <- ggplot(b, aes(ANO,
 ggbackground(fig1, img)
 savePlot(filename = "../images/figure20.png", type = "png", device = dev.cur())
 
-
-
-
 # Line plot - all students - by current situation, discipline and year (%)
 
 b <- as.data.frame(b %>% 
         group_by(ANO, DISCIPLINA) %>% 
         mutate(percent = 100*(n/sum(n))))
 
+# Line plot - all students-by current situation, discipline and year (%)
 
-
-
-
-
-# Line plot - all students - by current situation, discipline and year (%)
-fig1 <- ggplot(b, aes(ANO, 
-                      percent, 
-                      group = SITUACAO, 
-                      color = SITUACAO)) + 
+fig1 <- ggplot(b, aes(ANO, percent, group = SITUACAO, color = SITUACAO)) + 
         geom_line(size = 1.5) +
-        geom_point(size = 3, 
-                   shape = 21, 
-                   fill = "white") +
-        scale_x_continuous(breaks = round(seq(min(b$ANO), 
-                                              max(b$ANO), 
-                                              by = 1),1)) +
+        geom_point(size = 3, shape = 21, fill = "white") +
+        scale_x_continuous(breaks = round(seq(min(b$ANO), max(b$ANO), by = 1),1)) +
         scale_y_continuous(breaks = round(seq(0, 100, by = 10),1)) +
         ylab("\nPercentual de Alunos (%)\n") + 
         xlab("\nAno") +
@@ -1175,31 +732,15 @@ fig1 <- ggplot(b, aes(ANO,
 ggbackground(fig1, img)
 savePlot(filename = "../images/figure21.png", type = "png", device = dev.cur())
 
-
-
-
-
-
-
-
-
-
-
 # Density curve plot - without failed by attendance - grade by semester and year - technical drawing I
 
 fig1 <- ggplot(DT1_partial, 
-        aes(x = MEDIA_FINAL , 
-            fill = as.factor(ANO), 
-            colour = PERIODO)) +
-        geom_density(alpha = 0.9, 
-                     size = 1) + 
-        scale_x_continuous(breaks = round(seq(min(partial_data$MEDIA_FINAL), 
-                                              max(partial_data$MEDIA_FINAL), 
-                                              by = 5), 10)) +
+        aes(x = MEDIA_FINAL, fill = as.factor(ANO), colour = PERIODO)) +
+        geom_density(alpha = 0.9, size = 1) + 
+        scale_x_continuous(breaks = round(seq(min(partial_data$MEDIA_FINAL), max(partial_data$MEDIA_FINAL), by = 5), 10)) +
         xlab("\nMedia Final") + 
         ylab("\nDensidade\n") + 
-        labs(fill = "Ano", 
-             colour = "Semestre") +
+        labs(fill = "Ano", colour = "") +
         ggtitle("\nDistribuicao das Medias em Desenho I (Sem rep. por frequencia)\n") +
         normal_theme +       
         theme(strip.background = element_blank(), 
@@ -1214,30 +755,15 @@ fig1 <- ggplot(DT1_partial,
 ggbackground(fig1, img)
 savePlot(filename = "../images/figure22.png", type = "png", device = dev.cur())
 
-
-
-
-
-
-
-
-
-
 # Density curve plot - without failed by attendance - grade by semester and year - technical drawing II
 
 fig1 <- ggplot(DT2_partial, 
-        aes(x = MEDIA_FINAL , 
-            fill = as.factor(ANO), 
-            colour = PERIODO)) +
-        geom_density(alpha = 0.9, 
-                     size = 1) +
-        scale_x_continuous(breaks = round(seq(min(partial_data$MEDIA_FINAL), 
-                                              max(partial_data$MEDIA_FINAL), 
-                                              by = 5), 10)) +
+        aes(x = MEDIA_FINAL, fill = as.factor(ANO), colour = PERIODO)) +
+        geom_density(alpha = 0.9, size = 1) +
+        scale_x_continuous(breaks = round(seq(min(partial_data$MEDIA_FINAL), max(partial_data$MEDIA_FINAL), by = 5), 10)) +
         xlab("\nMedia Final") + 
         ylab("\nDensidade") + 
-        labs(fill = "Ano", 
-             colour = "Semestre") +
+        labs(fill = "Ano", colour = "") +
         ggtitle("\nDistribuicao das Medias em Desenho II (Sem rep. por frequencia)\n") +
         normal_theme +       
         theme(strip.background = element_blank(), 
@@ -1252,50 +778,37 @@ fig1 <- ggplot(DT2_partial,
 ggbackground(fig1, img)
 savePlot(filename = "../images/figure23.png", type = "png", device = dev.cur())
 
-
-
-
-
 # Density plot - without failed by attendance - grade by year - technical drawing I + II
-fig1 <- ggplot(partial_data,
-        aes(x = ANO, y = MEDIA_FINAL)) +
+
+fig1 <- ggplot(partial_data, aes(x = ANO, y = MEDIA_FINAL)) +
         ggtitle("\nDensidade das Medias por Ano (Sem reprovados por frequencia)\n") +
-        ylab("\nMedia Final\n") + xlab("\nAno") + 
+        ylab("Media Final\n") + xlab("\nAno") + 
         labs(fill = "Densidade") +      
-        stat_density2d(aes(fill = ..density..), 
-                       contour = F, 
-                       geom = 'tile') +
-      scale_fill_gradient(low = "black", high = "white") +
-        geom_segment(aes(x = 2007, y = 6, xend = 2019, yend = 6), 
-                     linetype = "dotted", colour = "black") +
-        geom_segment(aes(x = 2007, y = 7, xend = 2019, yend = 7), 
-                     linetype = "dotted", colour = "black") +
-        geom_segment(aes(x = 2016, y = 0, xend = 2016, yend = 10), 
-                     linetype = "dotted", colour = "black") +
-        geom_segment(aes(x = 2018, y = 0, xend = 2018, yend = 10), 
-                     linetype = "dotted", colour = "black") +
-        scale_x_continuous(expand = c(0, 0), breaks = seq(2007, 2019, by = 1)) +
+        stat_density2d(aes(fill = ..density..), contour = F, geom = 'tile') +
+        scale_fill_gradient(low = "black", high = "white") +
+        geom_segment(aes(x = 2007, y = 6, xend = 2019, yend = 6), linetype = "dotted", colour = "black") +
+        geom_segment(aes(x = 2007, y = 7, xend = 2019, yend = 7), linetype = "dotted", colour = "black") +
+        geom_segment(aes(x = 2016, y = 0, xend = 2016, yend = 10), linetype = "dotted", colour = "black") +
+        geom_segment(aes(x = 2018, y = 0, xend = 2018, yend = 10),  linetype = "dotted", colour = "black") +
+        scale_x_continuous(expand = c(0, 0), breaks =  seq(2007, 2019, by = 1)) +
         scale_y_continuous(expand = c(0, 0), breaks = seq(0, 10, by = 1)) +
         normal_theme +       
         theme(axis.title = element_text(size = 18), 
-              axis.text = element_text(size = 15), 
+              axis.text = element_text(size = 17), 
               panel.spacing = unit(2, "lines"), 
               plot.title = element_text(hjust = 0.5, size = 18), 
-              axis.text.x = element_text(face = "bold", size = 8), 
+              axis.text.x = element_text(face = "bold", size = 9), 
               legend.key.width = unit(2, "cm"), 
-              legend.position = "bottom", legend.text = element_text(size = 11)) +
+              legend.position = "bottom", 
+              legend.text = element_text(size = 11)) +
         facet_wrap(~DISCIPLINA)
 
 ggbackground(fig1, img)
 savePlot(filename = "../images/figure24.png", type = "png", device = dev.cur())
 
-
-
-
-
-
-
-
+##############################################################################################################
+##############################################################################################################
+##############################################################################################################
 
 # Fourth Part - Dataset 1 - Advanced Statistics
 
@@ -1342,9 +855,7 @@ kruskal.test(MEDIA_FINAL ~ interaction(ANO, PERIODO), DT1)
 fig1 <- ggplot(DT1, aes(x = MEDIA_FINAL , fill = PERIODO, color = PERIODO)) +
         geom_density(alpha = 0.3, size = 1) +
         geom_vline(aes(xintercept = 6), color = "red", linetype = "dashed") +
-        scale_x_continuous(breaks = round(seq(min(DT1$MEDIA_FINAL), 
-                                              max(DT1$MEDIA_FINAL), 
-                                              by = 5), 10)) +
+        scale_x_continuous(breaks = round(seq(min(DT1$MEDIA_FINAL),  max(DT1$MEDIA_FINAL), by = 5), 10)) +
         xlab("\nDistribuicao de Medias") + 
         ylab("\nDensidade de Medias\n") + 
         labs(fill = "Semestre", color = "Semestre") +
@@ -1363,9 +874,7 @@ savePlot(filename = "../images/figure26.png", type = "png", device = dev.cur())
 fig1 <- ggplot(DT1, aes(x = MEDIA_FINAL , fill = ANO, color = ANO)) +
   geom_density(alpha = 0.3, size = 1) +
   geom_vline(aes(xintercept = 6), color = "red", linetype = "dashed") +
-  scale_x_continuous(breaks = round(seq(min(DT1$MEDIA_FINAL), 
-                                        max(DT1$MEDIA_FINAL), 
-                                        by = 5), 10)) +
+  scale_x_continuous(breaks = round(seq(min(DT1$MEDIA_FINAL), max(DT1$MEDIA_FINAL), by = 5), 10)) +
   xlab("\nDistribuicao de Medias") + 
   ylab("\nDensidade de Medias\n") + 
   labs(fill = "Ano", color = "Ano") +
@@ -1387,9 +896,7 @@ savePlot(filename = "../images/figure27.png", type = "png", device = dev.cur())
 fig1 <- ggplot(DT1, aes(x = MEDIA_FINAL , fill = ANO, color = PERIODO)) +
   geom_density(alpha = 0.7, size = 1) +
   geom_vline(aes(xintercept = 6), color = "red", linetype = "dashed") +
-  scale_x_continuous(breaks = round(seq(min(DT1$MEDIA_FINAL), 
-                                        max(DT1$MEDIA_FINAL), 
-                                        by = 5), 10)) +
+  scale_x_continuous(breaks = round(seq(min(DT1$MEDIA_FINAL), max(DT1$MEDIA_FINAL), by = 5), 10)) +
   xlab("\nDistribuicao de Medias") + 
   ylab("\nDensidade de Medias\n") + 
   labs(fill = "Ano", color = "Semestre") +
@@ -1414,46 +921,34 @@ multiVDA(MEDIA_FINAL ~ SEX, data = DT1)
 multiVDA(MEDIA_FINAL ~ COD_CURSO, data = DT1)
 
 options("scipen" = 100, "digits" = 4)
-PT = dunnTest(MEDIA_FINAL ~ ANO,
-          data = DT1,
-          method = "bh") 
-
-O <- cldList(P.adj ~ Comparison,
-          data = PT$res,
-          threshold = 0.05,
-          remove.zero = FALSE)
+PT = dunnTest(MEDIA_FINAL ~ ANO, data = DT1, method = "bh") 
+O <- cldList(P.adj ~ Comparison, data = PT$res, threshold = 0.05, remove.zero = FALSE)
 
 fig <- ggplot(O, aes(x = Letter, y = Group, fill = Letter, color = Letter)) +
-  xlab("\nGrupo\n") +
-  ylab("\nAno\n") +
-  labs(fill = "Grupo", color = "Grupo") +
-  geom_point(size = 4) +
-  normal_theme
+          xlab("\nGrupo\n") +
+          ylab("\nAno\n") +
+          labs(fill = "Grupo", color = "Grupo") +
+          geom_point(size = 4) +
+          normal_theme
 
 ggbackground(fig, img)
 savePlot(filename = "../images/figure29.png", type = "png", device = dev.cur())
   
 merged_data <- transform(DT1, ANO_PERIODO = paste(ANO, '.', PERIODO))
 
-PT = dunnTest(MEDIA_FINAL ~ ANO_PERIODO,
-              data = merged_data,
-              method = "bh") 
-
-O <- cldList(P.adj ~ Comparison,
-             data = PT$res,
-             threshold = 0.05,
-             remove.zero = FALSE)
+PT = dunnTest(MEDIA_FINAL ~ ANO_PERIODO, data = merged_data, method = "bh") 
+O <- cldList(P.adj ~ Comparison, data = PT$res, threshold = 0.05, remove.zero = FALSE)
 
 fig <- ggplot(O, aes(x = Letter, y = Group, fill = Letter, color = Letter)) +
-  xlab("\nGrupo\n") +
-  ylab("\nAno\n") +
-  labs(fill = "Grupo", color = "Grupo") +
-  geom_point(size = 4) +
-  normal_theme +
-  theme(axis.title = element_text(size = 18), 
-        axis.text = element_text(family = "TT Times New Roman", size = 14), 
-        legend.position = "bottom", 
-        legend.text = element_text(size = 15)) 
+          xlab("\nGrupo\n") +
+          ylab("\nAno\n") +
+          labs(fill = "Grupo", color = "Grupo") +
+          geom_point(size = 4) +
+          normal_theme +
+          theme(axis.title = element_text(size = 18), 
+                axis.text = element_text(family = "TT Times New Roman", size = 14), 
+                legend.position = "bottom", 
+                legend.text = element_text(size = 15)) 
 
 ggbackground(fig, img)
 savePlot(filename = "../images/figure30.png", type = "png", device = dev.cur())
@@ -1473,12 +968,12 @@ res <- as.data.frame(residuals(aov_result))
 colnames(res)[1] <- "value"
 
 fig1 <- ggplot(data = res, aes(value)) + 
-  geom_histogram(color = "blue") +
-  ggtitle("\nHistograma de Residuos\n") +
-  ylab("\nFrequencia\n") + 
-  xlab("\nResiduo\n") + 
-  labs(fill = "Densidade") +   
-  normal_theme      
+                geom_histogram(color = "blue") +
+                ggtitle("\nHistograma de Residuos\n") +
+                ylab("\nFrequencia\n") + 
+                xlab("\nResiduo\n") + 
+                labs(fill = "Densidade") +   
+                normal_theme      
 
 ggbackground(fig1, img)
 savePlot(filename = "../images/figure31.png", type = "png", device = dev.cur())
@@ -1499,9 +994,7 @@ kruskal.test(MEDIA_FINAL ~ interaction(ANO, PERIODO), DT2)
 fig1 <- ggplot(DT2, aes(x = MEDIA_FINAL , fill = PERIODO, color = PERIODO)) +
   geom_density(alpha = 0.3, size = 1) +
   geom_vline(aes(xintercept = 6), color = "red", linetype = "dashed") +
-  scale_x_continuous(breaks = round(seq(min(DT2$MEDIA_FINAL), 
-                                        max(DT2$MEDIA_FINAL), 
-                                        by = 5), 10)) +
+  scale_x_continuous(breaks = round(seq(min(DT2$MEDIA_FINAL), max(DT2$MEDIA_FINAL), by = 5), 10)) +
   xlab("\nDistribuicao de Medias") + 
   ylab("\nDensidade de Medias\n") + 
   labs(fill = "Semestre", color = "Semestre") +
@@ -1520,9 +1013,7 @@ savePlot(filename = "../images/figure32.png", type = "png", device = dev.cur())
 fig1 <- ggplot(DT2, aes(x = MEDIA_FINAL , fill = ANO, color = ANO)) +
   geom_density(alpha = 0.3, size = 1) +
   geom_vline(aes(xintercept = 6), color = "red", linetype = "dashed") +
-  scale_x_continuous(breaks = round(seq(min(DT2$MEDIA_FINAL), 
-                                        max(DT2$MEDIA_FINAL), 
-                                        by = 5), 10)) +
+  scale_x_continuous(breaks = round(seq(min(DT2$MEDIA_FINAL), max(DT2$MEDIA_FINAL), by = 5), 10)) +
   xlab("\nDistribuicao de Medias") + 
   ylab("\nDensidade de Medias\n") + 
   labs(fill = "Semestre", color = "Semestre") +
@@ -1544,9 +1035,7 @@ savePlot(filename = "../images/figure33.png", type = "png", device = dev.cur())
 fig1 <- ggplot(DT2, aes(x = MEDIA_FINAL , fill = ANO, color = PERIODO)) +
   geom_density(alpha = 0.7, size = 1) +
   geom_vline(aes(xintercept = 6), color = "red", linetype = "dashed") +
-  scale_x_continuous(breaks = round(seq(min(DT2$MEDIA_FINAL), 
-                                        max(DT2$MEDIA_FINAL), 
-                                        by = 5), 10)) +
+  scale_x_continuous(breaks = round(seq(min(DT2$MEDIA_FINAL), max(DT2$MEDIA_FINAL), by = 5), 10)) +
   xlab("\nDistribuicao de Medias") + 
   ylab("\nDensidade de Medias\n") + 
   labs(fill = "Ano", color = "Semestre") +
@@ -1571,44 +1060,26 @@ multiVDA(MEDIA_FINAL ~ COD_CURSO, data = DT2)
 
 merged_data <- transform(DT2, ANO_PERIODO = paste(ANO, '.', PERIODO))
 
-PT = dunnTest(MEDIA_FINAL ~ ANO_PERIODO,
-              data = merged_data,
-              method = "bh") 
-
-O <- cldList(P.adj ~ Comparison,
-             data = PT$res,
-             threshold = 0.05,
-             remove.zero = FALSE)
+PT = dunnTest(MEDIA_FINAL ~ ANO_PERIODO, data = merged_data, method = "bh") 
+O <- cldList(P.adj ~ Comparison, data = PT$res, threshold = 0.05, remove.zero = FALSE)
 
 fig <- ggplot(O, aes(x = Letter, y = Group, fill = Letter, color = Letter)) +
-  xlab("\nGrupo\n") +
-  ylab("\nAno\n") +
-  labs(fill = "Grupo", color = "Grupo") +
-  geom_point(size = 4) +
-  normal_theme +
-  theme(axis.title = element_text(size = 18), 
-        axis.text = element_text(family = "TT Times New Roman", size = 14), 
-        legend.position = "bottom", 
-        legend.text = element_text(size = 15)) 
+        xlab("\nGrupo\n") +
+        ylab("\nAno\n") +
+        labs(fill = "Grupo", color = "Grupo") +
+        geom_point(size = 4) +
+        normal_theme +
+        theme(axis.title = element_text(size = 18), 
+              axis.text = element_text(family = "TT Times New Roman", size = 14), 
+              legend.position = "bottom", 
+              legend.text = element_text(size = 15)) 
 
 ggbackground(fig, img)
 savePlot(filename = "../images/figure35.png", type = "png", device = dev.cur())
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+##############################################################################################################
+##############################################################################################################
+##############################################################################################################
 
 # First Part - Dataset 2 - Data Loading and Processing
 
