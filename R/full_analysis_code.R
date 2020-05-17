@@ -46,47 +46,6 @@ library(rcompanion)
 if (!require(FSA))install.packages("FSA")
 library(FSA)
 
-#if (!require(xlsx)) install.packages("xlsx")
-#library(xlsx)
-
-#if(!require(RColorBrewer)) install.packages("RColorBrewer")
-#library(RColorBrewer)
-
-#if(!require(viridis)) install.packages("viridis")
-#library(viridis)
-
-#if (!require(matlab)) install.packages("matlab")
-#library(matlab)
-
-
-
-#if (!require(coin)) install.packages("coin")
-#library(coin)
-
-#if (!require(gridExtra)) install.packages("gridExtra")
-#library(gridExtra)
-
-#if (!require(grid)) install.packages("grid")
-#library(grid)
-
-#if (!require(reshape)) install.packages("reshape")
-#library(reshape)
-
-#if (!require(extrafont)) install.packages("extrafont")
-#library(extrafont)
-
-#if (!require(viridis)) install.packages("viridis")
-#library(viridis)
-
-#if (!require(nortest)) install.packages("nortest")
-#library(nortest)
-
-#if (!require(cowplot)) install.packages("cowplot")
-#library(cowplot)
-
-#if (!require(ggExtra)) install.packages("ggExtra")
-#library(ggExtra)
-
 # First Part - Dataset 1 - Loading and Processing
 
 BAEA_path <- "../csv/Technical_Drawing_I_II - BAEA.csv"
@@ -206,46 +165,51 @@ statistics <- function(dataframe, response, ...) {
   return(result)
 }
 
-by_course_drawing_I <- statistics(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], "MEDIA_FINAL", COD_CURSO)
+DT1 <- all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",]
+DT2 <- all_data[all_data$DISCIPLINA == "DESENHO TECNICO II",]
 
-by_year_drawing_I <- statistics(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], "MEDIA_FINAL", ANO)
+by_course_drawing_I <- statistics(DT1, "MEDIA_FINAL", COD_CURSO)
 
-by_year_course_drawing_I <- statistics(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], "MEDIA_FINAL", ANO, COD_CURSO)
+by_year_drawing_I <- statistics(DT1, "MEDIA_FINAL", ANO)
 
-by_year_semester_course_drawing_I <- statistics(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], "MEDIA_FINAL", ANO, COD_CURSO, PERIODO)
+by_year_course_drawing_I <- statistics(DT1, "MEDIA_FINAL", ANO, COD_CURSO)
 
-by_course_drawing_II <- statistics(all_data[all_data$DISCIPLINA == "DESENHO TECNICO II",], "MEDIA_FINAL", COD_CURSO)
+by_year_semester_course_drawing_I <- statistics(DT1, "MEDIA_FINAL", ANO, COD_CURSO, PERIODO)
 
-by_year_drawing_II <- statistics(all_data[all_data$DISCIPLINA == "DESENHO TECNICO II",], "MEDIA_FINAL", ANO)
+by_course_drawing_II <- statistics(DT2, "MEDIA_FINAL", COD_CURSO)
 
-by_year_course_drawing_II <- statistics(all_data[all_data$DISCIPLINA == "DESENHO TECNICO II",], "MEDIA_FINAL", ANO, COD_CURSO)
+by_year_drawing_II <- statistics(DT2, "MEDIA_FINAL", ANO)
 
-by_year_semester_course_drawing_II <- statistics(all_data[all_data$DISCIPLINA == "DESENHO TECNICO II",], "MEDIA_FINAL", ANO, COD_CURSO, PERIODO)
+by_year_course_drawing_II <- statistics(DT2, "MEDIA_FINAL", ANO, COD_CURSO)
+
+by_year_semester_course_drawing_II <- statistics(DT2, "MEDIA_FINAL", ANO, COD_CURSO, PERIODO)
 
 partial_data <- all_data[!(all_data$SITUACAO == "Reprovado por Frequência"),]
+DT1_partial <- partial_data[partial_data$DISCIPLINA == "DESENHO TECNICO I",]
+DT2_partial <- partial_data[partial_data$DISCIPLINA == "DESENHO TECNICO II",]
 
-by_course_drawing_I_2 <- statistics(partial_data[partial_data$DISCIPLINA == "DESENHO TECNICO I",], "MEDIA_FINAL", COD_CURSO)
+by_course_drawing_I_2 <- statistics(DT1_partial, "MEDIA_FINAL", COD_CURSO)
 
-by_year_drawing_I_2 <- statistics(partial_data[partial_data$DISCIPLINA == "DESENHO TECNICO I",], "MEDIA_FINAL", ANO)
+by_year_drawing_I_2 <- statistics(DT1_partial, "MEDIA_FINAL", ANO)
 
-by_year_course_drawing_I_2 <- statistics(partial_data[partial_data$DISCIPLINA == "DESENHO TECNICO I",], "MEDIA_FINAL", ANO, COD_CURSO)
+by_year_course_drawing_I_2 <- statistics(DT1_partial, "MEDIA_FINAL", ANO, COD_CURSO)
 
-by_year_semester_course_drawing_I_2 <- statistics(partial_data[partial_data$DISCIPLINA == "DESENHO TECNICO I",], "MEDIA_FINAL", ANO, COD_CURSO, PERIODO)
+by_year_semester_course_drawing_I_2 <- statistics(DT1_partial, "MEDIA_FINAL", ANO, COD_CURSO, PERIODO)
 
-by_course_drawing_II_2 <- statistics(partial_data[partial_data$DISCIPLINA == "DESENHO TECNICO II",], "MEDIA_FINAL", COD_CURSO)
+by_course_drawing_II_2 <- statistics(DT2_partial, "MEDIA_FINAL", COD_CURSO)
 
-by_year_drawing_II_2 <- statistics(partial_data[partial_data$DISCIPLINA == "DESENHO TECNICO II",], "MEDIA_FINAL", ANO)
+by_year_drawing_II_2 <- statistics(DT2_partial, "MEDIA_FINAL", ANO)
 
-by_year_course_drawing_II_2 <- statistics(partial_data[partial_data$DISCIPLINA == "DESENHO TECNICO II",], "MEDIA_FINAL", ANO, COD_CURSO)
+by_year_course_drawing_II_2 <- statistics(DT2_partial, "MEDIA_FINAL", ANO, COD_CURSO)
 
-by_year_semester_course_drawing_II_2 <- statistics(partial_data[partial_data$DISCIPLINA == "DESENHO TECNICO II",], "MEDIA_FINAL", ANO, COD_CURSO, PERIODO)
+by_year_semester_course_drawing_II_2 <- statistics(DT2_partial, "MEDIA_FINAL", ANO, COD_CURSO, PERIODO)
 
 # Third Part - Dataset 1 - Data Visualization
 
 x <- rep(1:length(unique(all_data$FORMA_EVASAO)))
 
 boxplot(MEDIA_FINAL ~ FORMA_EVASAO,
-        data = all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",],
+        data = DT1,
         main = "Disciplina de Desenho Tecnico I",
         xlab = "Formas de Evasão",
         ylab = "Media Final",
@@ -254,7 +218,7 @@ boxplot(MEDIA_FINAL ~ FORMA_EVASAO,
 )
 
 boxplot(MEDIA_FINAL ~ FORMA_EVASAO,
-        data = all_data[all_data$DISCIPLINA == "DESENHO TECNICO II",],
+        data = DT2,
         main = "Disciplina de Desenho Tecnico II",
         xlab = "Formas de Evasão",
         ylab = "Media Final",
@@ -325,7 +289,7 @@ x11(width = 13, height = 11.25)
 
 
 # Tech. Drawing I - violin plot + boxplot - by undergraduate course  
-fig <- ggplot(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], 
+fig <- ggplot(DT1, 
         aes(x = COD_CURSO, 
             y = MEDIA_FINAL, 
             fill = COD_CURSO)) +
@@ -362,7 +326,7 @@ savePlot(filename = "../images/figure1.png", type = "png", device = dev.cur())
 
 
 # Tech. Drawing I - violin plot + boxplot - by year
-fig <- ggplot(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], 
+fig <- ggplot(DT1, 
         aes(x = ANO, 
             y = MEDIA_FINAL, 
             fill = as.factor(ANO))) +
@@ -403,7 +367,7 @@ savePlot(filename = "../images/figure2.png", type = "png", device = dev.cur())
 
 
 # Tech. Drawing I - violin plot - by semester and year
-fig <- ggplot(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], 
+fig <- ggplot(DT1, 
         aes(x = as.factor(ANO), 
             y = MEDIA_FINAL, 
             fill = as.factor(PERIODO))) +
@@ -441,7 +405,7 @@ savePlot(filename = "../images/figure3.png", type = "png", device = dev.cur())
 
 
 # Tech. Drawing II - violin plot + boxplot - by undergraduate course  
-fig <- ggplot(all_data[all_data$DISCIPLINA == "DESENHO TECNICO II",], 
+fig <- ggplot(DT2, 
         aes(x = COD_CURSO, 
             y = MEDIA_FINAL, 
             fill = COD_CURSO)) +
@@ -481,7 +445,7 @@ savePlot(filename = "../images/figure4.png", type = "png", device = dev.cur())
 
 
 # Tech. Drawing II - violin plot + boxplot - by year
-fig <- ggplot(all_data[all_data$DISCIPLINA == "DESENHO TECNICO II",], 
+fig <- ggplot(DT2, 
         aes(x = ANO, 
             y = MEDIA_FINAL, 
             fill = as.factor(ANO), 
@@ -525,7 +489,7 @@ savePlot(filename = "../images/figure5.png", type = "png", device = dev.cur())
 
 
 # Tech. Drawing II - violin plot - by semester and year
-fig <- ggplot(all_data[all_data$DISCIPLINA == "DESENHO TECNICO II",], 
+fig <- ggplot(DT2, 
         aes(x = as.factor(ANO), 
             y = MEDIA_FINAL, 
             fill = as.factor(PERIODO))) +
@@ -560,7 +524,7 @@ savePlot(filename = "../images/figure6.png", type = "png", device = dev.cur())
 
 
 # Tech. Drawing I - violin plot + boxplot - by course (without who failed by attendance)
-fig <- ggplot(partial_data[partial_data$DISCIPLINA == "DESENHO TECNICO I",], 
+fig <- ggplot(DT1_partial, 
         aes(x = COD_CURSO, 
             y = MEDIA_FINAL, 
             fill = COD_CURSO)) +
@@ -599,7 +563,7 @@ savePlot(filename = "../images/figure7.png", type = "png", device = dev.cur())
 
 
 # Tech. Drawing I - violin plot + boxplot - by year (without who failed by attendance)
-fig <- ggplot(partial_data[partial_data$DISCIPLINA == "DESENHO TECNICO I",], 
+fig <- ggplot(DT1_partial, 
         aes(x = ANO, 
             y = MEDIA_FINAL, 
             fill = as.factor(ANO), 
@@ -640,7 +604,7 @@ savePlot(filename = "../images/figure8.png", type = "png", device = dev.cur())
 
 
 # Tech. Drawing I - violin plot - by semester and year (without who failed by attendance)
-fig <- ggplot(partial_data[partial_data$DISCIPLINA == "DESENHO TECNICO I",], 
+fig <- ggplot(DT1_partial, 
         aes(x = as.factor(ANO), 
             y = MEDIA_FINAL, 
             fill = as.factor(PERIODO))) +
@@ -678,7 +642,7 @@ savePlot(filename = "../images/figure9.png", type = "png", device = dev.cur())
 
 # Tech. Drawing II - violin plot + boxplot- by undergraduate course 
 # (without who failed by attendance)
-fig <- ggplot(partial_data[partial_data$DISCIPLINA == "DESENHO TECNICO II",], 
+fig <- ggplot(DT2_partial, 
         aes(x = COD_CURSO, 
             y = MEDIA_FINAL, 
             fill = COD_CURSO)) +
@@ -719,7 +683,7 @@ savePlot(filename = "../images/figure10.png", type = "png", device = dev.cur())
 
 
 # Tech. Drawing II - violin plot + boxplot - by year (without who failed by attendance)
-fig <- ggplot(partial_data[partial_data$DISCIPLINA == "DESENHO TECNICO II",], 
+fig <- ggplot(DT2_partial, 
         aes(x = ANO, 
             y = MEDIA_FINAL, 
             fill = as.factor(ANO), 
@@ -761,7 +725,7 @@ savePlot(filename = "../images/figure11.png", type = "png", device = dev.cur())
 
 
 # Tech. Drawing II - violin plot - by semester and year (without who failed by attendance)
-fig <- ggplot(partial_data[partial_data$DISCIPLINA == "DESENHO TECNICO II",], 
+fig <- ggplot(DT2_partial, 
         aes(x = as.factor(ANO), 
             y = MEDIA_FINAL, 
             fill = as.factor(PERIODO))) +
@@ -1223,7 +1187,7 @@ savePlot(filename = "../images/figure21.png", type = "png", device = dev.cur())
 
 # Density curve plot - without failed by attendance - grade by semester and year - technical drawing I
 
-fig1 <- ggplot(partial_data[partial_data$DISCIPLINA == "DESENHO TECNICO I",], 
+fig1 <- ggplot(DT1_partial, 
         aes(x = MEDIA_FINAL , 
             fill = as.factor(ANO), 
             colour = PERIODO)) +
@@ -1261,7 +1225,7 @@ savePlot(filename = "../images/figure22.png", type = "png", device = dev.cur())
 
 # Density curve plot - without failed by attendance - grade by semester and year - technical drawing II
 
-fig1 <- ggplot(partial_data[partial_data$DISCIPLINA == "DESENHO TECNICO II",], 
+fig1 <- ggplot(DT2_partial, 
         aes(x = MEDIA_FINAL , 
             fill = as.factor(ANO), 
             colour = PERIODO)) +
@@ -1339,9 +1303,10 @@ all_data$PERIODO[all_data$PERIODO == "1. Semestre"] <- 1
 all_data$PERIODO[all_data$PERIODO == "2. Semestre"] <- 2
 all_data$PERIODO <- as.factor(all_data$PERIODO)
 all_data$ANO <- as.factor(all_data$ANO)
+DT1 <- all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",]
 
 # Variance analysis
-aov_result <- aov(MEDIA_FINAL ~ ANO * PERIODO, data = all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",])
+aov_result <- aov(MEDIA_FINAL ~ ANO * PERIODO, data = DT1)
 
 # Normality of errors test
 shapiro.test(residuals(aov_result))
@@ -1361,89 +1326,96 @@ ggbackground(fig1, img)
 savePlot(filename = "../images/figure25.png", type = "png", device = dev.cur())
 
 # Homogeneity of Variance between the groups
-max(aggregate(MEDIA_FINAL ~ ANO + PERIODO, all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], var)$MEDIA_FINAL)/min(aggregate(MEDIA_FINAL ~ ANO + PERIODO, all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], var)$MEDIA_FINAL)
+max(aggregate(MEDIA_FINAL ~ ANO + PERIODO, DT1, var)$MEDIA_FINAL)/min(aggregate(MEDIA_FINAL ~ ANO + PERIODO, DT1, var)$MEDIA_FINAL)
 
-leveneTest(MEDIA_FINAL ~ ANO, all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], center = median)
-leveneTest(MEDIA_FINAL ~ PERIODO, all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], center = median)
-leveneTest(MEDIA_FINAL ~ ANO * PERIODO, all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], center = median)
+leveneTest(MEDIA_FINAL ~ ANO, DT1, center = median)
+leveneTest(MEDIA_FINAL ~ PERIODO, DT1, center = median)
+leveneTest(MEDIA_FINAL ~ ANO * PERIODO, DT1, center = median)
 
 # Distributions between the groups of years and semesters
 
-kruskal.test(MEDIA_FINAL ~ ANO, all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",])
-kruskal.test(MEDIA_FINAL ~ PERIODO, all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",])
-kruskal.test(MEDIA_FINAL ~ interaction(ANO, PERIODO), all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",])
+kruskal.test(MEDIA_FINAL ~ ANO, DT1)
+kruskal.test(MEDIA_FINAL ~ PERIODO, DT1)
+kruskal.test(MEDIA_FINAL ~ interaction(ANO, PERIODO), DT1)
 
 
-fig1 <- ggplot(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], aes(x = MEDIA_FINAL , fill = PERIODO, color = PERIODO)) +
+fig1 <- ggplot(DT1, aes(x = MEDIA_FINAL , fill = PERIODO, color = PERIODO)) +
         geom_density(alpha = 0.3, size = 1) +
         geom_vline(aes(xintercept = 6), color = "red", linetype = "dashed") +
-        scale_x_continuous(breaks = round(seq(min(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",]$MEDIA_FINAL), 
-                                              max(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",]$MEDIA_FINAL), 
+        scale_x_continuous(breaks = round(seq(min(DT1$MEDIA_FINAL), 
+                                              max(DT1$MEDIA_FINAL), 
                                               by = 5), 10)) +
         xlab("\nDistribuicao de Medias") + 
         ylab("\nDensidade de Medias\n") + 
         labs(fill = "Semestre", color = "Semestre") +
         ggtitle("\nDistribuicao das Medias em Desenho Tecnico I\n") +
         normal_theme +       
-        theme(strip.background = element_blank(), strip.text = element_blank(), axis.title = element_text(size = 25), 
-              plot.title = element_text(size = 30), axis.text = element_text(size = 15), 
-              legend.position = "bottom", legend.text = element_text(size = 18)) 
+        theme(axis.title = element_text(size = 25), 
+              plot.title = element_text(size = 30), 
+              axis.text = element_text(size = 15), 
+              legend.position = "bottom", 
+              legend.text = element_text(size = 18)) 
 
 ggbackground(fig1, img)
 savePlot(filename = "../images/figure26.png", type = "png", device = dev.cur())
 
 
-fig1 <- ggplot(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], aes(x = MEDIA_FINAL , fill = ANO, color = ANO)) +
+fig1 <- ggplot(DT1, aes(x = MEDIA_FINAL , fill = ANO, color = ANO)) +
   geom_density(alpha = 0.3, size = 1) +
   geom_vline(aes(xintercept = 6), color = "red", linetype = "dashed") +
-  scale_x_continuous(breaks = round(seq(min(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",]$MEDIA_FINAL), 
-                                        max(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",]$MEDIA_FINAL), 
+  scale_x_continuous(breaks = round(seq(min(DT1$MEDIA_FINAL), 
+                                        max(DT1$MEDIA_FINAL), 
                                         by = 5), 10)) +
   xlab("\nDistribuicao de Medias") + 
   ylab("\nDensidade de Medias\n") + 
-  labs(fill = "Semestre", color = "Semestre") +
+  labs(fill = "Ano", color = "Ano") +
   ggtitle("\nDistribuicao das Medias em Desenho Tecnico I\n") +
   normal_theme +       
-  theme(strip.background = element_blank(), strip.text = element_blank(), axis.title = element_text(size = 25), 
-        plot.title = element_text(size = 30), axis.text = element_text(size = 15), 
-        legend.position = "bottom", legend.text = element_text(size = 18)) +
+  theme(strip.background = element_blank(), 
+        strip.text = element_blank(), 
+        axis.title = element_text(size = 25), 
+        plot.title = element_text(size = 30), 
+        axis.text = element_text(size = 15), 
+        legend.position = "bottom", 
+        legend.text = element_text(size = 18)) +
   facet_wrap(. ~ ANO, nrow = 4)
 
 ggbackground(fig1, img)
 savePlot(filename = "../images/figure27.png", type = "png", device = dev.cur())
 
 
-fig1 <- ggplot(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], aes(x = MEDIA_FINAL , fill = ANO, color = PERIODO)) +
+fig1 <- ggplot(DT1, aes(x = MEDIA_FINAL , fill = ANO, color = PERIODO)) +
   geom_density(alpha = 0.7, size = 1) +
   geom_vline(aes(xintercept = 6), color = "red", linetype = "dashed") +
-  scale_x_continuous(breaks = round(seq(min(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",]$MEDIA_FINAL), 
-                                        max(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",]$MEDIA_FINAL), 
+  scale_x_continuous(breaks = round(seq(min(DT1$MEDIA_FINAL), 
+                                        max(DT1$MEDIA_FINAL), 
                                         by = 5), 10)) +
   xlab("\nDistribuicao de Medias") + 
   ylab("\nDensidade de Medias\n") + 
-  labs(fill = "Semestre", color = "Semestre") +
+  labs(fill = "Ano", color = "Semestre") +
   ggtitle("\nDistribuicao das Medias em Desenho I\n") +
   normal_theme +       
-  theme(strip.background = element_blank(), strip.text = element_blank(), axis.title = element_text(size = 18), 
-        plot.title = element_text(size = 30), axis.text = element_text(size = 15), 
-        legend.position = "bottom", legend.text = element_text(size = 15)) +
+  theme(strip.background = element_blank(), 
+        strip.text = element_blank(), 
+        axis.title = element_text(size = 18), 
+        plot.title = element_text(size = 30), 
+        axis.text = element_text(size = 15), 
+        legend.position = "bottom", 
+        legend.text = element_text(size = 15)) +
   facet_wrap(ANO ~ PERIODO, nrow = 5)
   
 ggbackground(fig1, img)
 savePlot(filename = "../images/figure28.png", type = "png", device = dev.cur())
 
 
-
-
-
-multiVDA(MEDIA_FINAL ~ ANO, data = all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",])
-multiVDA(MEDIA_FINAL ~ PERIODO, data = all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",])
-multiVDA(MEDIA_FINAL ~ SEX, data = all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",])
-multiVDA(MEDIA_FINAL ~ COD_CURSO, data = all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",])
+multiVDA(MEDIA_FINAL ~ ANO, data = DT1)
+multiVDA(MEDIA_FINAL ~ PERIODO, data = DT1)
+multiVDA(MEDIA_FINAL ~ SEX, data = DT1)
+multiVDA(MEDIA_FINAL ~ COD_CURSO, data = DT1)
 
 options("scipen" = 100, "digits" = 4)
 PT = dunnTest(MEDIA_FINAL ~ ANO,
-          data = all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",],
+          data = DT1,
           method = "bh") 
 
 O <- cldList(P.adj ~ Comparison,
@@ -1461,7 +1433,7 @@ fig <- ggplot(O, aes(x = Letter, y = Group, fill = Letter, color = Letter)) +
 ggbackground(fig, img)
 savePlot(filename = "../images/figure29.png", type = "png", device = dev.cur())
   
-merged_data <- transform(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], ANO_PERIODO = paste(ANO, '.', PERIODO))
+merged_data <- transform(DT1, ANO_PERIODO = paste(ANO, '.', PERIODO))
 
 PT = dunnTest(MEDIA_FINAL ~ ANO_PERIODO,
               data = merged_data,
@@ -1488,10 +1460,11 @@ savePlot(filename = "../images/figure30.png", type = "png", device = dev.cur())
 
 
 
-
+# Technical Drawing II
+DT2 <- all_data[all_data$DISCIPLINA == "DESENHO TECNICO II",]
 
 # Variance analysis
-aov_result <- aov(MEDIA_FINAL ~ ANO * PERIODO, data = all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",])
+aov_result <- aov(MEDIA_FINAL ~ ANO * PERIODO, data = DT2)
 
 # Normality of errors test
 shapiro.test(residuals(aov_result))
@@ -1500,7 +1473,7 @@ res <- as.data.frame(residuals(aov_result))
 colnames(res)[1] <- "value"
 
 fig1 <- ggplot(data = res, aes(value)) + 
-  geom_histogram(color = "yellow") +
+  geom_histogram(color = "blue") +
   ggtitle("\nHistograma de Residuos\n") +
   ylab("\nFrequencia\n") + 
   xlab("\nResiduo\n") + 
@@ -1508,110 +1481,95 @@ fig1 <- ggplot(data = res, aes(value)) +
   normal_theme      
 
 ggbackground(fig1, img)
-savePlot(filename = "../images/figure25.png", type = "png", device = dev.cur())
+savePlot(filename = "../images/figure31.png", type = "png", device = dev.cur())
 
 # Homogeneity of Variance between the groups
-max(aggregate(MEDIA_FINAL ~ ANO + PERIODO, all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], var)$MEDIA_FINAL)/min(aggregate(MEDIA_FINAL ~ ANO + PERIODO, all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], var)$MEDIA_FINAL)
+max(aggregate(MEDIA_FINAL ~ ANO + PERIODO, DT2, var)$MEDIA_FINAL)/min(aggregate(MEDIA_FINAL ~ ANO + PERIODO, DT2, var)$MEDIA_FINAL)
 
-leveneTest(MEDIA_FINAL ~ ANO, all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], center = median)
-leveneTest(MEDIA_FINAL ~ PERIODO, all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], center = median)
-leveneTest(MEDIA_FINAL ~ ANO * PERIODO, all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], center = median)
+leveneTest(MEDIA_FINAL ~ ANO,DT2, center = median)
+leveneTest(MEDIA_FINAL ~ PERIODO,DT2, center = median)
+leveneTest(MEDIA_FINAL ~ ANO * PERIODO, DT2, center = median)
 
 # Distributions between the groups of years and semesters
 
-kruskal.test(MEDIA_FINAL ~ ANO, all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",])
-kruskal.test(MEDIA_FINAL ~ PERIODO, all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",])
-kruskal.test(MEDIA_FINAL ~ interaction(ANO, PERIODO), all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",])
+kruskal.test(MEDIA_FINAL ~ ANO, DT2)
+kruskal.test(MEDIA_FINAL ~ PERIODO, DT2)
+kruskal.test(MEDIA_FINAL ~ interaction(ANO, PERIODO), DT2)
 
-
-fig1 <- ggplot(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], aes(x = MEDIA_FINAL , fill = PERIODO, color = PERIODO)) +
+fig1 <- ggplot(DT2, aes(x = MEDIA_FINAL , fill = PERIODO, color = PERIODO)) +
   geom_density(alpha = 0.3, size = 1) +
   geom_vline(aes(xintercept = 6), color = "red", linetype = "dashed") +
-  scale_x_continuous(breaks = round(seq(min(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",]$MEDIA_FINAL), 
-                                        max(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",]$MEDIA_FINAL), 
+  scale_x_continuous(breaks = round(seq(min(DT2$MEDIA_FINAL), 
+                                        max(DT2$MEDIA_FINAL), 
                                         by = 5), 10)) +
   xlab("\nDistribuicao de Medias") + 
   ylab("\nDensidade de Medias\n") + 
   labs(fill = "Semestre", color = "Semestre") +
-  ggtitle("\nDistribuicao das Medias em Desenho Tecnico I\n") +
+  ggtitle("\nDistribuicao das Medias em Desenho Tecnico II\n") +
   normal_theme +       
-  theme(strip.background = element_blank(), strip.text = element_blank(), axis.title = element_text(size = 25), 
-        plot.title = element_text(size = 30), axis.text = element_text(size = 15), 
-        legend.position = "bottom", legend.text = element_text(size = 18)) 
+  theme(axis.title = element_text(size = 25), 
+        plot.title = element_text(size = 30), 
+        axis.text = element_text(size = 15), 
+        legend.position = "bottom", 
+        legend.text = element_text(size = 18)) 
 
 ggbackground(fig1, img)
-savePlot(filename = "../images/figure26.png", type = "png", device = dev.cur())
+savePlot(filename = "../images/figure32.png", type = "png", device = dev.cur())
 
 
-fig1 <- ggplot(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], aes(x = MEDIA_FINAL , fill = ANO, color = ANO)) +
+fig1 <- ggplot(DT2, aes(x = MEDIA_FINAL , fill = ANO, color = ANO)) +
   geom_density(alpha = 0.3, size = 1) +
   geom_vline(aes(xintercept = 6), color = "red", linetype = "dashed") +
-  scale_x_continuous(breaks = round(seq(min(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",]$MEDIA_FINAL), 
-                                        max(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",]$MEDIA_FINAL), 
+  scale_x_continuous(breaks = round(seq(min(DT2$MEDIA_FINAL), 
+                                        max(DT2$MEDIA_FINAL), 
                                         by = 5), 10)) +
   xlab("\nDistribuicao de Medias") + 
   ylab("\nDensidade de Medias\n") + 
   labs(fill = "Semestre", color = "Semestre") +
-  ggtitle("\nDistribuicao das Medias em Desenho Tecnico I\n") +
+  ggtitle("\nDistribuicao das Medias em Desenho Tecnico II\n") +
   normal_theme +       
-  theme(strip.background = element_blank(), strip.text = element_blank(), axis.title = element_text(size = 25), 
-        plot.title = element_text(size = 30), axis.text = element_text(size = 15), 
-        legend.position = "bottom", legend.text = element_text(size = 18)) +
+  theme(strip.background = element_blank(), 
+        strip.text = element_blank(), 
+        axis.title = element_text(size = 25), 
+        plot.title = element_text(size = 30), 
+        axis.text = element_text(size = 15), 
+        legend.position = "bottom", 
+        legend.text = element_text(size = 18)) +
   facet_wrap(. ~ ANO, nrow = 4)
 
 ggbackground(fig1, img)
-savePlot(filename = "../images/figure27.png", type = "png", device = dev.cur())
+savePlot(filename = "../images/figure33.png", type = "png", device = dev.cur())
 
 
-fig1 <- ggplot(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], aes(x = MEDIA_FINAL , fill = ANO, color = PERIODO)) +
+fig1 <- ggplot(DT2, aes(x = MEDIA_FINAL , fill = ANO, color = PERIODO)) +
   geom_density(alpha = 0.7, size = 1) +
   geom_vline(aes(xintercept = 6), color = "red", linetype = "dashed") +
-  scale_x_continuous(breaks = round(seq(min(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",]$MEDIA_FINAL), 
-                                        max(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",]$MEDIA_FINAL), 
+  scale_x_continuous(breaks = round(seq(min(DT2$MEDIA_FINAL), 
+                                        max(DT2$MEDIA_FINAL), 
                                         by = 5), 10)) +
   xlab("\nDistribuicao de Medias") + 
   ylab("\nDensidade de Medias\n") + 
-  labs(fill = "Semestre", color = "Semestre") +
-  ggtitle("\nDistribuicao das Medias em Desenho I\n") +
+  labs(fill = "Ano", color = "Semestre") +
+  ggtitle("\nDistribuicao das Medias em Desenho II\n") +
   normal_theme +       
-  theme(strip.background = element_blank(), strip.text = element_blank(), axis.title = element_text(size = 18), 
-        plot.title = element_text(size = 30), axis.text = element_text(size = 15), 
-        legend.position = "bottom", legend.text = element_text(size = 15)) +
+  theme(strip.background = element_blank(), 
+        strip.text = element_blank(), 
+        axis.title = element_text(size = 18), 
+        plot.title = element_text(size = 30), 
+        axis.text = element_text(size = 15), 
+        legend.position = "bottom", 
+        legend.text = element_text(size = 15)) +
   facet_wrap(ANO ~ PERIODO, nrow = 5)
 
 ggbackground(fig1, img)
-savePlot(filename = "../images/figure28.png", type = "png", device = dev.cur())
+savePlot(filename = "../images/figure34.png", type = "png", device = dev.cur())
 
+multiVDA(MEDIA_FINAL ~ ANO, data = DT2)
+multiVDA(MEDIA_FINAL ~ PERIODO, data = DT2)
+multiVDA(MEDIA_FINAL ~ SEX, data = DT2)
+multiVDA(MEDIA_FINAL ~ COD_CURSO, data = DT2)
 
-
-
-
-multiVDA(MEDIA_FINAL ~ ANO, data = all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",])
-multiVDA(MEDIA_FINAL ~ PERIODO, data = all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",])
-multiVDA(MEDIA_FINAL ~ SEX, data = all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",])
-multiVDA(MEDIA_FINAL ~ COD_CURSO, data = all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",])
-
-options("scipen" = 100, "digits" = 4)
-PT = dunnTest(MEDIA_FINAL ~ ANO,
-              data = all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",],
-              method = "bh") 
-
-O <- cldList(P.adj ~ Comparison,
-             data = PT$res,
-             threshold = 0.05,
-             remove.zero = FALSE)
-
-fig <- ggplot(O, aes(x = Letter, y = Group, fill = Letter, color = Letter)) +
-  xlab("\nGrupo\n") +
-  ylab("\nAno\n") +
-  labs(fill = "Grupo", color = "Grupo") +
-  geom_point(size = 4) +
-  normal_theme
-
-ggbackground(fig, img)
-savePlot(filename = "../images/figure29.png", type = "png", device = dev.cur())
-
-merged_data <- transform(all_data[all_data$DISCIPLINA == "DESENHO TECNICO I",], ANO_PERIODO = paste(ANO, '.', PERIODO))
+merged_data <- transform(DT2, ANO_PERIODO = paste(ANO, '.', PERIODO))
 
 PT = dunnTest(MEDIA_FINAL ~ ANO_PERIODO,
               data = merged_data,
@@ -1634,7 +1592,7 @@ fig <- ggplot(O, aes(x = Letter, y = Group, fill = Letter, color = Letter)) +
         legend.text = element_text(size = 15)) 
 
 ggbackground(fig, img)
-savePlot(filename = "../images/figure30.png", type = "png", device = dev.cur())
+savePlot(filename = "../images/figure35.png", type = "png", device = dev.cur())
 
 
 
