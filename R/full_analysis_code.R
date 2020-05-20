@@ -273,6 +273,7 @@ x11(width = 11, height = 11)
 
 # Tech. Drawing I - violin plot+boxplot - by undergraduate course  
 fig <- ggplot(DT1, aes(x = COD_CURSO, y = MEDIA_FINAL, fill = COD_CURSO)) +
+        stat_n_text(color = "white", size = 6) + 
         geom_violin(trim = TRUE) + 
         geom_boxplot(color = "black",  width = 0.1, outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) + 
         geom_segment(aes(x = 0, y = 6, xend = 7, yend = 6), linetype = "dotted", colour = "red") +
@@ -288,6 +289,7 @@ savePlot(filename = "../images/figure1.png", type = "png", device = dev.cur())
 
 # Tech. Drawing I - violin plot + boxplot - by year
 fig <- ggplot(DT1,aes(x = ANO, y = MEDIA_FINAL, fill = as.factor(ANO))) +
+        stat_n_text(color = "white", size = 5) +
         geom_violin(trim = TRUE)+ 
         geom_boxplot(color = "black", width = 0.1, outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) + 
         geom_segment(aes(x = 2007, y = 6, xend = 2019, yend = 6), linetype = "dotted", colour = "red") +
@@ -297,13 +299,15 @@ fig <- ggplot(DT1,aes(x = ANO, y = MEDIA_FINAL, fill = as.factor(ANO))) +
         ylab("\nMedia Final\n") + 
         labs(fill = "Ano") + 
         ggtitle("\nDesenho Tecnico I\n") +
-        normal_theme
+        normal_theme +
+        theme(legend.position = "bottom")
 
 ggbackground(fig, img)
 savePlot(filename = "../images/figure2.png", type = "png", device = dev.cur())
 
 # Tech. Drawing I - violin plot - by semester and year
 fig <- ggplot(DT1, aes(x = as.factor(ANO), y = MEDIA_FINAL, fill = as.factor(PERIODO))) +
+        stat_n_text(color = "white", size = 5) +
         geom_violin(trim = TRUE) +
         geom_segment(aes(x = 0, y = 6, xend = 13, yend = 6), linetype = "dotted", colour = "red") +
         scale_y_continuous(breaks = seq(0, 10, by = 1)) +
@@ -319,6 +323,7 @@ savePlot(filename = "../images/figure3.png", type = "png", device = dev.cur())
 
 # Tech. Drawing II - violin plot+boxplot-by undergraduate course  
 fig <- ggplot(DT2, aes(x = COD_CURSO, y = MEDIA_FINAL, fill = COD_CURSO)) +
+        stat_n_text(color = "white", size = 6) +
         geom_violin(trim = TRUE) + 
         geom_boxplot(color = "black", width = 0.1, outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) + 
         geom_segment(aes(x = 0,  y = 6, xend = 7, yend = 6), linetype = "dotted", colour = "red") +
@@ -334,6 +339,7 @@ savePlot(filename = "../images/figure4.png", type = "png", device = dev.cur())
 
 # Tech. Drawing II - violin plot + boxplot - by year
 fig <- ggplot(DT2, aes(x = ANO,  y = MEDIA_FINAL, fill = as.factor(ANO), group = ANO)) +
+        stat_n_text(color = "white", size = 5) +
         geom_violin(trim = TRUE)+ 
         geom_boxplot(color = "black",  width = 0.1, outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) + 
         geom_segment(aes(x = 2007, y = 6, xend = 2019, yend = 6), linetype = "dotted", colour = "red") +
@@ -343,13 +349,15 @@ fig <- ggplot(DT2, aes(x = ANO,  y = MEDIA_FINAL, fill = as.factor(ANO), group =
         ylab("\nMedia Final\n") + 
         labs(fill = "Ano") + 
         ggtitle("\nDesenho Tecnico II\n") +
-        normal_theme
+        normal_theme +
+        theme(legend.position = "bottom")
 
 ggbackground(fig, img)
 savePlot(filename = "../images/figure5.png", type = "png", device = dev.cur())
 
 # Tech. Drawing II - violin plot - by semester and year
 fig <- ggplot(DT2, aes(x = as.factor(ANO), y = MEDIA_FINAL, fill = as.factor(PERIODO))) +
+        stat_n_text(color = "white", size = 5) +
         geom_violin(trim = TRUE) +
         geom_segment(aes(x = 0, y = 6,  xend = 13, yend = 6), linetype = "dotted", colour = "red") +
         scale_y_continuous(breaks = seq(0, 10, by = 1)) +
@@ -365,6 +373,7 @@ savePlot(filename = "../images/figure6.png", type = "png", device = dev.cur())
 
 # Tech. Drawing I - violin plot + boxplot - by course (without who failed by attendance)
 fig <- ggplot(DT1_partial, aes(x = COD_CURSO, y = MEDIA_FINAL, fill = COD_CURSO)) +
+        stat_n_text(color = "white", size = 6) +
         geom_violin(trim = TRUE) + 
         geom_boxplot(color = "black", width = 0.1, outlier.shape = 21, outlier.size = 2, outlier.fill = "white",  show.legend = FALSE) + 
         geom_segment(aes(x = 0, y = 6, xend = 7, yend = 6), linetype = "dotted", colour = "red") +
@@ -380,6 +389,7 @@ savePlot(filename = "../images/figure7.png", type = "png", device = dev.cur())
 
 # Tech. Drawing I - violin plot + boxplot - by year (without who failed by attendance)
 fig <- ggplot(DT1_partial, aes(x = ANO, y = MEDIA_FINAL, fill = as.factor(ANO), group = ANO)) +
+        stat_n_text(color = "white", size = 5) +
         geom_violin(trim = TRUE)+ 
         geom_boxplot(color = "black", width = 0.1, outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) + 
         geom_segment(aes(x = 2007, y = 6, xend = 2019, yend = 6), linetype = "dotted", colour = "red") +
@@ -389,13 +399,15 @@ fig <- ggplot(DT1_partial, aes(x = ANO, y = MEDIA_FINAL, fill = as.factor(ANO), 
         ylab("\nMedia Final\n") + 
         labs(fill = "Ano") + 
         ggtitle("\nMedias em Desenho Tecnico I", subtitle = "Sem reprovados por frequencia\n") +
-        normal_theme
+        normal_theme +
+        theme(legend.position = "bottom")
 
 ggbackground(fig, img)
 savePlot(filename = "../images/figure8.png", type = "png", device = dev.cur())
 
 # Tech. Drawing I - violin plot - by semester and year (without who failed by attendance)
 fig <- ggplot(DT1_partial, aes(x = as.factor(ANO), y = MEDIA_FINAL, fill = as.factor(PERIODO))) +
+        stat_n_text(color = "white", size = 5) +
         geom_violin(trim = TRUE) + 
         geom_segment(aes(x = 0, y = 6, xend = 13, yend = 6), linetype = "dotted", colour = "red") +
         scale_y_continuous(breaks = seq(0, 10, by = 1)) +
@@ -412,6 +424,7 @@ savePlot(filename = "../images/figure9.png", type = "png", device = dev.cur())
 
 # Tech. Drawing II - violin plot+boxplot- by undergraduate course (without who failed by attendance)
 fig <- ggplot(DT2_partial, aes(x = COD_CURSO, y = MEDIA_FINAL, fill = COD_CURSO)) +
+        stat_n_text(color = "white", size = 6) +
         geom_violin(trim = TRUE)+ 
         geom_boxplot(color = "black", width = 0.1, outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) + 
         geom_segment(aes(x = 0, y = 6, xend = 7, yend = 6), linetype = "dotted", colour = "red") +
@@ -428,6 +441,7 @@ savePlot(filename = "../images/figure10.png", type = "png", device = dev.cur())
 
 # Tech. Drawing II - violin plot + boxplot - by year (without who failed by attendance)
 fig <- ggplot(DT2_partial, aes(x = ANO, y = MEDIA_FINAL, fill = as.factor(ANO), group = ANO)) +
+        stat_n_text(color = "white", size = 5) +
         geom_violin(trim = TRUE)+ 
         geom_boxplot(color = "black", width = 0.1, outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) + 
         geom_segment(aes(x = 2007, y = 6, xend = 2019, yend = 6), linetype = "dotted", colour = "red") +
@@ -437,13 +451,15 @@ fig <- ggplot(DT2_partial, aes(x = ANO, y = MEDIA_FINAL, fill = as.factor(ANO), 
         ylab("\nMedia Final\n") + 
         labs(fill = "Ano") + 
         ggtitle("\nMedias em Desenho Tecnico II", subtitle = "Sem reprovados por frequencia\n") +
-        normal_theme
+        normal_theme +
+        theme(legend.position = "bottom")
 
 ggbackground(fig, img)
 savePlot(filename = "../images/figure11.png", type = "png", device = dev.cur())
 
 # Tech. Drawing II - violin plot - by semester and year (without who failed by attendance)
 fig <- ggplot(DT2_partial, aes(x = as.factor(ANO), y = MEDIA_FINAL, fill = as.factor(PERIODO))) +
+        stat_n_text(color = "white", size = 5) +
         geom_violin(trim = TRUE) +
         geom_segment(aes(x = 0, y = 6, xend = 13, yend = 6), linetype = "dotted", colour = "red") +
         scale_y_continuous(breaks = seq(0, 10, by = 1)) +
