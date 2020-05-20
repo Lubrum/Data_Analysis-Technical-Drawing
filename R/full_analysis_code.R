@@ -7,6 +7,9 @@ library(dplyr)
 if (!require(ggplot2)) install.packages("ggplot2")
 library(ggplot2)
 
+if (!require(EnvStats)) install.packages("EnvStats")
+library(EnvStats)
+
 if (!require(ggpubr)) install.packages("ggpubr")
 library(ggpubr)
 
@@ -204,6 +207,13 @@ by_year_drawing_II_2 <- statistics(DT2_partial, "MEDIA_FINAL", ANO)
 by_year_course_drawing_II_2 <- statistics(DT2_partial, "MEDIA_FINAL", ANO, COD_CURSO)
 
 by_year_semester_course_drawing_II_2 <- statistics(DT2_partial, "MEDIA_FINAL", ANO, COD_CURSO, PERIODO)
+
+DT1 %>% group_by(COD_CURSO) %>% tally()
+DT1 %>% group_by(ANO) %>% tally()
+DT1 %>% group_by(ANO, PERIODO) %>% tally()
+DT2 %>% group_by(COD_CURSO) %>% tally()
+DT2 %>% group_by(ANO) %>% tally()
+DT2 %>% group_by(ANO, PERIODO) %>% tally()
 
 # Third Part - Dataset 1 - Data Visualization
 
