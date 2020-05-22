@@ -132,7 +132,7 @@ df2_by_year_drawing_I <- statistics(DT1, "MEDIA_FINAL", ANO)
 df2_by_year_course_drawing_I <- statistics(DT1, "MEDIA_FINAL", ANO, CURSO)
 
 df2_by_year_semester_course_drawing_I <- statistics(DT1, "MEDIA_FINAL", ANO, CURSO, PERIODO)
-  
+
 df2_by_year_semester_class_drawing_I <- statistics(DT1, "MEDIA_FINAL", ANO, PERIODO, TURMA)
 
 df2_by_course_drawing_II <- statistics(DT2, "MEDIA_FINAL", CURSO)
@@ -145,7 +145,7 @@ df2_by_year_semester_course_drawing_II <- statistics(DT2, "MEDIA_FINAL", ANO, CU
 
 df2_by_year_semester_class_drawing_II <- statistics(DT2, "MEDIA_FINAL", ANO, PERIODO, TURMA)
 
-partial_data <- all_data_II[!(all_data_II$SITUACAO == "Reprovado por frequencia"),]
+partial_data <- all_data_II[!(all_data_II$SITUACAO == "Reprovado por Frequência"),]
 DT1_partial <- partial_data[partial_data$DISCIPLINA == "DESENHO TECNICO I",]
 DT2_partial <- partial_data[partial_data$DISCIPLINA == "DESENHO TECNICO II",]
 
@@ -184,8 +184,8 @@ showtext_auto()
 
 #dark theme
 normal_theme <- theme(
-  axis.text = element_text(family = font_family, size = 16, color = "#cccccc"),
-  axis.title = element_text(family = font_family, size = 20, color = "#cccccc"),
+  axis.text = element_text(family = font_family, size = 22, color = "#cccccc"),
+  axis.title = element_text(family = font_family, size = 30, color = "#cccccc"),
   axis.ticks = element_line(colour = "#cccccc"),
   axis.ticks.length = unit(0.5, "cm"),
   plot.caption = element_text(family = font_family, size = 16, color = "#cccccc"),
@@ -201,126 +201,211 @@ normal_theme <- theme(
   legend.key = element_rect(fill = "black"),
   legend.text = element_text(family = font_family, size = 20, color = "#cccccc"),
   text = element_text(family = font_family, color = "#cccccc", size = 22)
-  )
+)
 
 # Manually open a graphics device if you run this code in RStudio
 x11(width = 11, height = 11)
 
 fig <- ggplot(DT1, aes(x = CURSO, y = MEDIA_FINAL, fill = CURSO)) +
-        geom_violin(trim = TRUE) + 
-        geom_boxplot(color = "black",  width = 0.1, outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) + 
-        stat_n_text(color = "white", size = 8) + 
-        geom_segment(aes(x = 0, y = 6, xend = 7, yend = 6), linetype = "dotted", colour = "red") +
-        scale_y_continuous(breaks = seq(0, 10, by = 1)) +
-        xlab("\nCurso\n") + 
-        ylab("\nMedia Final\n") + 
-        labs(fill = "Curso") +
-        ggtitle("\nDesenho Tecnico I\n") + 
-        normal_theme
+  geom_violin(trim = TRUE) + 
+  geom_boxplot(color = "black",  width = 0.1, outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) + 
+  stat_n_text(color = "white", size = 8) + 
+  geom_segment(aes(x = 0, y = 6, xend = 7, yend = 6), linetype = "dotted", colour = "red", size = 0.25) +
+  scale_y_continuous(breaks = seq(0, 10, by = 1)) +
+  xlab("\nCurso\n") + 
+  ylab("\nMedia Final\n") + 
+  labs(fill = "Curso") +
+  ggtitle("\nMedias finais em Desenho Tecnico I\n") + 
+  normal_theme
 
 ggbackground(fig, img)
 savePlot(filename = "../images/figure_specific_1.png", type = "png", device = dev.cur())
 
-ggplot(DT1, 
-       aes(x = as.factor(ANO), y = MEDIA_FINAL, fill = as.factor(ANO))) +
+fig <- ggplot(DT1, aes(x = as.factor(ANO), y = MEDIA_FINAL, fill = as.factor(ANO))) +
   geom_violin(trim = TRUE) + 
-  geom_boxplot(width = 0.1) + 
-  geom_segment(aes(x = 0, y = 6, xend = 10, yend = 6), linetype = "dotted", colour = "red") +
+  geom_boxplot(width = 0.1, outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) + 
+  stat_n_text(color = "white", size = 6) +
+  geom_segment(aes(x = 0, y = 6, xend = 10, yend = 6), linetype = "dotted", colour = "red", size = 0.25) +
   scale_y_continuous(breaks = seq(0, 10, by = 1)) +
-  xlab("ANO") + ylab("Media Final") + labs(fill = "ANO") + ggtitle("Desempenho dos Estudantes em Desenho Tecnico I") +
-  theme(plot.title = element_text(hjust = 0.5))
+  xlab("\nAno\n") + 
+  ylab("\nMedia Final\n") + 
+  labs(fill = "Ano") + 
+  ggtitle("\nMedias finais em Desenho Tecnico I\n") +
+  normal_theme
 
-ggplot(DT1, 
-       aes(x = as.factor(ANO), y = MEDIA_FINAL, fill = as.factor(PERIODO))) +
+ggbackground(fig, img)
+savePlot(filename = "../images/figure_specific_2.png", type = "png", device = dev.cur())
+
+fig <- ggplot(DT1, aes(x = as.factor(ANO), y = MEDIA_FINAL, fill = as.factor(PERIODO))) +
   geom_violin(trim = TRUE) +
-  geom_boxplot(width = 0.1, position = position_dodge(width = 0.9)) + 
-  geom_segment(aes(x = 0, y = 6, xend = 10, yend = 6), linetype = "dotted", colour = "red") +
+  geom_boxplot(width = 0.1, position = position_dodge(width = 0.9), outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) + 
+  stat_n_text(color = "white", size = 6) +
+  geom_segment(aes(x = 0, y = 6, xend = 10, yend = 6), linetype = "dotted", colour = "red", size = 0.25) +
   scale_y_continuous(breaks = seq(0, 10, by = 1)) +
   theme(legend.position = "bottom") +
-  xlab("ANO") + ylab("Media Final") + labs(fill = "PERIODO") + ggtitle("Desempenho dos Estudantes em Desenho Tecnico I") +
-  theme(plot.title = element_text(hjust = 0.5))
+  xlab("\nAno\n") + 
+  ylab("\nMedia Final\n") + 
+  labs(fill = "PERIODO") + 
+  ggtitle("\nMedias finais em Desenho Tecnico I\n") +
+  normal_theme
 
-ggplot(DT2, 
-       aes(x = CURSO, y = MEDIA_FINAL, fill = CURSO)) +
+ggbackground(fig, img)
+savePlot(filename = "../images/figure_specific_3.png", type = "png", device = dev.cur())
+
+fig <- ggplot(DT2, 
+  aes(x = CURSO, y = MEDIA_FINAL, fill = CURSO)) +
   geom_violin(trim = TRUE)+ 
-  geom_boxplot(width = 0.1) + 
-  geom_segment(aes(x = 0, y = 6, xend = 7, yend = 6), linetype = "dotted", colour = "red") +
+  geom_boxplot(width = 0.1, outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) + 
+  stat_n_text(color = "white", size = 6) +
+  geom_segment(aes(x = 0, y = 6, xend = 7, yend = 6), linetype = "dotted", colour = "red", size = 0.25) +
   scale_y_continuous(breaks = seq(0, 10, by = 1)) +
-  xlab("CURSO") + ylab("Media Final") + labs(fill = "CURSO") + ggtitle("Desempenho dos Estudantes em Desenho Tecnico II") +
-  theme(plot.title = element_text(hjust = 0.5))
+  xlab("\nCurso\n") + 
+  ylab("\nMedia Final\n") + 
+  labs(fill = "CURSO") + 
+  ggtitle("\nMedias finais em Desenho Tecnico II\n") +
+  normal_theme
 
-ggplot(DT2, 
-       aes(x = as.factor(ANO), y = MEDIA_FINAL, fill = as.factor(ANO))) +
+ggbackground(fig, img)
+savePlot(filename = "../images/figure_specific_4.png", type = "png", device = dev.cur())
+
+fig <- ggplot(DT2, 
+  aes(x = as.factor(ANO), y = MEDIA_FINAL, fill = as.factor(ANO))) +
   geom_violin(trim = TRUE)+ 
-  geom_boxplot(width = 0.05) + 
-  geom_segment(aes(x = 0, y = 6, xend = 13, yend = 6), linetype = "dotted", colour = "red") +
+  geom_boxplot(width = 0.05, outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) + 
+  stat_n_text(color = "white", size = 6) +
+  geom_segment(aes(x = 0, y = 6, xend = 13, yend = 6), linetype = "dotted", colour = "red", size = 0.25) +
   scale_y_continuous(breaks = seq(0, 10, by = 1)) +
-  xlab("ANO") + ylab("Media Final") + labs(fill = "ANO") + ggtitle("Desempenho dos Estudantes em Desenho Tecnico II") +
-  theme(plot.title = element_text(hjust = 0.5))
+  xlab("\nAno\n") + 
+  ylab("\nMedia Final\n") + 
+  labs(fill = "ANO") + 
+  ggtitle("\nMedias finais em Desenho Tecnico II\n") +
+  theme(axis.text.x = element_text(size = 15)) + 
+  normal_theme
 
-ggplot(DT2, 
-       aes(x = as.factor(ANO), y = MEDIA_FINAL, fill = as.factor(PERIODO))) +
-  geom_boxplot(width = 0.4, position = position_dodge(width = 0.9)) +
-  geom_segment(aes(x = 0, y = 6, xend = 13, yend = 6), linetype = "dotted", colour = "red") +
+ggbackground(fig, img)
+savePlot(filename = "../images/figure_specific_5.png", type = "png", device = dev.cur())
+
+fig <- ggplot(DT2, 
+  aes(x = as.factor(ANO), y = MEDIA_FINAL, fill = as.factor(PERIODO))) +
+  geom_boxplot(width = 0.4, position = position_dodge(width = 0.9), outlier.shape = 21, outlier.size = 2, outlier.fill = "white") +
+  stat_n_text(color = "white", size = 6) +
+  geom_segment(aes(x = 0, y = 6, xend = 13, yend = 6), linetype = "dotted", colour = "red", size = 0.25) +
   scale_y_continuous(breaks = seq(0, 10, by = 1)) +
-  theme(legend.position = "bottom") +
-  xlab("ANO") + ylab("Media Final") + labs(fill = "PERIODO") + ggtitle("Desempenho dos Estudantes em Desenho Tecnico II") +
-  theme(plot.title = element_text(hjust = 0.5))
+  xlab("\nAno\n") + 
+  ylab("\nMedia Final\n") + 
+  labs(fill = "PERIODO") + 
+  ggtitle("\nMedias finais em Desenho Tecnico II\n") +
+  theme(plot.title = element_text(hjust = 0.5), legend.position = "bottom") + 
+  normal_theme 
 
-ggplot(DT1_partial, 
-       aes(x = CURSO, y = MEDIA_FINAL, fill = CURSO)) +
+ggbackground(fig, img)
+savePlot(filename = "../images/figure_specific_6.png", type = "png", device = dev.cur())
+
+fig <- ggplot(DT1_partial, 
+  aes(x = CURSO, y = MEDIA_FINAL, fill = CURSO)) +
   geom_violin(trim = TRUE) + 
-  geom_boxplot(width = 0.1) +
-  geom_segment(aes(x = 0, y = 6, xend = 7, yend = 6), linetype = "dotted", colour = "red") +
+  geom_boxplot(width = 0.1, outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) +
+  stat_n_text(color = "white", size = 6) +
+  geom_segment(aes(x = 0, y = 6, xend = 7, yend = 6), linetype = "dotted", colour = "red", size = 0.25) +
   scale_y_continuous(breaks = seq(0, 10, by = 1)) + 
-  xlab("CURSO") + ylab("Media Final") + labs(fill = "CURSO") + ggtitle("Desempenho dos Estudantes em Desenho Tecnico I (Sem reprovados por frequencia)") +
-  theme(plot.title = element_text(hjust = 0.5))
+  xlab("\nCurso\n") + 
+  ylab("\nMedia Final\n") + 
+  labs(fill = "CURSO") + 
+  ggtitle("\nMedias finais em Desenho Tecnico I", subtitle = "Sem reprovados por frequencia\n") +
+  theme(plot.title = element_text(hjust = 0.5))+ 
+  normal_theme
 
-ggplot(DT1_partial, 
-       aes(x = as.factor(ANO), y = MEDIA_FINAL, fill = as.factor(ANO))) +
+ggbackground(fig, img)
+savePlot(filename = "../images/figure_specific_7.png", type = "png", device = dev.cur())
+
+fig <- ggplot(DT1_partial, 
+  aes(x = as.factor(ANO), y = MEDIA_FINAL, fill = as.factor(ANO))) +
   geom_violin(trim = TRUE) + 
-  geom_boxplot(width = 0.1) + 
-  geom_segment(aes(x = 0, y = 6, xend = 10, yend = 6), linetype = "dotted", colour = "red") +
+  geom_boxplot(width = 0.1, outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) + 
+  stat_n_text(color = "white", size = 6) +
+  geom_segment(aes(x = 0, y = 6, xend = 10, yend = 6), linetype = "dotted", colour = "red", size = 0.25) +
   scale_y_continuous(breaks = seq(0, 10, by = 1)) +
-  xlab("ANO") + ylab("Media Final") + labs(fill = "ANO") + ggtitle("Desempenho dos Estudantes em Desenho Tecnico I (Sem reprovados por frequencia)") +
-  theme(plot.title = element_text(hjust = 0.5))
+  xlab("\nAno\n") + 
+  ylab("\nMedia Final\n") + 
+  labs(fill = "Ano") + 
+  ggtitle("\nMedias finais em Desenho Tecnico I", subtitle = "Sem reprovados por frequencia\n") +
+  theme(plot.title = element_text(hjust = 0.5))+ 
+  normal_theme
 
-ggplot(DT1_partial, 
-       aes(x = as.factor(ANO), y = MEDIA_FINAL, fill = as.factor(PERIODO))) +
-  geom_violin(trim = TRUE, position = dodge) + 
-  geom_boxplot(width = 0.1, position = dodge) +
-  geom_segment(aes(x = 0, y = 6, xend = 10, yend = 6), linetype = "dotted", colour = "red") +
+ggbackground(fig, img)
+savePlot(filename = "../images/figure_specific_8.png", type = "png", device = dev.cur())
+
+fig <- ggplot(DT1_partial, 
+  aes(x = as.factor(ANO), y = MEDIA_FINAL, fill = as.factor(PERIODO))) +
+  geom_boxplot(width = 0.5, position = position_dodge(width = 0.8), outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) +
+  stat_n_text(color = "white", size = 6) +
+  geom_segment(aes(x = 0, y = 6, xend = 10, yend = 6), linetype = "dotted", colour = "red", size = 0.25) +
   scale_y_continuous(breaks = seq(0, 10, by = 1)) +
   theme(legend.position = "bottom") +
-  xlab("ANO") + ylab("Media Final") + labs(fill = "PERIODO") + ggtitle("Desempenho dos Estudantes em Desenho Tecnico I (Sem reprovados por frequencia)") +
-  theme(plot.title = element_text(hjust = 0.5))
+  xlab("\nAno\n") +
+  ylab("\nMedia Final\n") + 
+  labs(fill = "Periodo") + 
+  ggtitle("\nMedias finais em Desenho Tecnico I", subtitle = "Sem reprovados por frequencia\n") +
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  normal_theme
 
-ggplot(DT2_partial, 
-       aes(x = CURSO, y = MEDIA_FINAL, fill = CURSO)) +
+ggbackground(fig, img)
+savePlot(filename = "../images/figure_specific_9.png", type = "png", device = dev.cur())
+
+fig <- ggplot(DT2_partial, 
+  aes(x = CURSO, y = MEDIA_FINAL, fill = CURSO)) +
   geom_violin(trim = TRUE)+ 
-  geom_boxplot(width = 0.1) + 
-  geom_segment(aes(x = 0, y = 6, xend = 7, yend = 6), linetype = "dotted", colour = "red") +
+  geom_boxplot(width = 0.1, outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) + 
+  stat_n_text(color = "white", size = 6) +
+  geom_segment(aes(x = 0, y = 6, xend = 7, yend = 6), linetype = "dotted", colour = "red", size = 0.25) +
   scale_y_continuous(breaks = seq(0, 10, by = 1)) +
-  xlab("CURSO") + ylab("Media Final") + labs(fill = "CURSO") + ggtitle("Desempenho dos Estudantes em Desenho Tecnico II (Sem reprovados por frequencia)") +
-  theme(plot.title = element_text(hjust = 0.5))
+  xlab("\nCurso\n") + 
+  ylab("\nMedia Final\n") + 
+  labs(fill = "CURSO") + 
+  ggtitle("\nMedias finais em Desenho Tecnico II", subtitle = "Sem reprovados por frequencia\n") +
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  normal_theme
 
-ggplot(DT2_partial, 
-       aes(x = as.factor(ANO), y = MEDIA_FINAL, fill = as.factor(ANO))) +
+ggbackground(fig, img)
+savePlot(filename = "../images/figure_specific_10.png", type = "png", device = dev.cur())
+
+fig <- ggplot(DT2_partial, 
+  aes(x = as.factor(ANO), y = MEDIA_FINAL, fill = as.factor(ANO))) +
   geom_violin(trim = TRUE)+ 
-  geom_boxplot(width = 0.1) + 
-  geom_segment(aes(x = 0, y = 6, xend = 13, yend = 6), linetype = "dotted", colour = "red") +
+  geom_boxplot(width = 0.1, outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) + 
+  stat_n_text(color = "white", size = 6) +
+  geom_segment(aes(x = 0, y = 6, xend = 13, yend = 6), linetype = "dotted", colour = "red", size = 0.25) +
   scale_y_continuous(breaks = seq(0, 10, by = 1)) +
-  xlab("ANO") + ylab("Media Final") + labs(fill = "ANO") + ggtitle("Desempenho dos Estudantes em Desenho Tecnico II (Sem reprovados por frequencia)") +
-  theme(plot.title = element_text(hjust = 0.5))
+  xlab("\nAno\n") + 
+  ylab("\nMedia Final\n") + 
+  labs(fill = "Ano") + 
+  ggtitle("\nMedias finais em Desenho Tecnico II", subtitle = "Sem reprovados por frequencia\n") +
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  normal_theme
 
-ggplot(DT2_partial, 
-       aes(x = as.factor(ANO), y = MEDIA_FINAL, fill = as.factor(PERIODO))) +
-  geom_violin(trim = TRUE) + 
-  geom_segment(aes(x = 0, y = 6, xend = 13, yend = 6), linetype = "dotted", colour = "red") +
+ggbackground(fig, img)
+savePlot(filename = "../images/figure_specific_11.png", type = "png", device = dev.cur())
+
+fig <- ggplot(DT2_partial, 
+  aes(x = as.factor(ANO), y = MEDIA_FINAL, fill = as.factor(PERIODO))) +
+  geom_boxplot(width = 0.5, position = position_dodge(width = 0.8), outlier.shape = 21, outlier.size = 2, outlier.fill = "white", show.legend = FALSE) +
+  stat_n_text(color = "white", size = 6) +
+  geom_segment(aes(x = 0, y = 6, xend = 13, yend = 6), linetype = "dotted", colour = "red", size = 0.25) +
   scale_y_continuous(breaks = seq(0, 10, by = 1)) +
   theme(legend.position = "bottom") +
-  xlab("ANO") + ylab("Media Final") + labs(fill = "PERIODO") + ggtitle("Desempenho dos Estudantes em Desenho Tecnico II (Sem reprovados por frequencia)") +
-  theme(plot.title = element_text(hjust = 0.5))
+  xlab("\nAno\n") + 
+  ylab("\nMedia Final\n") + 
+  labs(fill = "Periodo") + 
+  ggtitle("\nMedias finais em Desenho Tecnico II", subtitle = "Sem reprovados por frequencia\n") +
+  theme(plot.title = element_text(hjust = 0.5)) + 
+  normal_theme
+
+
+ggbackground(fig, img)
+savePlot(filename = "../images/figure_specific_12.png", type = "png", device = dev.cur())
+
+
+
 
 aux <- statistics(all_data_II, "MEDIA_FINAL", SEXO, DISCIPLINA)      
 
@@ -338,7 +423,7 @@ a <- ggplot(aux, aes(as.factor(ANO), mean, group = PERIODO, fill = as.factor(PER
   geom_bar(stat = "identity", color = "black", position = position_dodge2(preserve = "single")) +
   geom_text(aes(label = round(mean, 1)), vjust = 2, color = "black", size = 2.8, position = position_dodge(0.9)) +
   scale_fill_manual("PERIODO", values = c("1. Semestre" = "cadetblue2", "2. Semestre" = "darkolivegreen2")) +
-  xlab("ANO") + ylab("Media da Nota Final") + labs(fill = "PERIODO") + ggtitle("Medias finais por DISCIPLINA, ANO e Semestre") +
+  xlab("\nAno\n") + ylab("Media da Nota Final") + labs(fill = "PERIODO") + ggtitle("Medias finais por DISCIPLINA, ANO e Semestre") +
   theme(axis.text.x = element_text(face = "bold", size = 10), legend.position = "bottom", plot.title = element_text(hjust = 0.5)) +
   facet_wrap(~DISCIPLINA) 
 
