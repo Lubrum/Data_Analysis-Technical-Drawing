@@ -983,14 +983,14 @@ fig <- ggplot(O, aes(x = Letter, y = Group, fill = Letter, color = Letter)) +
   geom_point(size = 4) +
   normal_theme +
   theme(axis.title = element_text(size = 18), 
-        axis.text = element_text(family = "TT Times New Roman", size = 14), 
+        axis.text = element_text(family = "sans", size = 14), 
         legend.position = "bottom", 
         legend.text = element_text(size = 15)) 
 
 ggbackground(fig, img)
 savePlot(filename = "../images/figure30.png", type = "png", device = dev.cur())
 
-
+##############################################################################################################
 
 # Technical Drawing II
 DT2 <- all_data[all_data$DISCIPLINA == "DESENHO TECNICO II",]
@@ -1107,7 +1107,7 @@ fig <- ggplot(O, aes(x = Letter, y = Group, fill = Letter, color = Letter)) +
   geom_point(size = 4) +
   normal_theme +
   theme(axis.title = element_text(size = 18), 
-        axis.text = element_text(family = "TT Times New Roman", size = 14), 
+        axis.text = element_text(family = "sans", size = 14), 
         legend.position = "bottom", 
         legend.text = element_text(size = 15)) 
 

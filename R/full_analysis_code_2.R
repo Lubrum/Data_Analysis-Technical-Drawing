@@ -599,79 +599,269 @@ savePlot(filename = "../images/figure_specific_18.png", type = "png", device = d
 
 # Fourth Part - Dataset 2 - Advanced Statistics
 
-dfII_without_failed_by_attendance$PERIODO[dfII_without_failed_by_attendance$PERIODO == "1. Semestre"] <- 1
-dfII_without_failed_by_attendance$PERIODO[dfII_without_failed_by_attendance$PERIODO == "2. Semestre"] <- 2
-dfII_without_failed_by_attendance$PERIODO <- as.factor(dfII_without_failed_by_attendance$PERIODO)
-dfII_without_failed_by_attendance$ANO <- as.factor(dfII_without_failed_by_attendance$ANO)
+# Technical Drawing I
 
-res = residuals(lm(MEDIA_FINAL ~ ANO * PERIODO, data = DT1_partial))
-shapiro.test(res)
-hist(res)
+all_data_II$PERIODO[all_data_II$PERIODO == "1. Semestre"] <- 1
+all_data_II$PERIODO[all_data_II$PERIODO == "2. Semestre"] <- 2
+all_data_II$PERIODO <- as.factor(all_data_II$PERIODO)
+all_data_II$ANO <- as.factor(all_data_II$ANO)
+DT1 <- all_data_II[all_data_II$DISCIPLINA == "DESENHO TECNICO I",]
 
-max(aggregate(MEDIA_FINAL ~ ANO + PERIODO, DT1_partial, var)$MEDIA_FINAL)/min(aggregate(MEDIA_FINAL ~ ANO + PERIODO, DT1_partial, var)$MEDIA_FINAL)
+# Variance analysis
+aov_result <- aov(MEDIA_FINAL ~ ANO * PERIODO, data = DT1)
 
-leveneTest(MEDIA_FINAL ~ ANO, DT1_partial)
-leveneTest(MEDIA_FINAL ~ PERIODO, DT1_partial)
-leveneTest(MEDIA_FINAL ~ ANO * PERIODO, DT1_partial)
+# Normality of errors test
+shapiro.test(residuals(aov_result))
 
-kruskal.test(MEDIA_FINAL ~ ANO, DT1_partial)
-kruskal.test(MEDIA_FINAL ~ PERIODO, DT1_partial)
-kruskal.test(MEDIA_FINAL ~ interaction(ANO, PERIODO), DT1_partial)
+res <- as.data.frame(residuals(aov_result))
+colnames(res)[1] <- "value"
 
-densityplot(~ MEDIA_FINAL | ANO, data = DT1_partial, xlab = "Media Final", ylab = "Densidade de Medias")
-densityplot(~ MEDIA_FINAL | PERIODO, data = DT1_partial, xlab = "Media Final", ylab = "Densidade de Medias")
-densityplot(~ MEDIA_FINAL | ANO*PERIODO, data = DT1_partial, xlab = "Media Final", ylab = "Densidade de Medias")
+fig1 <- ggplot(data = res, aes(value)) + 
+  geom_histogram(color = "yellow") +
+  ggtitle("\nHistograma de Residuos\n") +
+  ylab("\nFrequencia\n") + 
+  xlab("\nResiduo\n") + 
+  labs(fill = "Densidade") +   
+  normal_theme      
+
+ggbackground(fig1, img)
+savePlot(filename = "../images/figure_specific_19.png", type = "png", device = dev.cur())
+
+# Homogeneity of Variance between the groups
+max(aggregate(MEDIA_FINAL ~ ANO + PERIODO, DT1, var)$MEDIA_FINAL)/min(aggregate(MEDIA_FINAL ~ ANO + PERIODO, DT1, var)$MEDIA_FINAL)
+
+leveneTest(MEDIA_FINAL ~ ANO, DT1, center = median)
+leveneTest(MEDIA_FINAL ~ PERIODO, DT1, center = median)
+leveneTest(MEDIA_FINAL ~ ANO * PERIODO, DT1, center = median)
+
+# Distributions between the groups of years and semesters
+
+kruskal.test(MEDIA_FINAL ~ ANO, DT1)
+kruskal.test(MEDIA_FINAL ~ PERIODO, DT1)
+kruskal.test(MEDIA_FINAL ~ interaction(ANO, PERIODO), DT1)
 
 
-#multiVDA(MEDIA_FINAL ~ ANO, data = DT1_partial)
-multiVDA(MEDIA_FINAL ~ PERIODO, data = DT1_partial)
-multiVDA(MEDIA_FINAL ~ SEXO, data = DT1_partial)
-multiVDA(MEDIA_FINAL ~ CURSO, data = DT1_partial)
+fig1 <- ggplot(DT1, aes(x = MEDIA_FINAL , fill = PERIODO, color = PERIODO)) +
+  geom_density(alpha = 0.3, size = 1) +
+  geom_vline(aes(xintercept = 6), color = "red", linetype = "dashed") +
+  scale_x_continuous(breaks = round(seq(min(DT1$MEDIA_FINAL),  max(DT1$MEDIA_FINAL), by = 5), 10)) +
+  xlab("\nDistribuicao de Medias") + 
+  ylab("\nDensidade de Medias\n") + 
+  labs(fill = "Semestre", color = "Semestre") +
+  ggtitle("\nDistribuicao das Medias em Desenho I\n") +
+  normal_theme +       
+  theme(axis.title = element_text(size = 25), 
+        plot.title = element_text(size = 30), 
+        axis.text = element_text(size = 15), 
+        legend.position = "bottom", 
+        legend.text = element_text(size = 18)) 
+
+ggbackground(fig1, img)
+savePlot(filename = "../images/figure_specific_20.png", type = "png", device = dev.cur())
+
+
+fig1 <- ggplot(DT1, aes(x = MEDIA_FINAL , fill = ANO, color = ANO)) +
+  geom_density(alpha = 0.3, size = 1) +
+  geom_vline(aes(xintercept = 6), color = "red", linetype = "dashed") +
+  scale_x_continuous(breaks = round(seq(min(DT1$MEDIA_FINAL), max(DT1$MEDIA_FINAL), by = 5), 10)) +
+  xlab("\nDistribuicao de Medias") + 
+  ylab("\nDensidade de Medias\n") + 
+  labs(fill = "Ano", color = "Ano") +
+  ggtitle("\nDistribuicao das Medias em Desenho I\n") +
+  normal_theme +       
+  theme(strip.background = element_blank(), 
+        strip.text = element_blank(), 
+        axis.title = element_text(size = 25), 
+        plot.title = element_text(size = 30), 
+        axis.text = element_text(size = 15), 
+        legend.position = "bottom", 
+        legend.text = element_text(size = 18)) +
+  facet_wrap(. ~ ANO, nrow = 4)
+
+ggbackground(fig1, img)
+savePlot(filename = "../images/figure_specific_21.png", type = "png", device = dev.cur())
+
+
+fig1 <- ggplot(DT1, aes(x = MEDIA_FINAL , fill = ANO, color = PERIODO)) +
+  geom_density(alpha = 0.7, size = 1) +
+  geom_vline(aes(xintercept = 6), color = "red", linetype = "dashed") +
+  scale_x_continuous(breaks = round(seq(min(DT1$MEDIA_FINAL), max(DT1$MEDIA_FINAL), by = 5), 10)) +
+  xlab("\nDistribuicao de Medias") + 
+  ylab("\nDensidade de Medias\n") + 
+  labs(fill = "Ano", color = "Semestre") +
+  ggtitle("\nDistribuicao das Medias em Desenho I\n") +
+  normal_theme +       
+  theme(strip.background = element_blank(), 
+        strip.text = element_blank(), 
+        axis.title = element_text(size = 18), 
+        plot.title = element_text(size = 30), 
+        axis.text = element_text(size = 15), 
+        legend.position = "bottom", 
+        legend.text = element_text(size = 15)) +
+  facet_wrap(ANO ~ PERIODO, nrow = 5)
+
+ggbackground(fig1, img)
+savePlot(filename = "../images/figure_specific_22.png", type = "png", device = dev.cur())
+
+
+multiVDA(MEDIA_FINAL ~ ANO, data = DT1)
+multiVDA(MEDIA_FINAL ~ PERIODO, data = DT1)
+multiVDA(MEDIA_FINAL ~ SEX, data = DT1)
+multiVDA(MEDIA_FINAL ~ CURSO, data = DT1)
 
 options("scipen" = 100, "digits" = 4)
-PT = dunnTest(MEDIA_FINAL ~ ANO,
-              data = DT1_partial,
-              method = "bh") 
+PT = dunnTest(MEDIA_FINAL ~ ANO, data = DT1, method = "bh") 
+O <- cldList(P.adj ~ Comparison, data = PT$res, threshold = 0.05, remove.zero = FALSE)
 
-O <- cldList(P.adj ~ Comparison,
-             data = PT$res,
-             threshold = 0.05,
-             remove.zero = FALSE)
+fig <- ggplot(O, aes(x = Letter, y = Group, fill = Letter, color = Letter)) +
+  xlab("\nGrupo\n") +
+  ylab("\nAno\n") +
+  labs(fill = "Grupo", color = "Grupo") +
+  geom_point(size = 4) +
+  normal_theme
 
-ggplot(O, aes(x = Letter, y = Group, fill = Letter, color = Letter)) + geom_point(size = 4) 
+ggbackground(fig, img)
+savePlot(filename = "../images/figure_specific_23.png", type = "png", device = dev.cur())
+
+merged_data <- transform(DT1, ANO_PERIODO = paste(ANO, '.', PERIODO))
+
+PT = dunnTest(MEDIA_FINAL ~ ANO_PERIODO, data = merged_data, method = "bh") 
+O <- cldList(P.adj ~ Comparison, data = PT$res, threshold = 0.05, remove.zero = FALSE)
+
+fig <- ggplot(O, aes(x = Letter, y = Group, fill = Letter, color = Letter)) +
+  xlab("\nGrupo\n") +
+  ylab("\nAno\n") +
+  labs(fill = "Grupo", color = "Grupo") +
+  geom_point(size = 4) +
+  normal_theme +
+  theme(axis.title = element_text(size = 18), 
+        axis.text = element_text(family = "TT Times New Roman", size = 14), 
+        legend.position = "bottom", 
+        legend.text = element_text(size = 15)) 
+
+ggbackground(fig, img)
+savePlot(filename = "../images/figure_specific_24.png", type = "png", device = dev.cur())
+
+##############################################################################################################
+
+# Technical Drawing II
+DT2 <- all_data_II[all_data_II$DISCIPLINA == "DESENHO TECNICO II",]
+
+# Variance analysis
+aov_result <- aov(MEDIA_FINAL ~ ANO * PERIODO, data = DT2)
+
+# Normality of errors test
+shapiro.test(residuals(aov_result))
+
+res <- as.data.frame(residuals(aov_result))
+colnames(res)[1] <- "value"
+
+fig1 <- ggplot(data = res, aes(value)) + 
+  geom_histogram(color = "blue") +
+  ggtitle("\nHistograma de Residuos\n") +
+  ylab("\nFrequencia\n") + 
+  xlab("\nResiduo\n") + 
+  labs(fill = "Densidade") +   
+  normal_theme      
+
+ggbackground(fig1, img)
+savePlot(filename = "../images/figure_specific_25.png", type = "png", device = dev.cur())
+
+# Homogeneity of Variance between the groups
+max(aggregate(MEDIA_FINAL ~ ANO + PERIODO, DT2, var)$MEDIA_FINAL)/min(aggregate(MEDIA_FINAL ~ ANO + PERIODO, DT2, var)$MEDIA_FINAL)
+
+leveneTest(MEDIA_FINAL ~ ANO,DT2, center = median)
+leveneTest(MEDIA_FINAL ~ PERIODO,DT2, center = median)
+leveneTest(MEDIA_FINAL ~ ANO * PERIODO, DT2, center = median)
+
+# Distributions between the groups of years and semesters
+
+kruskal.test(MEDIA_FINAL ~ ANO, DT2)
+kruskal.test(MEDIA_FINAL ~ PERIODO, DT2)
+kruskal.test(MEDIA_FINAL ~ interaction(ANO, PERIODO), DT2)
+
+fig1 <- ggplot(DT2, aes(x = MEDIA_FINAL , fill = PERIODO, color = PERIODO)) +
+  geom_density(alpha = 0.3, size = 1) +
+  geom_vline(aes(xintercept = 6), color = "red", linetype = "dashed") +
+  scale_x_continuous(breaks = round(seq(min(DT2$MEDIA_FINAL), max(DT2$MEDIA_FINAL), by = 5), 10)) +
+  xlab("\nDistribuicao de Medias") + 
+  ylab("\nDensidade de Medias\n") + 
+  labs(fill = "Semestre", color = "Semestre") +
+  ggtitle("\nDistribuicao das Medias em Desenho II\n") +
+  normal_theme +       
+  theme(axis.title = element_text(size = 25), 
+        plot.title = element_text(size = 30), 
+        axis.text = element_text(size = 15), 
+        legend.position = "bottom", 
+        legend.text = element_text(size = 18)) 
+
+ggbackground(fig1, img)
+savePlot(filename = "../images/figure_specific_26.png", type = "png", device = dev.cur())
 
 
-res = residuals(lm(MEDIA_FINAL ~ ANO * PERIODO, data = DT2_partial))
-shapiro.test(res)
-hist(res)
+fig1 <- ggplot(DT2, aes(x = MEDIA_FINAL , fill = ANO, color = ANO)) +
+  geom_density(alpha = 0.3, size = 1) +
+  geom_vline(aes(xintercept = 6), color = "red", linetype = "dashed") +
+  scale_x_continuous(breaks = round(seq(min(DT2$MEDIA_FINAL), max(DT2$MEDIA_FINAL), by = 5), 10)) +
+  xlab("\nDistribuicao de Medias") + 
+  ylab("\nDensidade de Medias\n") + 
+  labs(fill = "Semestre", color = "Semestre") +
+  ggtitle("\nDistribuicao das Medias em Desenho II\n") +
+  normal_theme +       
+  theme(strip.background = element_blank(), 
+        strip.text = element_blank(), 
+        axis.title = element_text(size = 25), 
+        plot.title = element_text(size = 30), 
+        axis.text = element_text(size = 15), 
+        legend.position = "bottom", 
+        legend.text = element_text(size = 18)) +
+  facet_wrap(. ~ ANO, nrow = 4)
 
-max(aggregate(MEDIA_FINAL ~ ANO + PERIODO, DT2_partial, var)$MEDIA_FINAL)/min(aggregate(MEDIA_FINAL ~ ANO + PERIODO, DT2_partial, var)$MEDIA_FINAL)
+ggbackground(fig1, img)
+savePlot(filename = "../images/figure_specific_27.png", type = "png", device = dev.cur())
 
-leveneTest(MEDIA_FINAL ~ ANO, DT2_partial)
-leveneTest(MEDIA_FINAL ~ PERIODO, DT2_partial)
-leveneTest(MEDIA_FINAL ~ ANO * PERIODO, DT2_partial)
 
-kruskal.test(MEDIA_FINAL ~ ANO, DT2_partial)
-kruskal.test(MEDIA_FINAL ~ PERIODO, DT2_partial)
-kruskal.test(MEDIA_FINAL ~ interaction(ANO, PERIODO), DT2_partial)
+fig1 <- ggplot(DT2, aes(x = MEDIA_FINAL , fill = ANO, color = PERIODO)) +
+  geom_density(alpha = 0.7, size = 1) +
+  geom_vline(aes(xintercept = 6), color = "red", linetype = "dashed") +
+  scale_x_continuous(breaks = round(seq(min(DT2$MEDIA_FINAL), max(DT2$MEDIA_FINAL), by = 5), 10)) +
+  xlab("\nDistribuicao de Medias") + 
+  ylab("\nDensidade de Medias\n") + 
+  labs(fill = "Ano", color = "Semestre") +
+  ggtitle("\nDistribuicao das Medias em Desenho II\n") +
+  normal_theme +       
+  theme(strip.background = element_blank(), 
+        strip.text = element_blank(), 
+        axis.title = element_text(size = 18), 
+        plot.title = element_text(size = 30), 
+        axis.text = element_text(size = 15), 
+        legend.position = "bottom", 
+        legend.text = element_text(size = 15)) +
+  facet_wrap(ANO ~ PERIODO, nrow = 5)
 
-densityplot(~ MEDIA_FINAL | ANO, data = DT2_partial, xlab = "Media Final", ylab = "Densidade de Medias")
-densityplot(~ MEDIA_FINAL | PERIODO, data = DT2_partial, xlab = "Media Final", ylab = "Densidade de Medias")
-densityplot(~ MEDIA_FINAL | ANO*PERIODO, data = DT2_partial, xlab = "Media Final", ylab = "Densidade de Medias")
+ggbackground(fig1, img)
+savePlot(filename = "../images/figure_specific_28.png", type = "png", device = dev.cur())
 
-#multiVDA(MEDIA_FINAL ~ ANO, data = DT1_partial)
-multiVDA(MEDIA_FINAL ~ PERIODO, data = DT2_partial)
-multiVDA(MEDIA_FINAL ~ SEXO, data = DT2_partial)
-multiVDA(MEDIA_FINAL ~ CURSO, data = DT2_partial)
+multiVDA(MEDIA_FINAL ~ ANO, data = DT2)
+multiVDA(MEDIA_FINAL ~ PERIODO, data = DT2)
+multiVDA(MEDIA_FINAL ~ SEX, data = DT2)
+multiVDA(MEDIA_FINAL ~ CURSO, data = DT2)
 
-options("scipen" = 100, "digits" = 4)
-PT = dunnTest(MEDIA_FINAL ~ ANO,
-              data = DT2_partial,
-              method = "bh") 
+merged_data <- transform(DT2, ANO_PERIODO = paste(ANO, '.', PERIODO))
 
-O <- cldList(P.adj ~ Comparison,
-             data = PT$res,
-             threshold = 0.05,
-             remove.zero = FALSE)
+PT = dunnTest(MEDIA_FINAL ~ ANO_PERIODO, data = merged_data, method = "bh") 
+O <- cldList(P.adj ~ Comparison, data = PT$res, threshold = 0.05, remove.zero = FALSE)
 
-ggplot(O, aes(x = Letter, y = Group, fill = Letter, color = Letter)) + geom_point(size = 4) 
+fig <- ggplot(O, aes(x = Letter, y = Group, fill = Letter, color = Letter)) +
+  xlab("\nGrupo\n") +
+  ylab("\nAno\n") +
+  labs(fill = "Grupo", color = "Grupo") +
+  geom_point(size = 4) +
+  normal_theme +
+  theme(axis.title = element_text(size = 18), 
+        axis.text = element_text(family = "sans", size = 11), 
+        legend.position = "bottom", 
+        legend.text = element_text(size = 15)) 
+
+ggbackground(fig, img)
+savePlot(filename = "../images/figure_specific_29.png", type = "png", device = dev.cur())
