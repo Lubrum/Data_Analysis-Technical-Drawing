@@ -400,136 +400,168 @@ fig <- ggplot(DT2_partial,
   theme(plot.title = element_text(hjust = 0.5)) + 
   normal_theme
 
-
 ggbackground(fig, img)
 savePlot(filename = "../images/figure_specific_12.png", type = "png", device = dev.cur())
 
-
-
-
 aux <- statistics(all_data_II, "MEDIA_FINAL", SEXO, DISCIPLINA)      
 
-ggplot(aux, aes(DISCIPLINA, round(mean,2), group = SEXO, fill = as.factor(SEXO))) + 
-  geom_bar(stat = "identity", color = "black", position = position_dodge()) +
-  geom_text(aes(label = round(mean, 2)), vjust = 2, color = "black", size = 5, position = position_dodge(0.9)) +
+fig <- ggplot(aux, aes(DISCIPLINA, round(mean,2), group = SEXO, fill = as.factor(SEXO))) + 
+  geom_bar(stat = "identity", color = "black", position = position_dodge(), alpha = 0.5) +
+  geom_text(aes(label = round(mean, 2)), vjust = 2, color = "white", size = 5, position = position_dodge(0.9)) +
   scale_fill_manual("Sexo", values = c("F" = "deeppink", "M" = "deepskyblue")) +
   scale_y_continuous(breaks = seq(0, 7, by = 1)) +
-  xlab("DISCIPLINA") + ylab("Media da Nota Final") + ggtitle("Análise de Medias por DISCIPLINA e Sexo") +
-  theme(plot.title = element_text(hjust = 0.5), axis.text.x = element_text(face = "bold", size = 10), axis.text.y = element_text(face = "bold", size = 12))
+  xlab("\nDisciplina\n") + 
+  ylab("\nMedia da Nota Final\n") + 
+  ggtitle("\nAnalise de Medias por Disciplina e Sexo\n") +
+  normal_theme
+
+ggbackground(fig, img)
+savePlot(filename = "../images/figure_specific_13.png", type = "png", device = dev.cur())
 
 aux <- statistics(all_data_II, "MEDIA_FINAL", ANO, PERIODO, DISCIPLINA)
 
-a <- ggplot(aux, aes(as.factor(ANO), mean, group = PERIODO, fill = as.factor(PERIODO))) + 
-  geom_bar(stat = "identity", color = "black", position = position_dodge2(preserve = "single")) +
-  geom_text(aes(label = round(mean, 1)), vjust = 2, color = "black", size = 2.8, position = position_dodge(0.9)) +
-  scale_fill_manual("PERIODO", values = c("1. Semestre" = "cadetblue2", "2. Semestre" = "darkolivegreen2")) +
-  xlab("\nAno\n") + ylab("Media da Nota Final") + labs(fill = "PERIODO") + ggtitle("Medias finais por DISCIPLINA, ANO e Semestre") +
-  theme(axis.text.x = element_text(face = "bold", size = 10), legend.position = "bottom", plot.title = element_text(hjust = 0.5)) +
+aux$PERIODO[aux$PERIODO == "1. Semestre"] <- "1"
+aux$PERIODO[aux$PERIODO == "2. Semestre"] <- "2"
+
+a <- ggplot(aux, aes(as.factor(ANO), mean, group = PERIODO, color = PERIODO)) + 
+  geom_bar(stat = "identity", fill = "black", position = position_dodge2(preserve = "single")) +
+  scale_color_manual("PERIODO", values = c("1" = "darkolivegreen2", "2" = "mediumorchid1")) +
+  xlab("") + 
+  ylab("\nMedia da Nota Final\n") + 
+  guides(color = FALSE) + 
+  ggtitle("\nMedias finais por Disciplina, Ano e Semestre\n") +
+  normal_theme +
+  theme(plot.title = element_text(size = 18), axis.title = element_text(size = 18), axis.text = element_text(size = 11),
+        legend.title =  element_text(size = 12), legend.text = element_text(size = 12)) +
   facet_wrap(~DISCIPLINA) 
 
-b <- ggplot(aux, aes(as.factor(ANO), n, group = PERIODO, fill = as.factor(PERIODO))) + 
-  geom_bar(stat = "identity", color = "black", position = position_dodge2(preserve = "single")) +
-  geom_text(aes(label = n), vjust = 2, color = "black", size = 2.8, position = position_dodge(0.9)) +
-  scale_fill_manual("PERIODO", values = c("1. Semestre" = "cadetblue2", "2. Semestre" = "darkolivegreen2")) +
+b <- ggplot(aux, aes(as.factor(ANO), n, group = PERIODO, color = PERIODO)) + 
+  geom_bar(stat = "identity", fill = "black", position = position_dodge2(preserve = "single")) +
+  scale_color_manual("Semestre - ", values = c("1" = "darkolivegreen2", "2" = "mediumorchid1")) +
   scale_y_continuous(breaks = round(seq(0, 60, by = 5), 1)) +
-  xlab("ANO") + ylab("Número de Alunos") + labs(fill = "PERIODO") + ggtitle("Número de Alunos por DISCIPLINA, PERIODO e ANO") +
-  theme(axis.text.x = element_text(face = "bold", size = 10), legend.position = "bottom", plot.title = element_text(hjust = 0.5)) +
+  xlab("\nAno") + 
+  ylab("\nNumero de Alunos\n") + 
+  ggtitle("\nNumero de Alunos por Disciplina, Periodo e Ano\n") +
+  normal_theme +
+  theme(plot.title = element_text(size = 18), axis.title = element_text(size = 18), axis.text = element_text(size = 11), 
+        legend.title =  element_text(size = 12), legend.text = element_text(size = 12), legend.position = "bottom") +
   facet_wrap(~DISCIPLINA)
 
-ggarrange(a, b, nrow = 2)
+ggbackground(ggarrange(a, b, nrow = 2), img)
+savePlot(filename = "../images/figure_specific_14.png", type = "png", device = dev.cur())
+
 
 aux <- statistics(DT1, "MEDIA_FINAL", ANO, PERIODO, SITUACAO)
-
 aux <- as.data.frame(aux %>% 
                        group_by(ANO, PERIODO) %>% 
                        mutate(percent = 100*round(n/sum(n),8),
                               pos = 3.5 + (round(cumsum(percent) - (0.5 * percent), 8))
                        )
 )
-
 aux$PERIODO[aux$PERIODO == "1. Semestre"] <- "1 -"
 aux$PERIODO[aux$PERIODO == "2. Semestre"] <- "2 -"
+aux$SITUACAO[aux$SITUACAO == "Aprovado com nota"] <- "Aprovado"
+aux$SITUACAO[aux$SITUACAO == "Reprovado com nota"] <- "Reprovado"
+aux$SITUACAO[aux$SITUACAO == "Reprovado por Frequência"] <- "Reprovado por Freq."
 aux$SITUACAO <- factor(aux$SITUACAO, levels = rev(levels(as.factor(aux$SITUACAO))))
 
 a <- ggplot() + 
   geom_bar(data = aux, aes(x = interaction(as.factor(PERIODO), as.factor(ANO)), y = percent, fill = as.factor(SITUACAO)), stat = "identity", color = "black") +
-  scale_fill_manual(values = c("orange", "red", "green")) +
-  geom_text(data = aux, aes(x = interaction(as.factor(PERIODO), as.factor(ANO)), y = pos, label = paste0(round(percent, 1),"%(n=",n,")")), vjust = 2, color = "black", size = 3) +
+  scale_fill_manual(values = c("orange4", "red4", "seagreen"), labels = c("Reprovado por Freq.     ", "Reprovado  ", "Aprovado")) +
+  geom_text(data = aux, aes(x = interaction(as.factor(PERIODO), as.factor(ANO)), y = pos, label = paste0(round(percent, 1),"%")), vjust = 2, color = "white", size = 4) +
   scale_y_continuous(breaks = round(seq(0, 100, by = 10),1)) +
-  xlab("Semestre - ANO") + ylab("Percentual de Alunos") + labs(fill = "SITUACAO") +
-  theme(legend.position = "bottom", axis.line = element_line(size = 1, colour = "black"),
+  xlab("\nSemestre - Ano\n") + 
+  ylab("\nPercentual de Alunos\n") + 
+  labs(fill = FALSE) +
+  normal_theme +
+  theme(legend.position = "bottom", axis.line = element_line(size = 1, colour = "white"),
         panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(), panel.background = element_blank(),
-        plot.title=element_text(hjust = 0.5),
-        axis.text.x=element_text(colour = "black", angle = 45, size = 9, hjust = 1),
-        axis.text.y=element_text(colour = "black", size = 10)) 
+        axis.text.x = element_text(colour = "white", angle = 45, size = 18, hjust = 1),
+        axis.text.y = element_text(colour = "white", size = 18),
+        plot.title = element_text(size = 15), axis.title = element_text(size = 18), axis.text = element_text(size = 11), 
+        legend.title = element_blank(), legend.text = element_text(size = 12)) 
 
 aux <- statistics(DT1, "MEDIA_FINAL", ANO, PERIODO)
 
 b <- ggplot() + 
   geom_bar(data = aux, aes(x = interaction(as.factor(PERIODO), as.factor(ANO)), y = n), stat = "identity", color = "black") +
-  geom_text(data = aux, aes(x = interaction(as.factor(PERIODO), as.factor(ANO)), y = n, label = n), vjust = 2, color = "black", size = 4) +
+  geom_text(data = aux, aes(x = interaction(as.factor(PERIODO), as.factor(ANO)), y = n, label = n), vjust = 2, color = "black", size = 5) +
   scale_y_continuous(breaks = seq(0, 60, by = 10)) +
-  ylab("Número de Alunos") +
-  ggtitle("SITUACAO de Alunos por PERIODO e ANO em Desenho Tecnico I") +
+  ylab("\nAlunos\n") +
+  ggtitle("\nSituacao de Alunos por Periodo e Ano em Desenho I\n") +
+  normal_theme +
   theme(legend.position = "bottom", axis.line = element_line(size = 1, colour = "black"),
         panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(), panel.background = element_blank(),
-        plot.title = element_text(hjust = 0.5),
-        axis.text.x = element_blank(),
-        axis.title.x = element_blank(),
-        axis.ticks.x = element_blank()) +
+        axis.text.x = element_blank(), axis.title.x = element_blank(), axis.ticks.x = element_blank(),
+        plot.title = element_text(size = 18), axis.title = element_text(size = 18), axis.text = element_text(size = 13), 
+        legend.title =  element_text(size = 12), legend.text = element_text(size = 12)) +
   aes(fill = I("darkseagreen2"))
 
-ggarrange(b, a, nrow = 2, heights=c(1, 4))
+ggbackground(ggarrange(b, a, nrow = 2, heights = c(1, 4)), img)
+savePlot(filename = "../images/figure_specific_15.png", type = "png", device = dev.cur())
+
 
 aux <- statistics(DT2, "MEDIA_FINAL", ANO, PERIODO, SITUACAO)
-
 aux <- as.data.frame(aux %>% 
                        group_by(ANO, PERIODO) %>% 
                        mutate(percent = 100*round(n/sum(n),8),
-                              pos = 4.4 + (round(cumsum(percent) - (0.5 * percent), 8))
+                              pos = 3 + (round(cumsum(percent) - (0.5 * percent), 8))
                        )
 )
-
 aux$PERIODO[aux$PERIODO == "1. Semestre"] <- "1 -"
 aux$PERIODO[aux$PERIODO == "2. Semestre"] <- "2 -"
+aux$SITUACAO[aux$SITUACAO == "Aprovado com nota"] <- "Aprovado"
+aux$SITUACAO[aux$SITUACAO == "Reprovado com nota"] <- "Reprovado"
+aux$SITUACAO[aux$SITUACAO == "Reprovado por Frequência"] <- "Reprovado por Freq."
 aux$SITUACAO <- factor(aux$SITUACAO, levels = rev(levels(as.factor(aux$SITUACAO))))
 
 a <- ggplot() + 
   geom_bar(data = aux, aes(x = interaction(as.factor(PERIODO), as.factor(ANO)), y = percent, fill = as.factor(SITUACAO)), stat = "identity", color = "black") +
-  scale_fill_manual(values = c("orange", "red", "green")) +
-  geom_text(data = aux, aes(x = interaction(as.factor(PERIODO), as.factor(ANO)), y = pos, label = paste0(round(percent, 1),"%")), vjust = 2, color = "black", size = 3) +
-  geom_text(data = aux, aes(x = interaction(as.factor(PERIODO), as.factor(ANO)), y = pos-2.5, label = paste0("n = ",n)), vjust = 2, color = "black", size = 2.5) +        
+  scale_fill_manual(values = c("orange4", "red4", "seagreen"), labels = c("Reprovado por Freq.     ", "Reprovado  ", "Aprovado")) +
+  geom_text(data = aux, aes(x = interaction(as.factor(PERIODO), as.factor(ANO)), y = pos, label = paste0(round(percent, 1),"%")), vjust = 2, color = "white", size = 3) +
   scale_y_continuous(breaks = round(seq(0, 100, by = 10),1)) +
-  xlab("Semestre - ANO") + ylab("Percentual de Alunos") + labs(fill = "SITUACAO") +
-  theme(legend.position = "bottom", axis.line = element_line(size = 1, colour = "black"),
+  xlab("\nSemestre - Ano") + 
+  ylab("\nPercentual de Alunos\n") + 
+  labs(fill = FALSE) +
+  normal_theme +
+  theme(legend.position = "bottom", axis.line = element_line(size = 1, colour = "white"),
         panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(), panel.background = element_blank(),
-        plot.title=element_text(hjust = 0.5),
-        axis.text.x=element_text(colour = "black", angle = 45, size = 9, hjust = 1),
-        axis.text.y=element_text(colour = "black", size = 10)) 
+        axis.text.x = element_text(colour = "white", angle = 45, size = 15, hjust = 1),
+        axis.text.y = element_text(colour = "white", size = 15),
+        plot.title = element_text(size = 15), axis.title = element_text(size = 18), axis.text = element_text(size = 11), 
+        legend.title = element_blank(), legend.text = element_text(size = 12)) 
 
 aux <- statistics(DT2, "MEDIA_FINAL", ANO, PERIODO)
 
 b <- ggplot() + 
   geom_bar(data = aux, aes(x = interaction(as.factor(PERIODO), as.factor(ANO)), y = n), stat = "identity", color = "black") +
-  geom_text(data = aux, aes(x = interaction(as.factor(PERIODO), as.factor(ANO)), y = n, label = n), vjust = 2, color = "black", size = 4) +
+  geom_text(data = aux, aes(x = interaction(as.factor(PERIODO), as.factor(ANO)), y = n, label = n), vjust = 2, color = "black", size = 5) +
   scale_y_continuous(breaks = seq(0, 60, by = 10)) +
-  ylab("Número de Alunos") +
-  ggtitle("SITUACAO de Alunos por PERIODO e ANO em Desenho Tecnico II") +
+  ylab("\nAlunos\n") +
+  ggtitle("\nSituacao de Alunos por Periodo e Ano em Desenho II") +
+  normal_theme +
   theme(legend.position = "bottom", axis.line = element_line(size = 1, colour = "black"),
         panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(), panel.background = element_blank(),
-        plot.title = element_text(hjust = 0.5),
-        axis.text.x = element_blank(),
-        axis.title.x = element_blank(),
-        axis.ticks.x = element_blank()) +
+        axis.text.x = element_blank(), axis.title.x = element_blank(), axis.ticks.x = element_blank(),
+        plot.title = element_text(size = 18), axis.title = element_text(size = 18), axis.text = element_text(size = 13), 
+        legend.title =  element_text(size = 12), legend.text = element_text(size = 12)) +
   aes(fill = I("darkseagreen2"))
 
-ggarrange(b, a, nrow = 2, heights=c(1, 4))
+ggbackground(ggarrange(b, a, nrow = 2, heights = c(1, 4)), img)
+savePlot(filename = "../images/figure_specific_16.png", type = "png", device = dev.cur())
 
-ggplot(all_data_II[all_data_II$SITUACAO!="Reprovado por frequencia" & all_data_II$DISCIPLINA == "DESENHO TECNICO I",], aes(x = faltas, y = MEDIA_FINAL)) + 
+
+
+
+
+
+
+
+ggplot(all_data_II[all_data_II$SITUACAO!="Reprovado por Frequência" & all_data_II$DISCIPLINA == "DESENHO TECNICO I",], aes(x = faltas, y = MEDIA_FINAL)) + 
   geom_point() +
   scale_y_continuous(breaks = seq(0, 10, by = 1)) +
   scale_x_continuous(breaks = seq(0, 16, by = 4)) +
@@ -539,7 +571,7 @@ ggplot(all_data_II[all_data_II$SITUACAO!="Reprovado por frequencia" & all_data_I
   geom_jitter(width = 0.25) +
   theme(plot.title=element_text(hjust = 0.5))
 
-ggplot(all_data_II[all_data_II$SITUACAO!="Reprovado por frequencia" & all_data_II$DISCIPLINA == "DESENHO TECNICO II",], aes(x = faltas, y = MEDIA_FINAL)) + 
+ggplot(all_data_II[all_data_II$SITUACAO!="Reprovado por Frequência" & all_data_II$DISCIPLINA == "DESENHO TECNICO II",], aes(x = faltas, y = MEDIA_FINAL)) + 
   geom_point() +
   scale_y_continuous(breaks = seq(0, 10, by = 1)) +
   scale_x_continuous(breaks = seq(0, 16, by = 2)) +
