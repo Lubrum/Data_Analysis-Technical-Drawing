@@ -50,6 +50,10 @@ library(rcompanion)
 if (!require(FSA))install.packages("FSA")
 library(FSA)
 
+##############################################################################################################
+##############################################################################################################
+##############################################################################################################
+
 # First Part - Dataset 2 - Data Loading and Processing
 df_path <- "../csv/Professor_Specific_Data.csv"
 all_data_II <- read.csv(df_path, sep = ";", stringsAsFactors = FALSE, encoding = "latin1")
@@ -100,6 +104,10 @@ all_data_II %>% group_by(CURSO, DISCIPLINA) %>% tally()
 all_data_II <- all_data_II[!(all_data_II$CURSO == "BALM"),]
 all_data_II <- all_data_II[!(all_data_II$CURSO == "BALP"),]
 all_data_II <- all_data_II[!(all_data_II$CURSO == "BALQ"),]
+
+##############################################################################################################
+##############################################################################################################
+##############################################################################################################
 
 # Second Part - Dataset 2 - Descriptive Statistics
 
@@ -168,6 +176,10 @@ df2_by_year_course_drawing_II_2 <- statistics(DT2_partial, "MEDIA_FINAL", ANO, C
 df2_by_year_semester_course_drawing_II_2 <- statistics(DT2_partial, "MEDIA_FINAL", ANO, CURSO, PERIODO)
 
 df2_by_year_semester_class_drawing_II_2 <- statistics(DT2_partial, "MEDIA_FINAL", ANO, PERIODO, TURMA)
+
+##############################################################################################################
+##############################################################################################################
+##############################################################################################################
 
 # Third Part - Dataset 2 - Data Visualization
 
@@ -555,31 +567,35 @@ ggbackground(ggarrange(b, a, nrow = 2, heights = c(1, 4)), img)
 savePlot(filename = "../images/figure_specific_16.png", type = "png", device = dev.cur())
 
 
-
-
-
-
-
-
-ggplot(all_data_II[all_data_II$SITUACAO!="Reprovado por Frequência" & all_data_II$DISCIPLINA == "DESENHO TECNICO I",], aes(x = faltas, y = MEDIA_FINAL)) + 
-  geom_point() +
+a <- ggplot(all_data_II[all_data_II$SITUACAO!="Reprovado por Frequência" & all_data_II$DISCIPLINA == "DESENHO TECNICO I",], aes(x = faltas, y = MEDIA_FINAL)) + 
+  geom_point(color = "white") +
   scale_y_continuous(breaks = seq(0, 10, by = 1)) +
   scale_x_continuous(breaks = seq(0, 16, by = 4)) +
-  ylab("Media Final") +
-  ggtitle("Desenho Tecnico I") +
+  ylab("\nMedia Final\n") +
+  ggtitle("\nDesenho Tecnico I\n") +
   geom_smooth(method = lm) +
-  geom_jitter(width = 0.25) +
-  theme(plot.title=element_text(hjust = 0.5))
+  geom_jitter(width = 0.25, color = "white") +
+  normal_theme 
 
-ggplot(all_data_II[all_data_II$SITUACAO!="Reprovado por Frequência" & all_data_II$DISCIPLINA == "DESENHO TECNICO II",], aes(x = faltas, y = MEDIA_FINAL)) + 
-  geom_point() +
+ggbackground(a, img)
+savePlot(filename = "../images/figure_specific_17.png", type = "png", device = dev.cur())
+
+a <- ggplot(all_data_II[all_data_II$SITUACAO!="Reprovado por Frequência" & all_data_II$DISCIPLINA == "DESENHO TECNICO II",], aes(x = faltas, y = MEDIA_FINAL)) + 
+  geom_point(color = "white") +
   scale_y_continuous(breaks = seq(0, 10, by = 1)) +
-  scale_x_continuous(breaks = seq(0, 16, by = 2)) +
-  ylab("Media Final") +
-  ggtitle("Desenho Tecnico II") +
+  scale_x_continuous(breaks = seq(0, 16, by = 4)) +
+  ylab("\nMedia Final\n") +
+  ggtitle("\nDesenho Tecnico II\n") +
   geom_smooth(method = lm) +
-  geom_jitter(width = 0.25) +
-  theme(plot.title=element_text(hjust = 0.5))
+  geom_jitter(width = 0.25, color = "white") +
+  normal_theme 
+
+ggbackground(a, img)
+savePlot(filename = "../images/figure_specific_18.png", type = "png", device = dev.cur())
+
+##############################################################################################################
+##############################################################################################################
+##############################################################################################################
 
 # Fourth Part - Dataset 2 - Advanced Statistics
 
