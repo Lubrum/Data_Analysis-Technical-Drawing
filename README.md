@@ -1,3 +1,5 @@
+![GitHub commit activity](https://img.shields.io/github/commit-activity/y/Lubrum/Data_Analysis-Technical-Drawing?style=plastic) ![GitHub last commit](https://img.shields.io/github/last-commit/Lubrum/Data_Analysis-Technical-Drawing) ![GitHub repo size](https://img.shields.io/github/repo-size/Lubrum/Data_Analysis-Technical-Drawing)
+
 # Summary 
 
 In this project, I made a Exploratory Data Analysis (EDA) about students' performance in Technical Drawing disciplines from a Brazilian University.
