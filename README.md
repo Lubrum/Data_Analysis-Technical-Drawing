@@ -1,4 +1,4 @@
-![GitHub commit activity](https://img.shields.io/github/commit-activity/y/Lubrum/Data_Analysis-Technical-Drawing?style=plastic) ![GitHub last commit](https://img.shields.io/github/last-commit/Lubrum/Data_Analysis-Technical-Drawing) ![GitHub repo size](https://img.shields.io/github/repo-size/Lubrum/Data_Analysis-Technical-Drawing)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/y/Lubrum/Data_Analysis-Technical-Drawing) ![GitHub last commit](https://img.shields.io/github/last-commit/Lubrum/Data_Analysis-Technical-Drawing) ![GitHub repo size](https://img.shields.io/github/repo-size/Lubrum/Data_Analysis-Technical-Drawing)
 
 # Summary 
 
