@@ -1,4 +1,7 @@
 ########################################################################
+if (!require(rstudioapi)) install.packages("rstudioapi")
+library(rstudioapi)
+
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 if (!require(dplyr)) install.packages("dplyr")
@@ -159,15 +162,15 @@ statistics <- function(dataframe, response, ...) {
   result <- as.data.frame(
     dataframe %>% 
       group_by(!!!group_var) %>% 
-      summarise(mean = mean(!!sym(response)), 
+      dplyr::summarise(mean = mean(!!sym(response)), 
                 median = median(!!sym(response)), 
                 sd = sd(!!sym(response)), 
                 min = min(!!sym(response)), 
                 max = max(!!sym(response)),
                 n = NROW(!!sym(response)),
-                quartil_1st = summary(!!sym(response))[2],
-                quartil_3rd = summary(!!sym(response))[5],
-                IQR = summary(!!sym(response))[5] - summary(!!sym(response))[2]
+                quartil_1st = quantile(!!sym(response), 0.25),
+                quartil_3rd = quantile(!!sym(response), 0.75),
+                IQR = quantile(!!sym(response), 0.75) - quantile(!!sym(response), 0.25)
       )
   )
   return(result)
@@ -501,7 +504,7 @@ by_sex$ndrop[by_sex$SEXO == "F"] <- round((by_sex_failed_by_attendance$n[by_sex_
 
 a <- ggplot(by_sex, aes(x = SEXO, y = ndrop, fill = SEXO)) + 
   geom_chicklet(radius = grid::unit(10, 'mm')) +
-  scale_fill_manual(name = "Sexo", values = c("#bc7b87","#7b87bc")) + 
+  scale_fill_manual(name = "Sexo  ", values = c("#bc7b87","#7b87bc")) + 
   geom_text(data = by_sex, aes(label = ndrop), fontface = "bold", hjust = 0.5, vjust = 1.5, color = "white", size = 5) +
   xlab("\nSexo\n") + 
   ylab("\nNumero de Reprovados\n") + 
@@ -511,7 +514,7 @@ a <- ggplot(by_sex, aes(x = SEXO, y = ndrop, fill = SEXO)) +
 
 b <- ggplot(data = by_sex, aes(x = SEXO, y = per, fill = SEXO)) + 
   geom_chicklet(radius = grid::unit(10, 'mm')) +
-  scale_fill_manual(name = "Sexo", values = c("#bc7b87","#7b87bc")) +
+  scale_fill_manual(name = "Sexo  ", values = c("#bc7b87","#7b87bc")) +
   geom_text(data = by_sex, aes(label = paste(per, '%')), fontface = "bold", hjust = 0.5, vjust = 1.5, color = "white", size = 5) +
   xlab("\nSexo\n") + 
   ylab("\nPercentual de Reprovados\n") +

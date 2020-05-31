@@ -8,9 +8,26 @@ Get a better understanding of how Technical Drawing disciplines are going in the
 
 # Tools 
 
-I used R language and RStudio IDE to perform all analysis.
+I used R language 4.0 and RStudio IDE 1.3.959 to perform all analysis.
 
 Some statistics used: aov, shapiro test, levene test, kruskal wallis test, multiVDA and duncan test.
+
+Environment:
+
+platform       x86_64-pc-linux-gnu         
+arch           x86_64                      
+os             linux-gnu                   
+system         x86_64, linux-gnu           
+status                                     
+major          4                           
+minor          0.0                         
+year           2020                        
+month          04                          
+day            24                          
+svn rev        78286                       
+language       R                           
+version.string R version 4.0.0 (2020-04-24)
+nickname       Arbor Day 
 
 # What is data about?
 
