@@ -170,7 +170,10 @@ statistics <- function(dataframe, response, ...) {
                 n = NROW(!!sym(response)),
                 quartil_1st = quantile(!!sym(response), 0.25),
                 quartil_3rd = quantile(!!sym(response), 0.75),
-                IQR = quantile(!!sym(response), 0.75) - quantile(!!sym(response), 0.25)
+                IQR = quantile(!!sym(response), 0.75) - quantile(!!sym(response), 0.25),
+                var_coef = 100*(sd(!!sym(response))/mean(!!sym(response))),
+                kurtosis = kurtosis(!!sym(response)),
+                skewness = skewness(!!sym(response))
       )
   )
   return(result)
