@@ -575,34 +575,36 @@ b$per <- round((b$n[b$SEXO == a$SEXO && b$DISCIPLINA == a$DISCIPLINA && b$ANO ==
 # Bar plot - who failed by attendance  by sex, discipline and year (n and %)
 
 fig1 <- ggplot(b, aes(ANO, n, color = SEXO)) + 
-  geom_bar(stat = "identity", fill = "#101010", position = position_dodge2()) +
+  geom_bar(width = 0.7, stat = "identity", fill = "#101010", position = position_dodge2()) +
   scale_y_continuous(breaks = seq(0, 50, by = 5)) +
   scale_x_continuous(breaks = round(seq(min(b$ANO), max(b$ANO), by = 1), 1)) +
   scale_fill_hue(c = 40) +
   ylab("\nNum. de alunos\n") + 
   xlab("\nAno\n") + 
-  labs(fill = "Sexo") + 
+  labs(color = "Sexo ") + 
   ggtitle("\nReprovados por frequencia\n") +
   normal_theme +
   theme(plot.title = element_text(size = 25), 
         axis.title = element_text(size = 18),
-        axis.text = element_text(size = 10), 
+        axis.text = element_text(size = 9),
+        legend.title = element_text(size = 20),
         strip.background = element_rect(fill = "#111111"), 
         strip.text = element_text(colour = 'white')) +
   facet_wrap(~DISCIPLINA) 
 
 fig2 <- ggplot(b, aes(ANO, per, color = SEXO)) + 
-  geom_bar(stat = "identity",  fill = "#101010", position = position_dodge2()) +
+  geom_bar(width = 0.7, stat = "identity",  fill = "#101010", position = position_dodge2()) +
   scale_y_continuous(breaks = seq(0, 50, by = 5)) +
   scale_x_continuous(breaks = round(seq(min(b$ANO), max(b$ANO), by = 1), 1)) +
   scale_fill_hue(c = 40) +
   ylab("\nPercentual (%)\n") + 
   xlab("\nAno\n") + 
-  labs(fill = "Sexo") +
+  labs(color = "Sexo ") +
   normal_theme +
   theme(plot.title = element_text(size = 25), 
         axis.title = element_text(size = 18),
-        axis.text = element_text(size = 10), 
+        axis.text = element_text(size = 9), 
+        legend.title = element_text(size = 20),
         strip.background = element_rect(fill = "#111111"), 
         strip.text = element_text(colour = 'white')) +
   facet_wrap(~DISCIPLINA) 
