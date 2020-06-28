@@ -906,8 +906,8 @@ fig1 <- ggplot(DT1, aes(x = MEDIA_FINAL , fill = PERIODO, color = PERIODO)) +
   labs(fill = "Semestre", color = "Semestre") +
   ggtitle("\nDistribuicao das Medias em Desenho Tecnico I\n") +
   normal_theme +       
-  theme(axis.title = element_text(size = 25), 
-        plot.title = element_text(size = 30), 
+  theme(axis.title = element_text(size = 20), 
+        plot.title = element_text(size = 20), 
         axis.text = element_text(size = 15), 
         legend.position = "bottom", 
         legend.text = element_text(size = 18)) 
@@ -927,8 +927,8 @@ fig1 <- ggplot(DT1, aes(x = MEDIA_FINAL , fill = ANO, color = ANO)) +
   normal_theme +       
   theme(strip.background = element_blank(), 
         strip.text = element_blank(), 
-        axis.title = element_text(size = 25), 
-        plot.title = element_text(size = 30), 
+        axis.title = element_text(size = 20), 
+        plot.title = element_text(size = 20), 
         axis.text = element_text(size = 15), 
         legend.position = "bottom", 
         legend.text = element_text(size = 18)) +
@@ -950,7 +950,7 @@ fig1 <- ggplot(DT1, aes(x = MEDIA_FINAL , fill = ANO, color = PERIODO)) +
   theme(strip.background = element_blank(), 
         strip.text = element_blank(), 
         axis.title = element_text(size = 18), 
-        plot.title = element_text(size = 30), 
+        plot.title = element_text(size = 20), 
         axis.text = element_text(size = 15), 
         legend.position = "bottom", 
         legend.text = element_text(size = 15)) +
@@ -1046,7 +1046,7 @@ fig1 <- ggplot(DT2, aes(x = MEDIA_FINAL , fill = PERIODO, color = PERIODO)) +
   ggtitle("\nDistribuicao das Medias em Desenho Tecnico II\n") +
   normal_theme +       
   theme(axis.title = element_text(size = 25), 
-        plot.title = element_text(size = 30), 
+        plot.title = element_text(size = 20), 
         axis.text = element_text(size = 15), 
         legend.position = "bottom", 
         legend.text = element_text(size = 18)) 
@@ -1067,7 +1067,7 @@ fig1 <- ggplot(DT2, aes(x = MEDIA_FINAL , fill = ANO, color = ANO)) +
   theme(strip.background = element_blank(), 
         strip.text = element_blank(), 
         axis.title = element_text(size = 25), 
-        plot.title = element_text(size = 30), 
+        plot.title = element_text(size = 20), 
         axis.text = element_text(size = 15), 
         legend.position = "bottom", 
         legend.text = element_text(size = 18)) +
@@ -1089,7 +1089,7 @@ fig1 <- ggplot(DT2, aes(x = MEDIA_FINAL , fill = ANO, color = PERIODO)) +
   theme(strip.background = element_blank(), 
         strip.text = element_blank(), 
         axis.title = element_text(size = 18), 
-        plot.title = element_text(size = 30), 
+        plot.title = element_text(size = 20), 
         axis.text = element_text(size = 15), 
         legend.position = "bottom", 
         legend.text = element_text(size = 15)) +
