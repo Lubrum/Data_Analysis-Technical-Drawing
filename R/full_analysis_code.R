@@ -1,59 +1,32 @@
 ########################################################################
-if (!require(rstudioapi)) install.packages("rstudioapi")
-library(rstudioapi)
-
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
-if (!require(dplyr)) install.packages("dplyr")
-library(dplyr)
+# Custom function to install packages if not already installed
+install_if_not_installed <- function(pkg, repo = "https://cran.r-project.org") {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    install.packages(pkg, dependencies = TRUE, repos = repo)
+    if (!requireNamespace(pkg, quietly = TRUE)) {
+      warning(paste("Unable to install the '", pkg, "' package."))
+    }
+  }
+}
 
-if (!require(ggplot2)) install.packages("ggplot2")
-library(ggplot2)
+# List of packages to install if not already installed
+required_packages <- c("rstudioapi", "dplyr", "ggplot2", "EnvStats","ggpubr",
+                       "jpeg","ggimage","magick","showtext","extrafont","car",
+                       "lattice","rcompanion","FSA")
 
-if (!require(EnvStats)) install.packages("EnvStats")
-library(EnvStats)
+# Install required packages
+lapply(required_packages, install_if_not_installed)
 
-if (!require(ggpubr)) install.packages("ggpubr")
-library(ggpubr)
+# rounded bar plots
+lapply("ggchicklet", repo = "https://cinc.rud.is", install_if_not_installed)
 
-if (!require(jpeg)) install.packages("jpeg")
-library(jpeg)
-
-if (!require(ggimage)) install.packages("ggimage")
-library(ggimage)
-
-if (!require(magick)) install.packages("magick")
-library(magick)
-
-# load fonts
-if (!require(showtext)) install.packages("showtext")
-library(showtext)
-
-# load fonts
-if (!require(extrafont)) install.packages("extrafont")
-library(extrafont)
-
-# rounded barplots
-if (!require(ggchicklet)) install.packages("ggchicklet", repos = "https://cinc.rud.is")
+# Load required packages
+lapply(required_packages, library, character.only = TRUE)
 library(ggchicklet)
 
-# levene test
-if (!require(car)) install.packages("car")
-library(car)
-
-# density plot
-if (!require(lattice)) install.packages("lattice")
-library(lattice)
-
-# multiVDA
-if (!require(rcompanion)) install.packages("rcompanion")
-library(rcompanion)
-
-# dunnTest
-if (!require(FSA))install.packages("FSA")
-library(FSA)
-
-# First Part - Dataset 1 - Loading and Processing
+# First Part - Data set 1 - Loading and Processing
 
 BAEA_path <- "../csv/Technical_Drawing_I_II - BAEA.csv"
 BAEE_path <- "../csv/Technical_Drawing_I_II - BAEE.csv"
@@ -158,7 +131,9 @@ all_data$FORMA_EVASAO[(all_data$FORMA_EVASAO == "Transferência Interna")] <- "T
 # Second Part - Dataset 1 - Descriptive Statistics
 
 statistics <- function(dataframe, response, ...) {
+  
   group_var <- enquos(...)
+  
   result <- as.data.frame(
     dataframe %>% 
       group_by(!!!group_var) %>% 
@@ -272,9 +247,9 @@ normal_theme <- theme(
   plot.title = element_text(family = font_family, size = 30, hjust = 0.5, color = "#ffffff"),
   plot.subtitle = element_text(hjust = 0.5),
   plot.background = element_rect(fill = "black"),
-  panel.grid.minor.y = element_line(size =.1, color = "grey"),
+  panel.grid.minor.y = element_line(linewidth =.1, color = "grey"),
   panel.grid.minor.x = element_blank(),
-  panel.grid.major.y = element_line(size =.1,  color = "grey"),
+  panel.grid.major.y = element_line(linewidth =.1,  color = "grey"),
   panel.grid.major.x = element_blank(),
   panel.background = element_rect(fill = 'black'),
   legend.background = element_rect(fill = "black", color = NA),
@@ -541,8 +516,8 @@ a <- statistics(all_data, "MEDIA_FINAL", SEXO, DISCIPLINA)
 # who failed by attendance - by sex + course
 b <- statistics(all_data[(all_data$SITUACAO == "Reprovado por Frequência"),], "MEDIA_FINAL", SEXO, DISCIPLINA)
 
-b$per <- round((b$n[b$SEXO == a$SEXO && b$DISCIPLINA == a$DISCIPLINA] / 
-                  a$n[a$SEXO == b$SEXO && a$DISCIPLINA == b$DISCIPLINA]) * 100, 2) 
+b$per <- round((b$n[b$SEXO == a$SEXO & b$DISCIPLINA == a$DISCIPLINA] / 
+                  a$n[a$SEXO == b$SEXO & a$DISCIPLINA == b$DISCIPLINA]) * 100, 2) 
 
 
 # Bar plot - who failed by attendance - by sex and discipline (n and %)
@@ -569,8 +544,8 @@ a <- statistics(all_data, "MEDIA_FINAL", SEXO, DISCIPLINA, ANO)
 # who failed by attendance by sex + course + year
 b  <- statistics(all_data[(all_data$SITUACAO == "Reprovado por Frequência"),], "MEDIA_FINAL", SEXO, DISCIPLINA, ANO)
 
-b$per <- round((b$n[b$SEXO == a$SEXO && b$DISCIPLINA == a$DISCIPLINA && b$ANO == a$ANO] / 
-                  a$n[a$SEXO == b$SEXO && a$DISCIPLINA == b$DISCIPLINA && b$ANO == a$ANO]) * 100, 2) 
+b$per <- round((b$n[b$SEXO == a$SEXO & b$DISCIPLINA == a$DISCIPLINA & b$ANO == a$ANO] / 
+                  a$n[a$SEXO == b$SEXO & a$DISCIPLINA == b$DISCIPLINA & b$ANO == a$ANO]) * 100, 2) 
 
 # Bar plot - who failed by attendance  by sex, discipline and year (n and %)
 
@@ -622,8 +597,8 @@ a <- statistics(all_data, "MEDIA_FINAL", PERIODO, DISCIPLINA, ANO)
 # who failed by attendance - by semester + year + course
 b  <- statistics(all_data[(all_data$SITUACAO == "Reprovado por Frequência"),], "MEDIA_FINAL", PERIODO, DISCIPLINA, ANO)
 
-b$per <- round((b$n[b$PERIODO == a$PERIODO && b$DISCIPLINA == a$DISCIPLINA && b$ANO == a$ANO] / 
-                  a$n[a$PERIODO == b$PERIODO && a$DISCIPLINA == b$DISCIPLINA && b$ANO == a$ANO]) * 100, 2) 
+b$per <- round((b$n[b$PERIODO == a$PERIODO & b$DISCIPLINA == a$DISCIPLINA & b$ANO == a$ANO] / 
+                  a$n[a$PERIODO == b$PERIODO & a$DISCIPLINA == b$DISCIPLINA & b$ANO == a$ANO]) * 100, 2) 
 
 b$DISCIPLINA[b$DISCIPLINA == "DESENHO TECNICO I"] <- "DESENHO I"
 b$DISCIPLINA[b$DISCIPLINA == "DESENHO TECNICO II"] <- "DESENHO II"
@@ -829,7 +804,7 @@ fig1 <- ggplot(partial_data, aes(x = ANO, y = MEDIA_FINAL)) +
   ggtitle("\nDensidade das Medias por Ano (Sem reprovados por frequencia)\n") +
   ylab("Media Final\n") + xlab("\nAno") + 
   labs(fill = "Densidade") +      
-  stat_density2d(aes(fill = ..density..), contour = F, geom = 'tile') +
+  stat_density2d(aes(fill = after_stat(density)), contour = F, geom = 'tile') +
   scale_fill_gradient(low = "black", high = "white") +
   geom_segment(aes(x = 2007, y = 6, xend = 2019, yend = 6), linetype = "dotted", colour = "black") +
   geom_segment(aes(x = 2007, y = 7, xend = 2019, yend = 7), linetype = "dotted", colour = "black") +

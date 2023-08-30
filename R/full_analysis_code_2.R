@@ -1,54 +1,30 @@
 ########################################################################
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
-if (!require(dplyr)) install.packages("dplyr")
-library(dplyr)
+# Custom function to install packages if not already installed
+install_if_not_installed <- function(pkg, repo = "https://cran.r-project.org") {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    install.packages(pkg, dependencies = TRUE, repos = repo)
+    if (!requireNamespace(pkg, quietly = TRUE)) {
+      warning(paste("Unable to install the '", pkg, "' package."))
+    }
+  }
+}
 
-if (!require(ggplot2)) install.packages("ggplot2")
-library(ggplot2)
+# List of packages to install if not already installed
+required_packages <- c("rstudioapi", "dplyr", "ggplot2", "EnvStats","ggpubr",
+                       "jpeg","ggimage","magick","showtext","extrafont","car",
+                       "lattice","rcompanion","FSA")
 
-if (!require(EnvStats)) install.packages("EnvStats")
-library(EnvStats)
+# Install required packages
+lapply(required_packages, install_if_not_installed)
 
-if (!require(ggpubr)) install.packages("ggpubr")
-library(ggpubr)
+# rounded bar plots
+lapply("ggchicklet", repo = "https://cinc.rud.is", install_if_not_installed)
 
-if (!require(jpeg)) install.packages("jpeg")
-library(jpeg)
-
-if (!require(ggimage)) install.packages("ggimage")
-library(ggimage)
-
-if (!require(magick)) install.packages("magick")
-library(magick)
-
-# load fonts
-if (!require(showtext)) install.packages("showtext")
-library(showtext)
-
-# load fonts
-if (!require(extrafont)) install.packages("extrafont")
-library(extrafont)
-
-# rounded barplots
-if (!require(ggchicklet)) install.packages("ggchicklet", repos = "https://cinc.rud.is")
+# Load required packages
+lapply(required_packages, library, character.only = TRUE)
 library(ggchicklet)
-
-# levene test
-if (!require(car)) install.packages("car")
-library(car)
-
-# density plot
-if (!require(lattice)) install.packages("lattice")
-library(lattice)
-
-# multiVDA
-if (!require(rcompanion)) install.packages("rcompanion")
-library(rcompanion)
-
-# dunnTest
-if (!require(FSA))install.packages("FSA")
-library(FSA)
 
 ##############################################################################################################
 ##############################################################################################################
@@ -207,9 +183,9 @@ normal_theme <- theme(
   plot.title = element_text(family = font_family, size = 30, hjust = 0.5, color = "#ffffff"),
   plot.subtitle = element_text(hjust = 0.5),
   plot.background = element_rect(fill = "black"),
-  panel.grid.minor.y = element_line(size =.1, color = "grey"),
+  panel.grid.minor.y = element_line(linewidth =.1, color = "grey"),
   panel.grid.minor.x = element_blank(),
-  panel.grid.major.y = element_line(size =.1,  color = "grey"),
+  panel.grid.major.y = element_line(linewidth =.1,  color = "grey"),
   panel.grid.major.x = element_blank(),
   panel.background = element_rect(fill = 'black'),
   legend.background = element_rect(fill = "black", color = NA),
